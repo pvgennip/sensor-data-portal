@@ -8,10 +8,14 @@ Dependencies:
  * ChartJS (JS) https://github.com/chartjs/Chart.js
 
 ## Pre-install requirements: Git & Docker (Linux)
+Git
 ```
 apt-get install git
-apt-get install docker
 ```
+
+Docker
+https://docs.docker.com/engine/installation/linux/debian/
+
 
 ## Clone this repo
 ```
