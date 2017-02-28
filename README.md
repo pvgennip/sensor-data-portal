@@ -1,4 +1,4 @@
-# sensor-data-portal
+# Sensor data portal
 Open source sensor data portal for MQTT sensors 
 
 Dependencies:
@@ -8,10 +8,16 @@ Dependencies:
  * ChartJS (JS) https://github.com/chartjs/Chart.js
 
 ## Install git (if not yet installed)
-```apt-get install git```
+```
+apt-get install git
+```
 
 ## Clone this repo
-```git clone https://github.com/pvgennip/sensor-data-portal.git```
+```
+git clone https://github.com/pvgennip/sensor-data-portal.git
+```
 
 ## Update & run
-```sensor-data-portal/deploy.sh```
+```
+sensor-data-portal/deploy.sh
+```
