@@ -24,7 +24,14 @@ https://docs.docker.com/engine/installation/linux/debian/ or https://gist.github
 git clone https://github.com/pvgennip/sensor-data-portal.git
 ```
 
-## Update & run
+## Run required actions to start
 ```
-sensor-data-portal/deploy.sh
+cd sensor-data-portal
+./run-actions.sh
+```
+
+# Deploy updates
+```
+cd sensor-data-portal
+./deploy.sh
 ```
