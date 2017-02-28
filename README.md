@@ -14,7 +14,7 @@ Git
 apt-get install git
 ```
 
-Docker
+Docker Engine + Compose
 
 https://docs.docker.com/engine/installation/linux/debian/ or https://gist.github.com/pvgennip/be5bb13b184069758bc14fbbe78599b5
 
