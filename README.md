@@ -7,6 +7,7 @@ Dependencies:
  * Responsive Admin template (HTML, CSS) https://github.com/almasaeed2010/AdminLTE/
  * ChartJS (JS) https://github.com/chartjs/Chart.js
 
+# Installation
 ## Pre-install requirements: Git & Docker (Linux Debian 8 [Jessie])
 Git
 ```
@@ -29,6 +30,8 @@ git clone https://github.com/pvgennip/sensor-data-portal.git
 cd sensor-data-portal
 ./run-actions.sh
 ```
+
+
 
 # Deploy updates
 ```
