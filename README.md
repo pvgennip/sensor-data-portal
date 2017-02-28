@@ -7,16 +7,16 @@ Dependencies:
  * Responsive Admin template (HTML, CSS) https://github.com/almasaeed2010/AdminLTE/
  * ChartJS (JS) https://github.com/chartjs/Chart.js
 
-## Pre-install requirements: Git & Docker (Linux)
+## Pre-install requirements: Git & Docker (Linux Debian 8 [Jessie])
 Git
 ```
 apt-get install git
 ```
 
 Docker
-```
+
 https://docs.docker.com/engine/installation/linux/debian/
-```
+
 
 
 ## Clone this repo
