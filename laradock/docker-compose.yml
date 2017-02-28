@@ -7,8 +7,7 @@ services:
     applications:
         image: tianon/true
         volumes:
-            - ../:/var/www
-#            - ../sample/:/var/www/sample
+            - ../portal/:/public/ 
 
 ### Workspace Utilities Container ###########################
 
@@ -19,13 +18,13 @@ services:
                 - INSTALL_XDEBUG=false
                 - INSTALL_SOAP=false
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=false
+                - INSTALL_NODE=true # this includes npm and bower
                 - INSTALL_YARN=false
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - INSTALL_V8JS_EXTENSION=false
-                - COMPOSER_GLOBAL_INSTALL=false
-                - INSTALL_WORKSPACE_SSH=false
+                - COMPOSER_GLOBAL_INSTALL=true
+                - INSTALL_WORKSPACE_SSH=true
                 - INSTALL_LARAVEL_ENVOY=false
                 - INSTALL_DEPLOYER=false
                 - INSTALL_LINUXBREW=false
@@ -33,12 +32,12 @@ services:
                 - PGID=1000
                 - NODE_VERSION=stable
                 - YARN_VERSION=latest
-                - TZ=UTC
+                - TZ=Europe/Amsterdam
         volumes_from:
             - applications
         extra_hosts:
-            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+            # IMPORTANT: Define your Docker Host IP from the CLI (will be appended to /etc/hosts)
+            - "dockerhost:127.0.0.1"
         ports:
            - "2222:22"
         tty: true
@@ -60,7 +59,7 @@ services:
                 - INSTALL_EXIF=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
-            dockerfile: Dockerfile-70
+            dockerfile: Dockerfile-56
         volumes_from:
             - applications
         expose:
@@ -68,8 +67,8 @@ services:
         links:
             - workspace
         extra_hosts:
-            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+            # IMPORTANT: Define your Docker Host IP from the CLI (will be appended to /etc/hosts)
+            - "dockerhost:127.0.0.1"
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
@@ -385,3 +384,4 @@ volumes:
         driver: "local"
     influx:
         driver: "local"
+
