@@ -7,7 +7,7 @@ services:
     applications:
         image: tianon/true
         volumes:
-            - ../portal/:/public/ 
+            - ../portal:/var/www 
 
 ### Workspace Utilities Container ###########################
 
