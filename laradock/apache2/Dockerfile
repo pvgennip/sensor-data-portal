@@ -2,6 +2,8 @@ FROM webdevops/apache:ubuntu-16.04
 
 MAINTAINER Eric Pfeiffer <computerfr33k@users.noreply.github.com>
 
+COPY portal.conf /etc/apache2/sites-available/portal.conf
+
 ARG PHP_SOCKET=php-fpm:9000
 
 ENV WEB_PHP_SOCKET=$PHP_SOCKET
