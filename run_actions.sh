@@ -13,5 +13,4 @@ docker exec -it laradock_workspace_1 script /dev/null -c "if [ ! -f '.env' ]; th
 docker exec -it laradock_workspace_1 script /dev/null -c "composer install && chmod -R 777 storage && chmod -R 777 bootstrap/cache && php artisan migrate"
 
 # angular app 
-cd $base_dir/portal
-cd public/app && bower install --allow-root
+docker exec -it laradock_workspace_1 script /dev/null -c "cd webapp && npm install -g bower && bower install"

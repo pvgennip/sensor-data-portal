@@ -1,0 +1,50 @@
+{
+  "name": "sensor-data-portal",
+  "homepage": "https://github.com/pvgennip/sensor-data-portal",
+  "authors": [
+    "Pim van Gennip <pim@iconize.nl>"
+  ],
+  "description": "Open source sensor data portal for MQTT sensors",
+  "main": "index.html",
+  "keywords": [
+    "sensor",
+    "mqtt",
+    "data"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "vendor"
+  ],
+  "dependencies": {
+    "angular": "^1.6.0",
+    "fastclick": "^1.0.6",
+    "ng-iscroll": "*",
+    "angular-route": "^1.6.0",
+    "angular-touch": "^1.6.0",
+    "angular-moment": "^1.0.1",
+    "normalize-css": "^5.0.0",
+    "animate.css": "^3.5.2",
+    "angular-ui-switch": "^0.1.1",
+    "ng-dialog": "ngDialog#^0.6.4",
+    "angular-stepper": "^0.0.3",
+    "smooth-scroll": "https://github.com/cferdinandi/smooth-scroll.git#^10.2.0",
+    "angular-chart.js": "~1.0.2",
+    "iscroll": "^5.2.0",
+    "angular-sanitize": "^1.6.0",
+    "angular-animate": "^1.6.0",
+    "angular-gestures": "^0.3.1",
+    "nalert-js": "^1.0.1",
+    "angular-password": "^1.0.3",
+    "ng-iScroll": "*",
+    "admin-lte": "*"
+
+  },
+  "resolutions": {
+    "angular": "^1.6.0"
+  }
+}

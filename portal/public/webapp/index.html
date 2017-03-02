@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-title" content="Akvo sensor">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <link rel="shortcut icon" type="image/png" href="img/icons/Icon-12.png"/>
+        <link rel="apple-touch-icon" href="img/icons/Icon-60.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="img/icons/Icon-76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="img/icons/Icon-60@2x.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="img/icons/Icon-72@2x.png">
+
+        <!-- admin LTE template -->
+        <link rel="stylesheet" href="vendor/admin-lte/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="vendor/admin-lte/dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="vendor/admin-lte/dist/css/skins/skin-black.min.css">
+
+        <!-- libraries -->
+        <link rel="stylesheet" type="text/css" href="vendor/normalize-css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="vendor/animate.css/animate.min.css" />
+        <link rel="stylesheet" type="text/css" href="vendor/ng-dialog/css/ngDialog.css" />
+        <link rel="stylesheet" type="text/css" href="vendor/angular-ui-switch/angular-ui-switch.css" />
+        
+        <title>Akvo | Sensor Data Portal</title>
+        
+    </head>
+
+    <!-- Change 'skin-black fixed' to 'login-page' and remove all the wrapper stuff for the login page -->
+    <body id="app" class="hold-transition skin-black fixed" ng-class="templateClass">
+
+        <div ng-class="{'wrapper':showAdminTemplate}">
+
+          <!-- Main Header -->
+          <div ng-include="'views/template/template-block-header.html'" ng-show="showAdminTemplate"></div>
+
+          <!-- Left side column. contains the logo and sidebar -->
+          <div ng-include="'views/template/template-block-sidebar-left.html'" ng-show="showAdminTemplate"></div>
+
+          <!-- Content Wrapper. Contains page content -->
+          <div ng-class="{'content-wrapper':showAdminTemplate}">
+            
+            <main ng-view></main>
+          
+          </div>
+          
+          <!-- Main Footer -->
+          <div ng-include="'views/template/template-block-footer.html'" ng-show="showAdminTemplate"></div>
+          
+        </div>
+
+
+        <!-- REQUIRED JS SCRIPTS -->
+        <!-- cordova -->
+        <!--script type="text/javascript" src="cordova.js"></script-->
+
+        <!-- AdminLTE App -->
+        <script src="vendor/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <script src="vendor/admin-lte/bootstrap/js/bootstrap.min.js"></script>
+        <script src="vendor/admin-lte/dist/js/app.min.js"></script>
+        <script src="vendor/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+        <!-- constants -->
+        <script type="text/javascript" src="js/constants.js"></script>
+
+        <!-- libraries -->
+        <script type="text/javascript" src="vendor/hammerjs/hammer.min.js"></script>
+
+        <script type="text/javascript" src="vendor/angular/angular.js"></script>
+        <script type="text/javascript" src="vendor/angular-route/angular-route.min.js"></script>
+        <script type="text/javascript" src="vendor/angular-touch/angular-touch.min.js"></script>
+        <script type="text/javascript" src="vendor/angular-animate/angular-animate.min.js"></script>
+        <script type="text/javascript" src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
+        <script type="text/javascript" src="vendor/angular-gestures/gestures.min.js"></script>
+        <script type="text/javascript" src="vendor/moment/moment.js"></script>
+        <script type="text/javascript" src="vendor/moment/locale/nl.js"></script>
+        <script type="text/javascript" src="vendor/angular-moment/angular-moment.min.js"></script>
+        <script type="text/javascript" src="vendor/chart.js/dist/Chart.min.js"></script>
+        <script type="text/javascript" src="vendor/angular-chart.js/angular-chart.js"></script>
+        <script type="text/javascript" src="vendor/ng-dialog/js/ngDialog.js"></script>
+        <script type="text/javascript" src="vendor/iscroll/build/iscroll.js"></script>
+        <script type="text/javascript" src="vendor/ng-iScroll/src/ng-iscroll.js"></script>
+
+        <!-- helpers -->
+        <script type="text/javascript" src="vendor/nalert-js/nalert.min.js"></script>
+        <script type="text/javascript" src="vendor/fastclick/lib/fastclick.js"></script>
+        <script type="text/javascript" src="js/helpers/functions.js"></script>
+
+
+        <!-- filters -->
+        <script type="text/javascript" src="js/filters/icon-filters.js"></script>
+        <script type="text/javascript" src="js/filters/text-filters.js"></script>
+        
+        <!-- scripts -->
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/routes.js"></script>
+
+
+        <!-- language files -->
+        <script type="text/javascript" src="js/lang/nl.js"></script>
+        <script type="text/javascript" src="js/lang/en.js"></script>
+
+        <!-- directives -->
+        <script type="text/javascript" src="vendor/angular-ui-switch/angular-ui-switch.min.js"></script>
+        <script type="text/javascript" src="js/directives/angular-stepper.js"></script>
+        <script type="text/javascript" src="js/directives/angular-smoothscroll.js"></script>
+        <script type="text/javascript" src="js/directives/angular-background.js"></script>
+        <script type="text/javascript" src="vendor/angular-password/angular-password.min.js"></script>
+
+        <!-- models -->
+        <script type="text/javascript" src="js/models/api.js"></script>
+        <script type="text/javascript" src="js/models/settings.js"></script>
+        <script type="text/javascript" src="js/models/measurements.js"></script>
+
+        <!-- controllers -->
+        <script type="text/javascript" src="js/controllers/load.js"></script>
+        <script type="text/javascript" src="js/controllers/user.js"></script>
+        <script type="text/javascript" src="js/controllers/dashboard.js"></script>
+        <script type="text/javascript" src="js/controllers/settings.js"></script>
+        <script type="text/javascript" src="js/controllers/password.js"></script>
+
+
+    </body>
+</html>
