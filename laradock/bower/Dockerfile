@@ -14,7 +14,7 @@ EXPOSE 8000
 COPY entrypoint.sh /home/bower/entrypoint.sh
 RUN chmod +x /home/bower/entrypoint.sh
 
-RUN adduser --disabled-login --gecos '' bower
-USER bower
+#RUN adduser --disabled-login --gecos '' bower
+#USER bower
 WORKDIR /home/bower
 ENTRYPOINT ["/home/bower/entrypoint.sh"]
