@@ -5,8 +5,8 @@ base_dir=$(pwd)
 # docker
 cd $base_dir/laradock
 docker-compose stop
-docker-compose build --no-cache apache2 php-fpm mysql phpmyadmin influx workspace
-docker-compose up -d apache2 php-fpm mysql phpmyadmin influx workspace
+docker-compose build --no-cache apache2 php-fpm mysql phpmyadmin influx bower workspace
+docker-compose up -d apache2 php-fpm mysql phpmyadmin influx bower workspace
 
 # laravel set up and build
 cd $base_dir

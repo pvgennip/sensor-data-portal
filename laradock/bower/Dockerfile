@@ -13,4 +13,5 @@ EXPOSE 8000
 USER bower
 WORKDIR /home/bower
 ADD entrypoint.sh /home/bower/entrypoint.sh
+RUN chmod +x /home/bower/entrypoint.sh
 ENTRYPOINT ["/home/bower/entrypoint.sh"]
