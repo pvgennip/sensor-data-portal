@@ -8,10 +8,13 @@ RUN apt-get -y install nodejs vim git
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN apt-get -y install npm
 RUN npm -y install bower -g
-RUN adduser --disabled-login --gecos '' bower
+
 EXPOSE 8000
+
+COPY entrypoint.sh /home/bower/entrypoint.sh
+RUN chmod +x /home/bower/entrypoint.sh
+
+RUN adduser --disabled-login --gecos '' bower
 USER bower
 WORKDIR /home/bower
-ADD entrypoint.sh /home/bower/entrypoint.sh
-RUN chmod +x /home/bower/entrypoint.sh
 ENTRYPOINT ["/home/bower/entrypoint.sh"]
