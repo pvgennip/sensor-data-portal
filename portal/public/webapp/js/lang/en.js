@@ -124,6 +124,14 @@
     settings_description    : 'Settings of the sensors',
  	settings 				: 'Settings',
 
+    sensors_title           : 'Sensors overview',
+    sensors_description     : 'Sensors status and registration',
+    sensors                 : 'Sensors',
+
+    data_analysis            : 'Data analysis',
+    data_analysis_title      : 'Data analysis',
+    data_analysis_description: 'Graphical sensor data analysis',
+
  	climate_settings_title	: 'Climate settings',
  	climate_settings    	: 'Climate settings',
  	night				    : 'Night',	

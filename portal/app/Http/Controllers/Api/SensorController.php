@@ -37,9 +37,9 @@ class SensorController extends Controller
     {
         $influx_host= env('INFLUX_HOST', 'localhost');
         $influx_port= env('INFLUX_PORT', '8086');
-        $influx_db  = env('INFLUX_DB', 'bee_data');
-        $influx_user= env('INFLUX_USER', 'bee_data_queen');
-        $influx_pass= env('INFLUX_PASS', 'ZxoDJ2fGft@aiCqUkBqjqCip');
+        $influx_db  = env('INFLUX_DB', 'data');
+        $influx_user= env('INFLUX_USER', 'user');
+        $influx_pass= env('INFLUX_PASS', 'pass');
 
         $client     = new InfluxDB\Client($influx_host, $influx_port, $influx_user, $influx_pass);
         $database   = $client->selectDB($influx_db);

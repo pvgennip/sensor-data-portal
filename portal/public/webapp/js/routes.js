@@ -46,7 +46,6 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider)
       templateUrl:'views/loading.html'
   })
 
-
   // overview
   .when('/dashboard',
   {
@@ -54,6 +53,17 @@ app.config(['$routeProvider', '$locationProvider',  function($routeProvider)
       templateUrl : 'views/dashboard.html',
   })
 
+  .when('/sensors',
+  {
+      controller  : 'DashboardCtrl',
+      templateUrl : 'views/sensors.html',
+  })
+
+  .when('/data',
+  {
+      controller  : 'DashboardCtrl',
+      templateUrl : 'views/data.html',
+  })
 
   // settings
  .when('/settings', 

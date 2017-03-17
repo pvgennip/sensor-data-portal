@@ -118,8 +118,17 @@
     at                      : 'op',
 
  	/* settings */
- 	settings_title			: 'Settings',
- 	settings 				: 'Instellingen',
+ 	settings_title			: 'Instellingen overzicht',
+    settings_description    : 'Overzicht van de account instellingen',
+    settings                : 'Instellingen',
+
+    sensors_title           : 'Sensoren overzicht',
+    sensors_description     : 'Sensoren status en registratie',
+    sensors                 : 'Sensoren',
+
+    data_analysis            : 'Data analyse',
+    data_analysis_title      : 'Data analyse',
+    data_analysis_description: 'Grafische sensordata-analyse',
 
  	climate_settings_title	: 'Klimaat instellingen',
  	climate_settings    	: 'Klimaat instellingen',
