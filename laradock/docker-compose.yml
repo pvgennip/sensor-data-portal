@@ -355,8 +355,8 @@ services:
 
     bower:
         build: "./bower"
-        volumes_from:
-            - applications
+        volumes:
+            - bower:/home/bower/workspace
         ports:
             - "8000:8000"
 
