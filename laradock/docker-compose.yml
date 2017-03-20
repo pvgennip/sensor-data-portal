@@ -18,7 +18,7 @@ services:
                 - INSTALL_XDEBUG=false
                 - INSTALL_SOAP=false
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=true # this includes npm and bower for user 'laradock'
+                - INSTALL_NODE=true # this includes node, npm and bower for user 'laradock'
                 - INSTALL_YARN=false
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
@@ -351,17 +351,6 @@ services:
             - "8083:8083"
             - "8086:8086"
 
-### Bower Container #######################################
-
-    bower:
-        build: "./bower"
-        volumes_from:
-            - applications
-        volumes:
-            - bower:/home/bower/workspace
-        ports:
-            - "8000:8000"
-
 ### Volumes Setup ###########################################
 
 volumes:
@@ -395,6 +384,3 @@ volumes:
         driver: "local"
     influx:
         driver: "local"
-    bower:
-        driver: "local"
-
