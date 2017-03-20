@@ -3,7 +3,7 @@
 /portal/hot
 /public/webapp/vendor
 /storage/*.key
-/vendor
+/vendor/*
 /.idea
 Homestead.json
 Homestead.yaml
