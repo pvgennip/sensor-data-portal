@@ -15,9 +15,8 @@ class CreateSensorTable extends Migration
     {
         Schema::create('sensors', function (Blueprint $table) {
             $table->increments('id')->index();
-            $table->integer('user_id')->index();
-            $table->integer('hive_id')->index();
-            $table->text('name')->nullable();
+            $table->string('name')->nullable();
+            $table->string('type')->nullable();
             $table->string('key')->unique();
             $table->timestamps();
         });
