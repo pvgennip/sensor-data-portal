@@ -52,6 +52,7 @@ class UserController extends Controller
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
+        $input['api_token'] = str_random(60);
 
         $user = User::create($input);
         foreach ($request->input('roles') as $key => $value) {

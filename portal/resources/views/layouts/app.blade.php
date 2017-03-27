@@ -66,10 +66,16 @@
 
                     <section class="content" >
         
+                        @if ($message = Session::get('success'))
+                            <div class="alert alert-success">
+                                <p>{{ $message }}</p>
+                            </div>
+                        @endif
+        
                         @yield('content')
 
                     </section>
-                    
+
         @if (Auth::guest())
         @else
                 </div>
