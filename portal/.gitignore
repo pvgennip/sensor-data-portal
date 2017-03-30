@@ -2,7 +2,7 @@
 /portal/storage
 /portal/hot
 /public/webapp/vendor
-/public/uploads
+/public/uploads/avatars/*
 /storage/*.key
 /vendor/*
 /.idea
