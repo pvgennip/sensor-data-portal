@@ -82,10 +82,12 @@ class UserController extends Controller
         }
 
         // Edit sensors
-        foreach ($request->input('sensors') as $key => $value) {
-            DB::table('sensor_user')->insert(
-                ['user_id' => $user->id, 'sensor_id' => $value]
-            );
+        if($request->has('sensors')){
+            foreach ($request->input('sensors') as $key => $value) {
+                DB::table('sensor_user')->insert(
+                    ['user_id' => $user->id, 'sensor_id' => $value]
+                );
+            }
         }
 
         return redirect()->route('users.index')
