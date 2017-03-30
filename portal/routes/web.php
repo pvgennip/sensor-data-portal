@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect('webapp');
+    return redirect('admin');
 });
 
 Auth::routes();
