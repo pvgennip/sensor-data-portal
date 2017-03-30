@@ -74,8 +74,26 @@ class AdminSeeder extends Seeder
         $user->api_token= '000000000000000000000000000000000000000000000000000000000000';
         $user->remember_token = str_random(10);
         $user->save();
-
         $user->attachRole($super);
+
+        $user = new User();
+        $user->name     = 'Lars';
+        $user->email    = 'lars.sjogreen@akvo.org';
+        $user->password = bcrypt('password');
+        $user->api_token= '100000000000000000000000000000000000000000000000000000000000';
+        $user->remember_token = str_random(10);
+        $user->save();
+        $user->attachRole($super);
+
+        $user = new User();
+        $user->name     = 'Arthur';
+        $user->email    = 'arthur@akvo.org';
+        $user->password = bcrypt('password');
+        $user->api_token= '200000000000000000000000000000000000000000000000000000000000';
+        $user->remember_token = str_random(10);
+        $user->save();
+        $user->attachRole($super);
+
 
     }
 }
