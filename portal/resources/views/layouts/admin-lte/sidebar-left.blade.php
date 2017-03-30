@@ -50,15 +50,15 @@
         <li><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>Sensors</span></a></li>
         <li><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>Groups</span></a></li>
       @endrole
-      <li class="header">APP MENU</li>
+      <li class="header">APP MENU (N/A)</li>
       <li>
-          <a href="/webapp/#!/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+          <a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
       </li> 
       <li>
-          <a href="/webapp/#!/sensors"><i class="fa fa-dot-circle-o"></i><span>Sensor data</span></a>
+          <a href="#"><i class="fa fa-dot-circle-o"></i><span>Sensor data</span></a>
       </li>
       <li>
-          <a href="/webapp/#!/data"><i class="fa fa-bar-chart"></i><span>Data analysis</span></a>
+          <a href="#"><i class="fa fa-bar-chart"></i><span>Data analysis</span></a>
       </li>         
     </ul>
     <!-- /.sidebar-menu -->
