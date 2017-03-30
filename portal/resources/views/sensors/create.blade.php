@@ -19,24 +19,24 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Name:</strong>
-                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                <label>Name:</label>
+                {!! Form::text('name', null, ['placeholder' => 'Name','class' => 'form-control']) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Type:</strong>
-                {!! Form::text('type', null, array('placeholder' => 'Type','class' => 'form-control')) !!}
+                <label>Type:</label>
+                {!! Form::select('type', $types, null, ['placeholder'=>'Select a sensor type...','class' => 'form-control']) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Sensor key:</strong>
-                {!! Form::text('key', null, array('placeholder' => 'Key','class' => 'form-control')) !!}
+                <label>Sensor key:</label>
+                {!! Form::text('key', null, ['placeholder' => 'Key','class' => 'form-control']) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="submit" class="btn btn-primary btn-block">Save</button>
         </div>
 	</div>
 	{!! Form::close() !!}

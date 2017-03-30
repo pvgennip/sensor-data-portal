@@ -25,25 +25,25 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Name:</strong>
+                <label>Name:</label>
                 {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
             </div>
         </div>
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Display Name:</strong>
+                <label>Display Name:</label>
                 {!! Form::text('display_name', null, array('placeholder' => 'Display Name','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Description:</strong>
+                <label>Description:</label>
                 {!! Form::textarea('description', null, array('placeholder' => 'Description','class' => 'form-control','style'=>'height:100px')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Permission:</strong>
+                <label>Permission:</label>
                 <br/>
                 @foreach($permission as $value)
                 	<label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="submit" class="btn btn-primary btn-block">Save</button>
         </div>
 	</div>
 	{!! Form::close() !!}

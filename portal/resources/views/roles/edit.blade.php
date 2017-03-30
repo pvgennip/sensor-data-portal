@@ -33,15 +33,17 @@
             <div class="form-group">
                 <strong>Permission:</strong>
                 <br/>
+                <p>
                 @foreach($permission as $value)
-                	<label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions->toArray()) ? true : false, array('class' => 'name')) }}
+                    <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions->toArray()) ? true : false, array('class' => 'name')) }}
                 	{{ $value->display_name }}</label>
-                	<br/>
+                	<br>
                 @endforeach
+                </p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-				<button type="submit" class="btn btn-primary">Save</button>
+				<button type="submit" class="btn btn-primary btn-block btn-block">Save</button>
         </div>
 	</div>
 	{!! Form::close() !!}

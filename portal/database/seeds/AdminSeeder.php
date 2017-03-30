@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
     public function run()
     {
         // FIRST CREATE PERMISSIONS
-        $perm_owner = Permission::all();
+        $perm_super = Permission::all();
         
         $perm_admin = Permission::where('name','role-list')
                               ->orWhere('name','user-list')
@@ -45,12 +45,12 @@ class AdminSeeder extends Seeder
                               
 
         // Roles
-        $owner = new Role();
-        $owner->name         = 'superadmin';
-        $owner->display_name = 'Super administrator'; // optional
-        $owner->description  = 'User is the master of the system, and can edit everything'; // optional
-        $owner->save();
-        $owner->attachPermissions($perm_owner); // all roles
+        $super = new Role();
+        $super->name         = 'superadmin';
+        $super->display_name = 'Super administrator'; // optional
+        $super->description  = 'User is the master of the system, and can edit everything'; // optional
+        $super->save();
+        $super->attachPermissions($perm_super); // all roles
         
         $admin = new Role();
         $admin->name         = 'admin';
@@ -75,7 +75,7 @@ class AdminSeeder extends Seeder
         $user->remember_token = str_random(10);
         $user->save();
 
-        $user->attachRole($owner);
+        $user->attachRole($super);
 
     }
 }

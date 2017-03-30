@@ -13,14 +13,14 @@
 
 		@slot('action')
 			@permission('sensor-create')
-	            <a class="btn btn-success btn-xs" href="{{ route('sensors.create') }}"><i class="fa fa-plus"></i> Add new sensor</a>
+	            <a class="btn btn-primary" href="{{ route('sensors.create') }}"><i class="fa fa-plus"></i> Add new sensor</a>
 	            @endpermission
 		@endslot
 
 		@slot('body')
 			<table class="table table-striped">
 				<tr>
-					<th>No</th>
+					<th>ID</th>
 					<th>Name</th>
 					<th>Type</th>
 					<th>Key</th>
@@ -33,13 +33,13 @@
 				<td>{{ $sensor->type }}</td>
 				<td>{{ $sensor->key }}</td>
 				<td>
-					<a class="btn btn-info btn-xs" href="{{ route('sensors.show',$sensor->id) }}" title="Show"><i class="fa fa-eye"></i></a>
+					<a class="btn btn-default" href="{{ route('sensors.show',$sensor->id) }}" title="Show"><i class="fa fa-eye"></i></a>
 					@permission('sensor-edit')
-					<a class="btn btn-primary btn-xs" href="{{ route('sensors.edit',$sensor->id) }}" title="Edit"><i class="fa fa-pencil"></i></a>
+					<a class="btn btn-primary" href="{{ route('sensors.edit',$sensor->id) }}" title="Edit"><i class="fa fa-pencil"></i></a>
 					@endpermission
 					@permission('sensor-delete')
 					{!! Form::open(['method' => 'DELETE','route' => ['sensors.destroy', $sensor->id],'style'=>'display:inline', 'onsubmit'=>'return confirm("Are you sure you want to delete sensor '.$sensor->name.'?")']) !!}
-		            {!! Form::button('<i class="fa fa-trash-o"></i>', ['type'=>'submit', 'class' => 'btn btn-danger btn-xs pull-right']) !!}
+		            {!! Form::button('<i class="fa fa-trash-o"></i>', ['type'=>'submit', 'class' => 'btn btn-danger pull-right']) !!}
 		        	{!! Form::close() !!}
 		        	@endpermission
 				</td>

@@ -8,6 +8,9 @@ use App\Sensor;
 
 class SensorController extends Controller
 {
+    
+    protected $sensorTypes = ['HAP'=>'Household Air Pollution (HAP)','SSU'=>'Standard Surface Unit (SSU)','SUM'=>'Stove Usage Monitoring (SUM)','WAP'=>'Water Pressure unit (WAP)','Other'=>'Other'];
+
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +18,9 @@ class SensorController extends Controller
      */
     public function index(Request $request)
     {
-        $sensors = Sensor::orderBy('id','DESC')->paginate(5);
+        $sensors = Sensor::orderBy('id','DESC')->paginate(10);
         return view('sensors.index',compact('sensors'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -27,7 +30,8 @@ class SensorController extends Controller
      */
     public function create()
     {
-        return view('sensors.create');
+        $types = $this->sensorTypes;
+        return view('sensors.create',compact('types'));
     }
 
     /**
@@ -71,7 +75,8 @@ class SensorController extends Controller
     public function edit($id)
     {
         $item = Sensor::find($id);
-        return view('sensors.edit',compact('item'));
+        $types = $this->sensorTypes;
+        return view('sensors.edit',compact('item','types'));
     }
 
     /**

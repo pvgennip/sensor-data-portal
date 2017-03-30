@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-				<button type="submit" class="btn btn-primary">Save</button>
+				<button type="submit" class="btn btn-primary btn-block">Save</button>
         </div>
 	</div>
 	{!! Form::close() !!}

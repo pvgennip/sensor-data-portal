@@ -20,7 +20,21 @@ class CreateSensorTable extends Migration
             $table->string('key')->unique();
             $table->timestamps();
         });
+
+        // Create table for associating sensors to users (Many-to-Many)
+        Schema::create('sensor_user', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('sensor_id')->unsigned();
+
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('sensor_id')->references('id')->on('sensors')
+                ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->primary(['user_id', 'sensor_id']);
+        });
     }
+
 
     /**
      * Reverse the migrations.
@@ -29,6 +43,7 @@ class CreateSensorTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('sensor_user');
         Schema::dropIfExists('sensors');
     }
 }

@@ -8,23 +8,25 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Name:</strong>
-                {{ $role->display_name }}
+                <label>Name:</label>
+                <p>{{ $role->display_name }}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Description:</strong>
-                {{ $role->description }}
+                <label>Description:</label>
+                <p>{{ $role->description }}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Permissions:</strong>
+                <label>Permissions:</label>
                 @if(!empty($rolePermissions))
+                    <p>
 					@foreach($rolePermissions as $v)
 						<label class="label label-success">{{ $v->display_name }}</label>
 					@endforeach
+                    </p>
 				@endif
             </div>
         </div>

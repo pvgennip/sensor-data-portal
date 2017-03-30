@@ -26,7 +26,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Type:</strong>
-                {!! Form::text('type', null, array('placeholder' => 'Type','class' => 'form-control')) !!}
+                {!! Form::select('type', $types, $item->type, array('placeholder'=>'Select a sensor type...','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-				<button type="submit" class="btn btn-primary">Save</button>
+				<button type="submit" class="btn btn-primary btn-block">Save</button>
         </div>
 	</div>
 	{!! Form::close() !!}

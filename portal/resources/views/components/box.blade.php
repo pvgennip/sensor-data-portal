@@ -4,7 +4,7 @@
     <div class="pull-right">{{ $action }}</div>
   </div>
   <!-- /.box-header -->
-  <div class="box-body no-padding">
+  <div class="box-body table-responsive no-padding">
     {{ $body }}
   </div>
   <!-- /.box-body -->

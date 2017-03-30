@@ -9,6 +9,7 @@
         "barryvdh/laravel-cors": "^0.8.2",
         "ellipsesynergie/api-response": "^0.12.3",
         "influxdb/influxdb-php": "^1.14",
+        "intervention/image": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",

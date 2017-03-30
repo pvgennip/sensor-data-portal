@@ -23,8 +23,8 @@
     <link rel="stylesheet" href="/webapp/vendor/admin-lte/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/webapp/vendor/admin-lte/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="/webapp/vendor/admin-lte/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="/webapp/css/portal.css">
+    <link rel="stylesheet" href="/webapp/css/skin-akvo.css">
     <link rel="stylesheet" type="text/css" href="/webapp/vendor/normalize-css/normalize.css">
 
     <!-- CSRF Token -->
@@ -68,6 +68,12 @@
         
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success">
+                                <p>{{ $message }}</p>
+                            </div>
+                        @endif
+
+                        @if ($message = Session::get('error'))
+                            <div class="alert alert-danger">
                                 <p>{{ $message }}</p>
                             </div>
                         @endif

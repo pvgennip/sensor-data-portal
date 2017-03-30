@@ -17,7 +17,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/admin', 'HomeController@index');
+Route::get('home', function(){
+	return redirect('admin');
+});
+Route::get('admin', 'HomeController@index');
 
 Route::group(['middleware' => ['auth']], function() 
 {
