@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('page-title') Role
+@section('page-title') {{ __('general.Role') }}
 @endsection
 
 @section('content')
@@ -8,19 +8,19 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Name:</label>
+                <label>{{ __('crud.name') }}:</label>
                 <p>{{ $role->display_name }}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Description:</label>
+                <label>{{ __('crud.description') }}:</label>
                 <p>{{ $role->description }}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Permissions:</label>
+                <label>{{ __('general.Permissions') }}:</label>
                 @if(!empty($rolePermissions))
                     <p>
 					@foreach($rolePermissions as $v)

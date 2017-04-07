@@ -11,9 +11,9 @@
       <div class="pull-left info">
         <p>{{ Auth::user()->name }}</p>
         <!-- Status -->
-        @role('superadmin')<p><i class="fa fa-user-secret"></i> Super admin</p>   @endrole
-        @role('admin')     <p><i class="fa fa-user-md"></i> Administrator</p>     @endrole
-        @role('manager')   <p><i class="fa fa-user"></i> Sensor manager</p>       @endrole
+        @role('superadmin')<p><i class="fa fa-user-secret"></i> {{ __('general.superadmin') }}</p>   @endrole
+        @role('admin')     <p><i class="fa fa-user-md"></i> {{ __('general.admin') }}</p>            @endrole
+        @role('manager')   <p><i class="fa fa-user"></i> {{ __('general.manager') }}</p>             @endrole
       </div>
     </div>
 
@@ -33,32 +33,32 @@
     <ul class="sidebar-menu">
       <!-- Optionally, you can add icons to the links -->
       @role('superadmin')
-        <li class="header">SUPER ADMIN MENU</li>
-        <li><a href="{{ route('roles.index') }}"><i class="fa fa-address-book-o"></i><span>Roles</span></a></li>
-        <li><a href="{{ route('users.index') }}"><i class="fa fa-user-circle-o"></i><span>Users</span></a></li>
-        <li><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>Sensors</span></a></li>
-        <li><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>Groups</span></a></li>
+        <li class="header">{{ __('general.superadmin').' '.__('general.menu') }}</li>
+        <li class="{{ Route::currentRouteNamed('roles.index') ? 'active' : '' }}"><a href="{{ route('roles.index') }}"><i class="fa fa-address-book-o"></i><span>{{ __('general.Roles') }}</span></a></li>
+        <li class="{{ Route::currentRouteNamed('users.index') ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fa fa-user-circle-o"></i><span>{{ __('general.Users') }}</span></a></li>
+        <li class="{{ Route::currentRouteNamed('sensors.index') ? 'active' : '' }}"><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>{{ __('general.Sensors') }}</span></a></li>
+        <li class="{{ Route::currentRouteNamed('groups.index') ? 'active' : '' }}"><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>{{ __('general.Groups') }}</span></a></li>
       @endrole
       @role('admin')
-        <li class="header">ADMIN MENU</li>
-        <li><a href="{{ route('users.index') }}"><i class="fa fa-user-circle-o"></i><span>Users</span></a></li>
-        <li><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>Sensors</span></a></li>
-        <li><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>Groups</span></a></li>
+        <li class="header">{{ __('general.admin').' '.__('general.menu') }}</li>
+        <li class="{{ Route::currentRouteNamed('users.index') ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fa fa-user-circle-o"></i><span>{{ __('general.Users') }}</span></a></li>
+        <li class="{{ Route::currentRouteNamed('sensors.index') ? 'active' : '' }}"><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>{{ __('general.Sensors') }}</span></a></li>
+        <li class="{{ Route::currentRouteNamed('groups.index') ? 'active' : '' }}"><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>{{ __('general.Groups') }}</span></a></li>
       @endrole
       @role('manager')
-        <li class="header">MANAGER MENU</li>
-        <li><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>Sensors</span></a></li>
-        <li><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>Groups</span></a></li>
+        <li class="header">{{ __('general.manager').' '.__('general.menu') }}</li>
+        <li class="{{ Route::currentRouteNamed('sensors.index') ? 'active' : '' }}"><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>{{ __('general.Sensors') }}</span></a></li>
+        <li class="{{ Route::currentRouteNamed('groups.index') ? 'active' : '' }}"><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>{{ __('general.Groups') }}</span></a></li>
       @endrole
-      <li class="header">APP MENU (N/A)</li>
+      <li class="header">{{ __('general.menu_data') }}</li>
       <li>
-          <a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+          <a href="#"><i class="fa fa-dashboard"></i><span>{{ __('general.dashboard') }}</span></a>
       </li> 
       <li>
-          <a href="#"><i class="fa fa-dot-circle-o"></i><span>Sensor data</span></a>
+          <a href="#"><i class="fa fa-dot-circle-o"></i><span>{{ __('general.sensordata') }}</span></a>
       </li>
       <li>
-          <a href="#"><i class="fa fa-bar-chart"></i><span>Data analysis</span></a>
+          <a href="#"><i class="fa fa-bar-chart"></i><span>{{ __('general.dataanalysis') }}</span></a>
       </li>         
     </ul>
     <!-- /.sidebar-menu -->

@@ -80,7 +80,7 @@ class AdminSeeder extends Seeder
         $user->name     = 'Lars';
         $user->email    = 'lars.sjogreen@akvo.org';
         $user->password = bcrypt('password');
-        $user->api_token= '100000000000000000000000000000000000000000000000000000000000';
+        $user->api_token= str_random(60);
         $user->remember_token = str_random(10);
         $user->save();
         $user->attachRole($super);
@@ -89,7 +89,7 @@ class AdminSeeder extends Seeder
         $user->name     = 'Arthur';
         $user->email    = 'arthur@akvo.org';
         $user->password = bcrypt('password');
-        $user->api_token= '200000000000000000000000000000000000000000000000000000000000';
+        $user->api_token= str_random(60);
         $user->remember_token = str_random(10);
         $user->save();
         $user->attachRole($super);

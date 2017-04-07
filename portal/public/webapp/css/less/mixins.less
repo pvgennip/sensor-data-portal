@@ -117,6 +117,8 @@
 //Dark Sidebar Mixin
 .skin-dark-sidebar(@link-hover-border-color) {
   // Sidebar background color (Both .wrapper and .left-side are responsible for sidebar bg color)
+  @sidebar-dark-bg: darken(@link-hover-border-color, 20%);
+
   .wrapper,
   .main-sidebar,
   .left-side {
@@ -132,18 +134,23 @@
   .sidebar-menu > li {
     //Section Headning
     &.header {
-      color: lighten(@sidebar-dark-bg, 20%);
-      background: darken(@sidebar-dark-bg, 4%);
+      color: lighten(@sidebar-dark-bg, 40%);
+      background: darken(@sidebar-dark-bg, 6%);
+      text-transform: uppercase;
     }
     //links
     > a {
       border-left: 3px solid transparent;
     }
     //Hover and active states
-    &:hover > a, &.active > a {
+    &:hover > a, &.active > a, &.active:hover > a{
       color: @sidebar-dark-hover-color;
-      background: @sidebar-dark-hover-bg;
+      background: lighten(@sidebar-dark-bg, 10%);
       border-left-color: @link-hover-border-color;
+    }
+    &:hover > a {
+      background: lighten(@sidebar-dark-bg, 5%);
+      border-left-color: lighten(@sidebar-dark-bg, 5%);
     }
     //First Level Submenu
     > .treeview-menu {

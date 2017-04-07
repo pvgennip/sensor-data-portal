@@ -3,9 +3,9 @@
   <!-- Logo -->
   <a href="/home" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><img src="/webapp/img/akvo-logo.svg"></span>
+    <span class="logo-mini"><img src="/webapp/img/akvo-logo-light.svg"></span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><img src="/webapp/img/akvo-logo.svg"></span>
+    <span class="logo-lg"><img src="/webapp/img/akvo-logo-light.svg"></span>
   </a>
 
   <!-- Header Navbar -->
@@ -13,7 +13,7 @@
     
     <!-- Sidebar toggle button-->
     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-      <span class="sr-only">Toggle navigation</span>
+      <span class="sr-only">{{ __('general.toggle_nav') }}</span>
     </a>
     
     <!-- Navbar Right Menu -->

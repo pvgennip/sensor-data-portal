@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('page-title') Edit user
+@section('page-title') {{ __('crud.edit').' '.__('general.user') }}
 @endsection
 
 @section('content')
 
 	@if (count($errors) > 0)
 		<div class="alert alert-danger">
-			<strong>Whoops!</strong> There were some problems with your input.<br><br>
+			{{ __('crud.input_err') }}:<br>
 			<ul>
 				@foreach ($errors->all() as $error)
 					<li>{{ $error }}</li>
@@ -19,51 +19,52 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Name:</label>
-                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                <label>{{ __('crud.name') }}:</label>
+                {!! Form::text('name', null, array('placeholder' => __('crud.name'),'class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Email:</label>
-                {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                <label>{{ __('crud.email') }}:</label>
+                {!! Form::text('email', null, array('placeholder' => __('crud.email'),'class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Avatar:</label>
+                <label>{{ __('crud.avatar') }}:</label>
                 <br>
                 <img src="/uploads/avatars/{{ $user->avatar }}" style="width:100px; height:100px; margin-right: 20px; margin-bottom: 10px;" class="img-circle">
                 {!! Form::file('avatar', array('class' => 'btn btn-default', 'style'=>'display: inline-block;')) !!}
-                <p class="help-block">Choose an image file as your avatar</p>
+                <p class="help-block">{{ __('crud.avatar_file')}}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Password:</label>
-                {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+                <label>{{ __('crud.pass') }}:</label>
+                {!! Form::password('password', array('placeholder' => __('crud.pass'),'class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Confirm Password:</label>
-                {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+                <label>{{ __('crud.pass_confirm') }}:</label>
+                {!! Form::password('confirm-password', array('placeholder' => __('crud.pass_confirm'),'class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Sensors:</strong>
+                <label>{{ __('general.Sensors') }}:</label>
                 {!! Form::select('sensors[]', $sensors, $userSensor, array('class' => 'form-control','multiple')) !!}
+                <p class="help-block">{{ __('crud.select_multi', ['item'=>__('general.sensor')]) }}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Role:</label>
-                {!! Form::select('roles[]', $roles, $userRole, array('placeholder' => 'Select a user role...','class' => 'form-control')) !!}
+                <label>{{ __('general.Role') }}:</label>
+                {!! Form::select('roles[]', $roles, $userRole, array('placeholder' => __('crud.select', ['item'=>__('general.user').' '.__('general.role')]),'class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-				<button type="submit" class="btn btn-primary btn-block">Save</button>
+				<button type="submit" class="btn btn-primary btn-block">{{ __('crud.save') }}</button>
         </div>
 	</div>
 	{!! Form::close() !!}

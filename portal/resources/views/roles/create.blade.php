@@ -1,19 +1,13 @@
 @extends('layouts.app')
 
-@section('page-title') Create role
+@section('page-title') {{ __('crud.create',['item'=>__('general.role')]) }}
 @endsection
 
 @section('content')
-	<div class="row">
-	    <div class="col-lg-12 margin-tb">
-	    	<div class="pull-right">
-	            <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
-	        </div>
-	    </div>
-	</div>
+
 	@if (count($errors) > 0)
 		<div class="alert alert-danger">
-			<strong>Whoops!</strong> There were some problems with your input.<br><br>
+			{{ __('crud.input_err') }}:<br>
 			<ul>
 				@foreach ($errors->all() as $error)
 					<li>{{ $error }}</li>
@@ -25,35 +19,37 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Name:</label>
-                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                <label>{{ __('crud.name') }}:</label>
+                {!! Form::text('name', null, array('placeholder' => __('crud.name'),'class' => 'form-control')) !!}
             </div>
         </div>
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Display Name:</label>
-                {!! Form::text('display_name', null, array('placeholder' => 'Display Name','class' => 'form-control')) !!}
+                <label>{{ __('crud.display_name') }}:</label>
+                {!! Form::text('display_name', null, array('placeholder' => __('crud.display_name'),'class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Description:</label>
-                {!! Form::textarea('description', null, array('placeholder' => 'Description','class' => 'form-control','style'=>'height:100px')) !!}
+                <label>{{ __('crud.description') }}:</label>
+                {!! Form::textarea('description', null, array('placeholder' => __('crud.description'),'class' => 'form-control','style'=>'height:100px')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <label>Permission:</label>
-                <br/>
+                <label>{{ __('general.Permissions') }}:</label>
+                <p class="help-block">{{ __('crud.select_multi', ['item'=>__('general.permission')]) }}</p>
+                <p>
                 @foreach($permission as $value)
                 	<label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
                 	{{ $value->display_name }}</label>
                 	<br/>
                 @endforeach
+                </p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-			<button type="submit" class="btn btn-primary btn-block">Save</button>
+			<button type="submit" class="btn btn-primary btn-block">{{ __('crud.save') }}</button>
         </div>
 	</div>
 	{!! Form::close() !!}

@@ -1,8 +1,8 @@
 <footer class="main-footer">
 	<!-- To the right -->
 	<div class="pull-right hidden-xs">
-	  Akvo Sensor data portal
+	  {{ __('general.site_title') }}
 	</div>
 	<!-- Default to the left -->
-	<strong>Copyright &copy; 2017 <a href="https://iconize.nl" target="_blank">Iconize</a>.</strong> All rights reserved.
+	<strong>{{ __('general.copyright').' &copy; '.date('Y') }} <a href="https://iconize.nl" target="_blank">Iconize</a>.</strong> {{ __('general.rights_res') }}.
 </footer>

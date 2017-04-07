@@ -12,7 +12,7 @@
       <img src="/uploads/avatars/{{ Auth::user()->avatar }}" class="img-circle" alt="User Image">
       <p>
         {{ Auth::user()->name }}
-        <small>{{ Auth::user()->created_at }}</small>
+        <small>{{ __('general.member_since') }}: {{ Auth::user()->created_at }}</small>
       </p>
     </li>
     <!-- Menu Body -->
@@ -32,13 +32,13 @@
     <!-- Menu Footer-->
     <li class="user-footer">
       <div class="pull-left">
-        <a href="{{ route('users.edit', Auth::user()->id) }}" class="btn btn-default btn-flat">Profile</a>
+        <a href="{{ route('users.edit', Auth::user()->id) }}" class="btn btn-default btn-flat">{{ __('general.Profile') }}</a>
       </div>
       <div class="pull-right">
           <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
               onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
-              Logout
+              {{ __('general.Logout') }}
           </a>
 
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
