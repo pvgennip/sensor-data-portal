@@ -16,7 +16,7 @@ class CreateSettings extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id')->index();
             $table->integer('user_id')->index();
-            $table->integer('hive_id')->nullable();
+            $table->integer('group_id')->nullable();
             $table->string('type')->nullable();
             $table->string('name');
             $table->string('value')->nullable();

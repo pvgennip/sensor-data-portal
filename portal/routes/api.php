@@ -19,6 +19,9 @@ Route::group(['middleware' => 'cors'], function()
 	Route::group(['middleware'=>'auth:api'], function()
 	{  
 
+		// Resource controllers 
+		Route::resource('groups', 'GroupController');
+		
 		// Authenticate and provide the token
 		Route::post('authenticate', 'Api\UserController@authenticate');
 
@@ -27,14 +30,6 @@ Route::group(['middleware' => 'cors'], function()
 
 		// get more data of 1 sensors
 		Route::get('sensors/{name}', 'Api\SensorController@data');
-
-
-		// save hive 
-		Route::post('hive', 'Api\HiveController@store');
-		// get settings
-		Route::get('hives', 'Api\HiveController@index');
-
-
 
 		// save setting 
 		Route::post('settings', 'Api\SettingController@store');

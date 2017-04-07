@@ -13,23 +13,17 @@ class SensorSeeder extends Seeder
     public function run()
     {
         $item= new Sensor;
-        $item->user_id = 1;
-        $item->hive_id = 1;
-        $item->name    = 'Sensor test';
-        $item->key     = '';
+        $item->name    = 'Sensor Pim 1';
+        $item->key     = 'pim1';
         $item->save();
 
         $item= new Sensor;
-        $item->user_id = 1;
-        $item->hive_id = 2;
-        $item->name    = 'Sensor test';
+        $item->name    = 'Sensor Pim 2';
         $item->key     = 'pim2';
         $item->save();
 
         $item= new Sensor;
-        $item->user_id = 2;
-        $item->hive_id = 3;
-        $item->name    = 'Sensor test';
+        $item->name    = 'Sensor Marten 1';
         $item->key     = 'marten1';
         $item->save();
     }
