@@ -367,7 +367,10 @@ services:
 
     spul-server:
         build: ./spul-server
+        env_file: 
+            - .env
         volumes:
+            - ./spul.log:/tmp/output.log
             - spul-server:/data
         ports:
             - "3333:3333"
