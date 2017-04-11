@@ -5,8 +5,8 @@ base_dir=$(pwd)
 # docker
 cd $base_dir/laradock
 docker-compose stop
-docker-compose build --no-cache apache2 php-fpm mysql phpmyadmin influx workspace
-docker-compose up -d apache2 php-fpm mysql phpmyadmin influx workspace
+docker-compose build --no-cache apache2 php-fpm mysql phpmyadmin influx mosquitto workspace
+docker-compose up -d apache2 php-fpm mysql phpmyadmin influx mosquitto workspace
 
 # laravel set up and build
 cd $base_dir
@@ -16,5 +16,6 @@ docker exec -it laradock_workspace_1 script /dev/null -c "composer install && ch
 # angular app (switch to laradock user with 'su laradock' to have access to node, npm, bower)
 cd $base_dir
 docker exec -it laradock_workspace_1 bash 
-cd public/webapp && mkdir vendor && bower install --allow-root
+cd public/webapp && mkdir vendor
+bower install --allow-root
 exit
