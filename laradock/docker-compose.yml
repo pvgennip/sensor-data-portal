@@ -371,7 +371,7 @@ services:
             - .env
         volumes:
             - spul-server:/data
-            - spul-server/spul.log:/tmp/output.log
+            - spul-server:/tmp
         ports:
             - "3333:3333"
             - "5555:5555"
