@@ -1,6 +1,6 @@
-import net from 'net'
+const net = require('net');
 
-const host          = (process.env['SPUL_HOST'] || 'localhost')
+const host          = (process.env['SPUL_HOST'] || 'localhost') 
 const bigEndian     = (process.env['BIG_ENDIAN'] !== 'false' && process.env['BIG_ENDIAN'] !== '0')
 const timestampPort = (parseInt(process.env['SPUL_TS_PORT']) || 3333)
 const payloadPort   = (parseInt(process.env['SPUL_PORT']) || 5555)
@@ -31,7 +31,7 @@ function testPayload (cb) {
 	// Payload
 	console.log('Connecting to payload server..')
 
-	const frames = 1
+	const frames = 5
 	const maxNumBlocks = 3
 	const maxBlockSize = 4
 	const headerSize = 12

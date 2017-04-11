@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/kukua/concava-connector-spul#readme",
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "bunyan": "^1.8.0",
     "mqtt": "^1.7.4"
   },
