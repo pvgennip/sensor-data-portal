@@ -25,7 +25,7 @@ const socketTimeout = (parseInt(process.env['SOCKET_TIMEOUT']) || 30 * 1000) // 
 const bigEndian     = (process.env['BIG_ENDIAN'] !== 'false' && process.env['BIG_ENDIAN'] !== '0')
 const headerSize    = (1 * process.env['HEADER_SIZE'] || 12)
 const maxFrameSize  = (1 * process.env['MAX_FRAME_SIZE'] || (512 - headerSize))
-const mqttHost      = (process.env['MQTT_HOST'] || 'unknown.host')
+const mqttHost      = (process.env['MQTT_HOST'] || 'localhost')
 const authToken     = (process.env['AUTH_TOKEN'] || 'unknown')
 
 // Timestamp server
