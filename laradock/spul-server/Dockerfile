@@ -8,8 +8,8 @@ RUN npm run compile
 RUN npm prune --production
 RUN touch /tmp/output.log
 
-COPY /data/.env.example /data/.env
-RUN chmod 600 /data/.env
+COPY .env.example .env
+RUN chmod 600 .env
 
 EXPOSE 3333
 EXPOSE 5555
