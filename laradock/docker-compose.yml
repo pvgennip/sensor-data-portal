@@ -363,6 +363,16 @@ services:
             - "1883:1883"
             - "9001:9001"
 
+### SPUL Container ###########################################
+
+    spul-server:
+        build: ./spul-server
+        volumes:
+            - spul-server:/data
+        ports:
+            - "3333:3333"
+            - "5555:5555"
+
 ### Volumes Setup ###########################################
 
 volumes:
@@ -397,4 +407,6 @@ volumes:
     influx:
         driver: "local"
     mosquitto:
+        driver: "local"
+    spul-server:
         driver: "local"
