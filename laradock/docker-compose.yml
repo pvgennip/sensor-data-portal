@@ -368,7 +368,7 @@ services:
     spul-server:
         build: ./spul-server
         environment:
-            MQTT_HOST:      "mosquitto:1883"
+            MQTT_HOST:      "mosquitto"
             AUTH_TOKEN:     "abcdef0123456789abcdef0123456789"
             # Optional
             DEBUG:          "true"
