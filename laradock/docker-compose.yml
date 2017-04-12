@@ -372,7 +372,7 @@ services:
             AUTH_TOKEN:     ""
             # Optional
             DEBUG:          "true"
-            LOG_NAME:       "spul-mqtt-connector"
+            LOG_NAME:       "concava-connector-spul"
             LOG_FILE:       "/tmp/output.log"
             SPUL_TS_PORT:   "3333"
             SPUL_PORT:      "5555"
