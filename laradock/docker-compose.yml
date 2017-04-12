@@ -369,7 +369,7 @@ services:
         build: ./spul-server
         environment:
             MQTT_HOST:      "mosquitto"
-            AUTH_TOKEN:     "abcdef0123456789abcdef0123456789"
+            AUTH_TOKEN:     ""
             # Optional
             DEBUG:          "true"
             LOG_NAME:       "spul-mqtt-connector"
