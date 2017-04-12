@@ -50,6 +50,8 @@ var timestamps = net.createServer((socket) => {
 timestamps.listen(timestampPort)
 log.info('Timestamp server listening on ' + timestampPort)
 
+log.info({host:mqttHost})
+
 // Payload server
 var total = 0
 var payloadServer = net.createServer((socket) => {
