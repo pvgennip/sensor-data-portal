@@ -1,6 +1,6 @@
 const net = require('net');
 
-const host          = (process.env['SPUL_HOST'] || 'localhost') 
+const host          = (process.env['SPUL_HOST'] || '37.48.120.157') 
 const bigEndian     = (process.env['BIG_ENDIAN'] !== 'false' && process.env['BIG_ENDIAN'] !== '0')
 const timestampPort = (parseInt(process.env['SPUL_TS_PORT']) || 3333)
 const payloadPort   = (parseInt(process.env['SPUL_PORT']) || 5555)
