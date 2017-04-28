@@ -394,6 +394,7 @@ services:
         build: ./mqttwarn
         links:
             - mosquitto
+            - influx
 
 
 ### Volumes Setup ###########################################
