@@ -385,6 +385,16 @@ services:
         ports:
             - "3333:3333"
             - "5555:5555"
+        links:
+            - mosquitto
+
+### MQTTWarn Container #######################################
+
+    mqttwarn:
+        build: ./mqttwarn
+        links:
+            - mosquitto
+
 
 ### Volumes Setup ###########################################
 
@@ -422,4 +432,6 @@ volumes:
     mosquitto:
         driver: "local"
     spul-server:
+        driver: "local"
+    mqttwarn:
         driver: "local"
