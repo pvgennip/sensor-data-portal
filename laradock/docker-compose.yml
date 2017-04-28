@@ -392,8 +392,6 @@ services:
 
     mqttwarn:
         build: ./mqttwarn
-        ports:
-            - "1883:1883"
         links:
             - mosquitto
 
