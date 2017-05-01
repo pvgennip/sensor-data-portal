@@ -1,7 +1,6 @@
 FROM node:5.11
 
-RUN rm -rf data
-RUN git clone https://github.com/pvgennip/spul-mqtt-server.git data
+RUN git clone https://github.com/pvgennip/spul-server.git data
 
 WORKDIR /data
 
