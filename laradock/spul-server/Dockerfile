@@ -4,11 +4,7 @@ MAINTAINER Kukua Team <dev@kukua.cc>
 WORKDIR /data
 COPY ./ /data/
 
-RUN npm install
-
-# Add modified connector after getting data from github
-ADD src/connector.js /data/src/
-
+RUN npm install --production https://github.com/pvgennip/concava-connector-spul
 RUN npm run compile
 RUN npm prune --production
 RUN touch /tmp/output.log
