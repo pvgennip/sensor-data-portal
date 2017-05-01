@@ -369,7 +369,7 @@ services:
 ### SPUL Container ###########################################
 
     spulserver:
-        build: ./spulserver
+        build: ./spulmqttserver
         environment:
             MQTT_HOST:      "mosquitto"
             MQTT_USER:      "username"
