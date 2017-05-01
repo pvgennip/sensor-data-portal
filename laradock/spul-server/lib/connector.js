@@ -1,5 +1,3 @@
-'use strict';
-
 var net = require('net');
 var bunyan = require('bunyan');
 var mqtt = require('mqtt');
