@@ -341,10 +341,16 @@ services:
     influx:
         build: "./influxdb"
         environment:
+            FORCE_HOSTNAME: "influx"
+            ADMIN_USER: "admin"
+            INFLUXDB_INIT_PWD: "admin"
+            PRE_CREATE_DB: "telegraf;sensor_data"
             INFLUXDB_REPORTING_DISABLED: "true"
             INFLUXDB_META_LOGGING_ENABLED: "false"
             INFLUXDB_DATA_QUERY_LOG_ENABLED: "false"
             INFLUXDB_ADMIN_ENABLED: "true"
+            INFLUXDB_ADMIN_HTTPS_ENABLED: "true"
+            INFLUXDB_HTTP_HTTPS_ENABLED: "true"
         volumes:
             - influx:/var/lib/influxdb
         ports:
@@ -369,7 +375,8 @@ services:
         build: ./spul-server
         environment:
             MQTT_HOST:      "mosquitto"
-            AUTH_TOKEN:     ""
+            MQTT_USER:      "username"
+            MQTT_PASS:      "password"
             # Optional
             DEBUG:          "true"
             LOG_NAME:       "concava-connector-spul"

@@ -10,4 +10,4 @@ fi
 
 echo "Creating Influx database: $DBNAME..."
 
-curl -i -XPOST influx:8086/query --data-urlencode "q=CREATE DATABASE $DBNAME"
+curl -i -XPOST localhost:8086/query --data-urlencode "q=CREATE DATABASE $DBNAME"

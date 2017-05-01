@@ -10,4 +10,4 @@ fi
 
 echo "Creating Influx admin user..."
 
-curl -i -XPOST influx:8086/query --user root:root --data-urlencode "q=CREATE USER admin WITH PASSWORD '$DBNAME' WITH ALL PRIVILEGES"
+curl -i -XPOST localhost:8086/query --user root:root --data-urlencode "q=CREATE USER admin WITH PASSWORD '$DBNAME' WITH ALL PRIVILEGES"

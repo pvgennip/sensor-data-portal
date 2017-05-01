@@ -26,7 +26,9 @@ const bigEndian     = (process.env['BIG_ENDIAN'] !== 'false' && process.env['BIG
 const headerSize    = (1 * process.env['HEADER_SIZE'] || 12)
 const maxFrameSize  = (1 * process.env['MAX_FRAME_SIZE'] || (512 - headerSize))
 const mqttHost      = (process.env['MQTT_HOST'] || 'localhost')
-const authToken     = (process.env['AUTH_TOKEN'] || 'unknown')
+const mqttUser      = (process.env['MQTT_USER'] || '')
+const mqttPass      = new Buffer(process.env['MQTT_PASS'] || '');
+const mqttTopic     = (process.env['MQTT_TOPIC'] || 'data');
 
 // Timestamp server
 var timestamps = net.createServer((socket) => {
@@ -94,27 +96,30 @@ var payloadServer = net.createServer((socket) => {
 
 		var client = mqtt.connect('mqtt://' + mqttHost, {
 			clientId: deviceId,
-			password: authToken,
+			username: mqttUser,
+			password: mqttPass,
 			connectTimeout: 3000, // ms
 		})
-		client.on('error', (err) => {
+		client.on('error', function(err)
+		{
 			log.error({
 				type: 'error', timestamp,
 				addr, deviceId, buffer: buf.toString('hex'),
 				stack: err.stack
 			}, '' + err)
 		})
-		client.on('connect', () => {
+		client.on('connect', function()
+		{
 			for (let i = 0; i < blocks; i += 1) {
 				let start = headerSize + i * size
 				let payload = buf.slice(start, start + size)
 
 				log.info({
 					type: 'payload', timestamp,
-					addr, deviceId
+					addr, deviceId, mqttTopic
 				}, payload.toString('hex'))
 
-				client.publish('data', payload)
+				client.publish(mqttTopic, payload)
 			}
 
 			client.end()
