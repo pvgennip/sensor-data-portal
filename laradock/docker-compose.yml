@@ -343,7 +343,7 @@ services:
         environment:
             ADMIN_USER: "admin"
             INFLUXDB_INIT_PWD: "admin"
-            PRE_CREATE_DB: "sensor_data"
+            PRE_CREATE_DB: "sensordata;telegraf"
             INFLUXDB_REPORTING_DISABLED: "true"
             INFLUXDB_META_LOGGING_ENABLED: "false"
             INFLUXDB_DATA_QUERY_LOG_ENABLED: "false"

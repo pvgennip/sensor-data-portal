@@ -3,10 +3,12 @@ MAINTAINER Kukua Team <dev@kukua.cc>
 
 WORKDIR /data
 COPY ./ /data/
-# Add modified connector
-COPY src/connector.js /data/src/
 
 RUN npm install
+
+# Add modified connector after getting data from github
+COPY src/connector.js /data/src/
+
 RUN npm run compile
 RUN npm prune --production
 RUN touch /tmp/output.log
