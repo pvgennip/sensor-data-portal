@@ -4,7 +4,7 @@ MAINTAINER Kukua Team <dev@kukua.cc>
 WORKDIR /data
 COPY ./ /data/
 # Add modified connector
-COPY src/connector.js /data/src/connector.js 
+COPY src/connector.js /data/src/
 
 RUN npm install
 RUN npm run compile
