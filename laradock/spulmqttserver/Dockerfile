@@ -1,6 +1,7 @@
 FROM node:5.11
 
-RUN git clone https://github.com/pvgennip/spul-server.git data
+RUN git clone https://github.com/pvgennip/spul-mqtt-server.git data
+RUN curl https://raw.githubusercontent.com/pvgennip/spul-mqtt-server/master/lib/connector.js > /data/lib/connector.js
 
 WORKDIR /data
 

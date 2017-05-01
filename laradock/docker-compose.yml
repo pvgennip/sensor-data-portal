@@ -368,15 +368,15 @@ services:
 
 ### SPUL Container ###########################################
 
-    spulmqttserver:
-        build: ./spulmqttserver
+    spulserver:
+        build: ./spulserver
         environment:
             MQTT_HOST:      "mosquitto"
             MQTT_USER:      "username"
             MQTT_PASS:      "password"
             # Optional
             DEBUG:          "true"
-            LOG_NAME:       "spulmqttserver"
+            LOG_NAME:       "spulserver"
             LOG_FILE:       "/tmp/output.log"
             SPUL_TS_PORT:   "3333"
             SPUL_PORT:      "5555"
@@ -385,7 +385,7 @@ services:
             HEADER_SIZE:    "12"
             MAX_FRAME_SIZE: "512"
         volumes:
-            - spulmqttserver:/data
+            - spulserver:/data
         ports:
             - "3333:3333"
             - "5555:5555"
@@ -436,7 +436,7 @@ volumes:
         driver: "local"
     mosquitto:
         driver: "local"
-    spulmqttserver:
+    spulserver:
         driver: "local"
     mqttwarn:
         driver: "local"
