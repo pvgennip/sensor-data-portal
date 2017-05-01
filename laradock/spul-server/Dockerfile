@@ -7,7 +7,7 @@ COPY ./ /data/
 RUN npm install
 
 # Add modified connector after getting data from github
-COPY src/connector.js /data/src/
+ADD src/connector.js /data/src/
 
 RUN npm run compile
 RUN npm prune --production

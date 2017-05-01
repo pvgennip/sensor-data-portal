@@ -13,7 +13,7 @@
   "pre-commit": "lint",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kukua/concava-connector-spul.git"
+    "url": "git+https://github.com/pvgennip/concava-connector-spul.git"
   },
   "keywords": [
     "concava",
