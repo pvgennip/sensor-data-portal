@@ -10,4 +10,4 @@ RUN touch /tmp/output.log
 EXPOSE 3333
 EXPOSE 5555
 
-CMD npm start
+CMD ["node", "lib/connector.js"]

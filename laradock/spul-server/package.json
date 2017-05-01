@@ -7,16 +7,12 @@
     "start": "node lib/connector.js",
     "test": "node tools/test.js"
   },
-  "keywords": [
-    "concava",
-    "connector",
-    "spul"
-  ],
-  "author": "Kukua Team <dev@kukua.cc>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kukua/concava-connector-spul/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pvgennip/concava-connector-spul.git"
   },
+  "author": "Pim van Gennip <info@iconize.nl>",
+  "license": "MIT",
   "homepage": "https://github.com/kukua/concava-connector-spul#readme",
   "dependencies": {
     "bunyan": "^1.8.0",
