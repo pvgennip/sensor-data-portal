@@ -5,7 +5,7 @@ base_dir=$(pwd)
 # docker
 cd $base_dir/laradock
 docker-compose stop
-docker-compose up -d --remove-orphans --build apache2 php-fpm mysql phpmyadmin influx mosquitto spul-server mqttwarn workspace
+docker-compose up -d --remove-orphans --build apache2 php-fpm mysql phpmyadmin influx mosquitto spulmqttserver mqttwarn workspace
 
 # laravel set up and build
 cd $base_dir
