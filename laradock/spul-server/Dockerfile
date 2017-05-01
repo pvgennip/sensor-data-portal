@@ -4,8 +4,7 @@ MAINTAINER Kukua Team <dev@kukua.cc>
 WORKDIR /data
 COPY ./ /data/
 
-RUN npm install
-RUN npm run compile
+RUN npm install --production
 RUN npm prune --production
 RUN touch /tmp/output.log
 
