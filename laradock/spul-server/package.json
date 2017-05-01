@@ -1,12 +1,12 @@
 {
-  "name": "concava-connector-spul",
+  "name": "spul-server",
   "version": "0.12.0",
-  "description": "ConCaVa connector for the SPUL protocol.",
+  "description": "MQTT connector for the SPUL protocol.",
   "private": true,
   "main": "lib/connector.js",
   "scripts": {
     "start": "node lib/connector.js",
-    "test": "babel-node tools/test.js"
+    "test": "node tools/test.js"
   },
   "keywords": [
     "concava",

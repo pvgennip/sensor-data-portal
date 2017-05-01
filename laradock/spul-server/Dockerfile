@@ -8,6 +8,8 @@ RUN npm install --production
 RUN npm prune --production
 RUN touch /tmp/output.log
 
+ADD lib /data/lib/
+ADD tools /data/tools/
 
 EXPOSE 3333
 EXPOSE 5555
