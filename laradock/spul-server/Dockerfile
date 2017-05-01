@@ -1,8 +1,9 @@
 FROM node:5.11
 
+RUN git clone https://github.com/pvgennip/concava-connector-spul.git data
+
 WORKDIR /data
 
-RUN git clone https://github.com/pvgennip/concava-connector-spul.git
 RUN npm install --production
 RUN touch /tmp/output.log
 
