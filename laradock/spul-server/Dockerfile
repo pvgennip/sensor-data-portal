@@ -4,7 +4,7 @@ MAINTAINER Kukua Team <dev@kukua.cc>
 WORKDIR /data
 COPY ./ /data/
 
-RUN npm install --production https://github.com/pvgennip/concava-connector-spul
+RUN npm install --production
 RUN npm run compile
 RUN npm prune --production
 RUN touch /tmp/output.log
