@@ -436,7 +436,7 @@ volumes:
         driver: "local"
     mosquitto:
         driver: "local"
-    spul-server:
+    spulmqttserver:
         driver: "local"
     mqttwarn:
         driver: "local"
