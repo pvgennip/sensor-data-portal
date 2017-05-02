@@ -28,7 +28,7 @@
 # Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
 
 def split_ssu_wap_for_influx(data, srv=None):
-    out = data.split(",")
+    out = data.data.payload.split(",")
     return out[0],",type=ssu_wap temp_ssu=",out[1]/10," temp_wap=",out[4]/10," pressure_ssu=",out[2]," pressure_wap=",out[3]," bat_v=",out[5]/1000
 
 def split_hap_sum_for_influx(data, srv=None):
