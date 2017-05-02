@@ -13,6 +13,7 @@ RUN apt-get update &&\
 WORKDIR /opt/
 RUN git clone https://github.com/jpmens/mqttwarn.git
 ADD mqttwarn.ini /opt/mqttwarn/
+ADD functions.py /opt/mqttwarn/
 WORKDIR /opt/mqttwarn/
 
 CMD ["python", "mqttwarn.py"]
