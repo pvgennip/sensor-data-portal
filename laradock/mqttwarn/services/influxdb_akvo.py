@@ -54,12 +54,14 @@ def plugin(srv, item):
         payload = split_hap_sum_for_influx(item)
     else:
         payload = item.payload
+
+    srv.logging.debug("Measurement: "+measurement+", Payload: "+payload)
     
     try:
         url = "http://%s:%d/write?db=%s" % (host, port, database)
         data = measurement + ',' + tag + payload
 
-        srv.logging.info("Data to be send to Influx: %s" % (data))
+        srv.logging.debug("Data to be send to Influx: %s" % (data))
         
         if username is None:
             r = requests.post(url, data=data)
