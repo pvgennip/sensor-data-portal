@@ -55,7 +55,7 @@ def plugin(srv, item):
     else:
         payload = item.payload
 
-    srv.logging.debug("Measurement: "+measurement+", Payload: "+payload)
+    srv.logging.debug("Measurement: %s, Payload: %s", measurement, payload)
     
     try:
         url = "http://%s:%d/write?db=%s" % (host, port, database)
