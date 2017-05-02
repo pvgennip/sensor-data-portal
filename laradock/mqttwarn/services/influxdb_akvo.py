@@ -47,10 +47,12 @@ def plugin(srv, item):
     tag         = "topic=" + item.topic.replace('/', '_')
 
     payload = ""
-    if (measurement == "ssu")
+    if measurement == "ssu":
         payload = split_ssu_wap_for_influx(item.payload)
-    else if (measurement == "hap")
+    elif measurement == "hap":
         payload = split_hap_sum_for_influx(item.payload)
+    else:
+        payload = item.payload
     
     try:
         url = "http://%s:%d/write?db=%s" % (host, port, database)
@@ -79,7 +81,6 @@ def plugin(srv, item):
 
 
 def split_ssu_wap_for_influx(payload):
-
     out = payload.split(",")
     return "sensor_id=",out[0],", type=ssu_wap temp_ssu=",out[1]/10," temp_wap=",out[4]/10," pressure_ssu=",out[2]," pressure_wap=",out[3]," bat_v=",out[5]/1000
 
