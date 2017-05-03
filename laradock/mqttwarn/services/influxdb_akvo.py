@@ -11,6 +11,21 @@ import logging
 # disable info logging in requests module (e.g. connection pool message for every post request)
 logging.getLogger("requests").setLevel(logging.WARNING)
 
+
+# SSU Message:    6d70a5d273205cae,203,1024,1017,199,3677
+# SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
+# <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
+def split_ssu_wap_for_influx(item):
+    out = item.payload.split(",")
+    tpc = "topic=" + item.topic.replace('/', '_')
+    pyl = "%s,sensor_id=%s,type=ssu_wap temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s" % (tpc, out[0], float(out[1])/10, float(out[4])/10, out[2], out[3], float(out[5])/1000)
+    return pyl
+
+
+def split_hap_sum_for_influx(item):
+    return item.payload
+
+        
 # item = {
 #    'service'       : 'string',       # name of handling service (`twitter`, `file`, ..)
 #    'target'        : 'string',       # name of target (`o1`, `janejol`) in service
@@ -53,7 +68,7 @@ def plugin(srv, item):
         tag = ""
         payload = split_hap_sum_for_influx(item)
     else:
-        payload = " "+item.payload
+        payload = " value="+item.payload
 
     srv.logging.debug("Measurement: %s, Payload: %s", measurement, payload)
     
@@ -83,17 +98,6 @@ def plugin(srv, item):
 
     return False
 
-    # SSU Message:    6d70a5d273205cae,203,1024,1017,199,3677
-    # SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
-    # <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
-    def split_ssu_wap_for_influx(item):
-        out = item.payload.split(",")
-        tpc = "topic=" + item.topic.replace('/', '_')
-        return "%s,sensor_id=%s,type=ssu_wap temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s" % (tpc, out[0], float(out[1])/10, float(out[4])/10, out[2], out[3], float(out[5])/1000)
-
-
-    def split_hap_sum_for_influx(item):
-        return item.payload
 
 
 
