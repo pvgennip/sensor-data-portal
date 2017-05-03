@@ -356,12 +356,12 @@ services:
 
 ### Mosquitto Container #######################################
 
-    mosquitto1:
+    mosquitto:
         build: ./mosquitto
         volumes:
-            - mosquitto1:/mqtt/config
-            - mosquitto1:/mqtt/log
-            - mosquitto1:/mqtt/data
+            - mosquitto:/mqtt/config
+            - mosquitto:/mqtt/log
+            - mosquitto:/mqtt/data
         ports:
             - "1883:1883"
             - "9001:9001"
@@ -390,14 +390,14 @@ services:
             - "9007:9007"
             - "9008:9008"
         links:
-            - mosquitto1
+            - mosquitto
 
 ### MQTTWarn Container #######################################
 
     mqttwarn:
         build: ./mqttwarn
         links:
-            - mosquitto1
+            - mosquitto
             - influx
 
 
@@ -434,7 +434,7 @@ volumes:
         driver: "local"
     influx:
         driver: "local"
-    mosquitto1:
+    mosquitto:
         driver: "local"
     spulserver:
         driver: "local"
