@@ -23,7 +23,9 @@ def split_ssu_wap_for_influx(item):
 
 
 def split_hap_sum_for_influx(item):
-    return item.payload
+    tpc = "topic=" + item.topic.replace('/', '_')
+    pyl = "%s,type=hap_sum value=%s" % (tpc, item.payload) 
+    return pyl
 
         
 # item = {
