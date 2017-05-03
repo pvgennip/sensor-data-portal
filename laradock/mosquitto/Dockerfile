@@ -19,19 +19,19 @@ RUN apt-get update && apt-get install -y wget && \
     gpg -a --export 8277CCB49EC5B595F2D2C71361611AE430993623 | apt-key add - && \
     wget -q -O /etc/apt/sources.list.d/mosquitto-jessie.list https://repo.mosquitto.org/debian/mosquitto-jessie.list && \
     apt-get update && apt-get install -y mosquitto mosquitto-clients && \
-    apt-get install -y nano && \
     adduser --system --disabled-password --disabled-login mosquitto
 
 RUN mkdir -p /mqtt/config /mqtt/data /mqtt/log
 COPY config /mqtt/config
-ADD config/mosquitto.conf /mqtt/config
-ADD docker-entrypoint.sh /usr/bin/
-#COPY config/conf.d/local_mosquitto.conf /mqtt/config/conf.d/
-#COPY config/conf.d/mqtt_passwords /mqtt/config/conf.d/
 RUN chown -R mosquitto:mosquitto /mqtt
 VOLUME ["/mqtt/config", "/mqtt/data", "/mqtt/log"]
 
 EXPOSE 1883 9001
+
+ADD docker-entrypoint.sh /usr/bin/
+ADD config/mosquitto.conf /mqtt/config
+ADD config/conf.d/local_mosquitto.conf /mqtt/config/conf.d/
+ADD config/conf.d/mqtt_passwords /mqtt/config/conf.d/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/usr/sbin/mosquitto", "-c", "/mqtt/config/mosquitto.conf"]
