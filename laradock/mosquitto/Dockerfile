@@ -29,7 +29,9 @@ VOLUME ["/mqtt/config", "/mqtt/data", "/mqtt/log"]
 EXPOSE 1883 9001
 
 ADD docker-entrypoint.sh /usr/bin/
-ADD config/mosquitto.conf /mqtt/config/
+RUN curl https://raw.githubusercontent.com/pvgennip/sensor-data-portal/master/laradock/mosquitto/config/mosquitto.conf > /mqtt/config/mosquitto.conf
+RUN curl https://raw.githubusercontent.com/pvgennip/sensor-data-portal/master/laradock/mosquitto/config/conf.d/local_mosquitto.conf > /mqtt/config/conf.d/local_mosquitto.conf
+RUN curl https://raw.githubusercontent.com/pvgennip/sensor-data-portal/master/laradock/mosquitto/config/conf.d/mqtt_passwords > /mqtt/config/conf.d/mqtt_passwords
 #ADD config/conf.d/local_mosquitto.conf /mqtt/config/conf.d/
 #ADD config/conf.d/mqtt_passwords /mqtt/config/conf.d/
 
