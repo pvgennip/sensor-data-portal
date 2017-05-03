@@ -8,7 +8,7 @@ WORKDIR /data
 RUN npm install --production
 RUN touch /tmp/output.log
 
-EXPOSE 3333
-EXPOSE 5555
+EXPOSE 9007
+EXPOSE 9008
 
 CMD ["node", "lib/connector.js"]
