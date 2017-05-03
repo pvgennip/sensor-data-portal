@@ -54,7 +54,7 @@ def plugin(srv, item):
             tag = ""
             out = item.payload.split(",")
             tpc = "topic=" + item.topic.replace('/', '_')
-            payload = tpc+",sensor_id="+out[0]+",type=ssu_wap temp_ssu="+out[1]/10+",temp_wap="+out[4]/10+",pressure_ssu="+out[2]+",pressure_wap="+out[3]+",bat_v="+out[5]/1000
+            payload = tpc+",sensor_id="+out[0]+",type=ssu_wap temp_ssu="+float(out[1])/10+",temp_wap="+float(out[4])/10+",pressure_ssu="+int(out[2])+",pressure_wap="+int(out[3])+",bat_v="+float(out[5])/1000
         elif item.target == "hap":
             tag = ""
             payload = item.payload
