@@ -14,17 +14,18 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/toke/docker-mosquitto"
 
-RUN apt-get update && apt-get install -y nano wget && \
+RUN apt-get update && apt-get install -y wget && \
     wget -q -O - https://repo.mosquitto.org/debian/mosquitto-repo.gpg.key | gpg --import && \
     gpg -a --export 8277CCB49EC5B595F2D2C71361611AE430993623 | apt-key add - && \
     wget -q -O /etc/apt/sources.list.d/mosquitto-jessie.list https://repo.mosquitto.org/debian/mosquitto-jessie.list && \
     apt-get update && apt-get install -y mosquitto mosquitto-clients && \
+    apt-get install -y nano && \
     adduser --system --disabled-password --disabled-login mosquitto
 
 RUN mkdir -p /mqtt/config /mqtt/data /mqtt/log
 COPY config /mqtt/config
-COPY docker-entrypoint.sh /usr/bin/
-#COPY config/mosquitto.conf /mqtt/config/
+ADD config/mosquitto.conf /mqtt/config
+ADD docker-entrypoint.sh /usr/bin/
 #COPY config/conf.d/local_mosquitto.conf /mqtt/config/conf.d/
 #COPY config/conf.d/mqtt_passwords /mqtt/config/conf.d/
 RUN chown -R mosquitto:mosquitto /mqtt
