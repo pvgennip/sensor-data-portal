@@ -46,16 +46,23 @@ def plugin(srv, item):
     measurement = item.addrs[0]
     tag         = "topic=" + item.topic.replace('/', '_')
 
+    srv.logging.debug("Measurement: %s, Payload: %s", measurement, payload)
+
     if item.target == "ssu":
+        # SSU Message:    6d70a5d273205cae,203,1024,1017,199,3677
+        # SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
+        # <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
         tag = ""
-        payload = split_ssu_wap_for_influx(item)
+        out = item.payload.split(",")
+        tpc = "topic=" + item.topic.replace('/', '_')
+        payload = tpc+",sensor_id="+out[0]+",type=ssu_wap temp_ssu="+out[1]/10+",temp_wap="+out[4]/10+",pressure_ssu="+out[2]+",pressure_wap="+out[3]+",bat_v="+out[5]/1000
     elif item.target == "hap":
         tag = ""
-        payload = split_hap_sum_for_influx(item)
+        payload = item.payload
     else:
         payload = item.payload
 
-    srv.logging.debug("Measurement: %s, Payload: %s", measurement, payload)
+    srv.logging.debug("Measurement: %s, Payload after parsing: %s", measurement, payload)
     
     try:
         url = "http://%s:%d/write?db=%s" % (host, port, database)
@@ -82,18 +89,4 @@ def plugin(srv, item):
         srv.logging.warn("Failed to send POST request to InfluxDB server using %s: %s" % (url, str(e)))
 
     return False
-
-    # SSU Message:    6d70a5d273205cae,203,1024,1017,199,3677
-    # SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
-    # <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
-    def split_ssu_wap_for_influx(item):
-        out = item.payload.split(",")
-        tpc = "topic=" + item.topic.replace('/', '_')
-        return tpc+",sensor_id="+out[0]+",type=ssu_wap temp_ssu="+out[1]/10+",temp_wap="+out[4]/10+",pressure_ssu="+out[2]+",pressure_wap="+out[3]+",bat_v="+out[5]/1000
-
-
-    def split_hap_sum_for_influx(item):
-        return item.payload
-
-
 
