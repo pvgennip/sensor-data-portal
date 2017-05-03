@@ -22,17 +22,15 @@ RUN apt-get update && apt-get install -y nano wget && \
     adduser --system --disabled-password --disabled-login mosquitto
 
 RUN mkdir -p /mqtt/config /mqtt/data /mqtt/log
-COPY config /mqtt/config/
+COPY config /mqtt/config
+COPY docker-entrypoint.sh /usr/bin/
+#COPY config/mosquitto.conf /mqtt/config/
+#COPY config/conf.d/local_mosquitto.conf /mqtt/config/conf.d/
+#COPY config/conf.d/mqtt_passwords /mqtt/config/conf.d/
 RUN chown -R mosquitto:mosquitto /mqtt
 VOLUME ["/mqtt/config", "/mqtt/data", "/mqtt/log"]
 
-
 EXPOSE 1883 9001
-
-ADD docker-entrypoint.sh /usr/bin/
-ADD config/mosquitto.conf /mqtt/config/
-ADD config/conf.d/local_mosquitto.conf /mqtt/config/conf.d/
-ADD config/conf.d/mqtt_passwords /mqtt/config/conf.d/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/usr/sbin/mosquitto", "-c", "/mqtt/config/mosquitto.conf"]
