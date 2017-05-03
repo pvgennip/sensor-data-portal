@@ -9,7 +9,7 @@ import requests
 import logging
 
 # disable info logging in requests module (e.g. connection pool message for every post request)
-logging.getLogger("requests").setLevel(logging.WARNING)
+#logging.getLogger("requests").setLevel(logging.WARNING)
 
 # item = {
 #    'service'       : 'string',       # name of handling service (`twitter`, `file`, ..)
@@ -35,7 +35,7 @@ logging.getLogger("requests").setLevel(logging.WARNING)
 def plugin(srv, item):
     ''' addrs: (measurement) '''
 
-    srv.logging.debug("*** MODULE=%s: service=%s, target=%s", __file__, item.service, item.target)
+    srv.logging.debug("*** MODULE=%s: service=%s, target=%s, payload=%s", __file__, item.service, item.target, item.payload)
 
     host        = item.config['host']
     port        = item.config['port']
