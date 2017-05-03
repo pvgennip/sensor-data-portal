@@ -17,6 +17,6 @@ ADD services/influxdb_akvo.py /opt/mqttwarn/services/
 WORKDIR /opt/mqttwarn/
 
 ADD docker-entrypoint.sh /opt/mqttwarn/
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/opt/mqttwarn/docker-entrypoint.sh"]
 
 CMD ["python", "mqttwarn.py"]
