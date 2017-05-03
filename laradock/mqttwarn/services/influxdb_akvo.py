@@ -9,7 +9,7 @@ import requests
 import logging
 
 # disable info logging in requests module (e.g. connection pool message for every post request)
-#logging.getLogger("requests").setLevel(logging.WARNING)
+logging.getLogger("requests").setLevel(logging.WARNING)
 
 # item = {
 #    'service'       : 'string',       # name of handling service (`twitter`, `file`, ..)
@@ -35,7 +35,7 @@ import logging
 def plugin(srv, item):
     ''' addrs: (measurement) '''
 
-    srv.logging.debug("*** MODULE=%s: service=%s, target=%s, payload=%s", __file__, item.service, item.target, item.payload)
+    srv.logging.debug("*** MODULE=%s: service=%s, target=%s", __file__, item.service, item.target)
 
     host        = item.config['host']
     port        = item.config['port']
@@ -45,23 +45,19 @@ def plugin(srv, item):
 
     measurement = item.addrs[0]
     tag         = "topic=" + item.topic.replace('/', '_')
+
+    if item.target == "ssu":
+        tag = ""
+        payload = split_ssu_wap_for_influx(item)
+    elif item.target == "hap":
+        tag = ""
+        payload = split_hap_sum_for_influx(item)
+    else:
+        payload = " "+item.payload
+
+    srv.logging.debug("Measurement: %s, Payload: %s", measurement, payload)
     
     try:
-        if item.target == "ssu":
-            # SSU Message:    6d70a5d273205cae,203,1024,1017,199,3677
-            # SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
-            # <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
-            tag = ""
-            out = item.payload.split(",")
-            tpc = "topic=" + item.topic.replace('/', '_')
-            payload = tpc+",sensor_id="+out[0]+",type=ssu_wap temp_ssu="+float(out[1])/10+",temp_wap="+float(out[4])/10+",pressure_ssu="+int(out[2])+",pressure_wap="+int(out[3])+",bat_v="+float(out[5])/1000
-        elif item.target == "hap":
-            tag = ""
-            payload = item.payload
-        else:
-            payload = item.payload
-
-
         url = "http://%s:%d/write?db=%s" % (host, port, database)
         data = measurement + ',' + tag + payload
 
@@ -86,4 +82,18 @@ def plugin(srv, item):
         srv.logging.warn("Failed to send POST request to InfluxDB server using %s: %s" % (url, str(e)))
 
     return False
+
+    # SSU Message:    6d70a5d273205cae,203,1024,1017,199,3677
+    # SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
+    # <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
+    def split_ssu_wap_for_influx(item):
+        out = item.payload.split(",")
+        tpc = "topic=" + item.topic.replace('/', '_')
+        return "%s,sensor_id=%s,type=ssu_wap temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s" % (tpc, out[0], float(out[1])/10, float(out[4])/10, out[2], out[3], float(out[5])/1000)
+
+
+    def split_hap_sum_for_influx(item):
+        return item.payload
+
+
 
