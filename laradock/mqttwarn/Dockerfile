@@ -16,7 +16,7 @@ RUN git clone https://github.com/jpmens/mqttwarn.git
 ADD services/influxdb_akvo.py /opt/mqttwarn/services/
 WORKDIR /opt/mqttwarn/
 
-ADD docker-entrypoint.sh /usr/bin/
+ADD docker-entrypoint.sh /opt/mqttwarn/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD ["python", "mqttwarn.py"]
