@@ -8,6 +8,9 @@ WORKDIR /data
 RUN npm install --production
 RUN touch /tmp/output.log
 
+# Find the .env file for settings
+ENV PATH "$PATH:/data"
+
 EXPOSE 9007
 EXPOSE 9008
 
