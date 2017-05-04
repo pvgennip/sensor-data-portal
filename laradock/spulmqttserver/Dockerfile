@@ -17,4 +17,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 EXPOSE 9007
 EXPOSE 9008
 
-CMD ["node" "-r dotenv/config lib/connector.js"]
+CMD ["node", "-r dotenv/config lib/connector.js"]
