@@ -9,9 +9,9 @@ RUN npm install --production
 RUN touch /tmp/output.log
 
 ADD docker-entrypoint.sh /data/
-RUN chmod +x /data/docker-entrypoint.sh
+RUN chmod +x docker-entrypoint.sh
 
-ENTRYPOINT ["/data/docker-entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 9007
 EXPOSE 9008
