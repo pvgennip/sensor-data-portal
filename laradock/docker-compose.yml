@@ -370,8 +370,6 @@ services:
 
     spulserver:
         build: ./spulmqttserver
-        env_file:
-            - /data/.env
         environment:
             MQTT_HOST:      "mosquitto"
             #AUTH_TOKEN:     ""
