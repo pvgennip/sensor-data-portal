@@ -5,14 +5,14 @@ RUN curl https://raw.githubusercontent.com/pvgennip/spul-mqtt-server/master/lib/
 
 RUN touch /tmp/output.log
 
-ADD docker-entrypoint.sh /data/
-RUN chmod +x /data/docker-entrypoint.sh
+ADD docker-entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/docker-entrypoint.sh
 
 WORKDIR /data
 
 RUN npm install --production
 
-ENTRYPOINT ["/data/docker-entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 9007
 EXPOSE 9008
