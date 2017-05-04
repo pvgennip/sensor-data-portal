@@ -19,7 +19,6 @@ ADD docker-entrypoint.sh /opt/mqttwarn/
 RUN chmod +x /opt/mqttwarn/docker-entrypoint.sh
 
 WORKDIR /opt/mqttwarn/
-
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/opt/mqttwarn/docker-entrypoint.sh"]
 
 CMD ["python", "mqttwarn.py"]
