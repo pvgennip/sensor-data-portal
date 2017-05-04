@@ -11,7 +11,7 @@ RUN touch /tmp/output.log
 ADD docker-entrypoint.sh /data/
 RUN chmod +x docker-entrypoint.sh
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
 
 EXPOSE 9007
 EXPOSE 9008
