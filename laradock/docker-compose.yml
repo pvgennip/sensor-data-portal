@@ -369,14 +369,12 @@ services:
 ### SPUL Container ###########################################
 
     spulserver:
-        build: ./spulmqttserver
+        build: ./spulserver
+        env_file:
+            - ./spulserver/.env
         environment:
             MQTT_HOST:      "mosquitto"
-            #AUTH_TOKEN:     ""
-            #MQTT_USER:      "username"
-            #MQTT_PASS:      "password"
-            # Optional
-            DEBUG:          "true"
+            DEBUG:          "false"
             LOG_NAME:       "spulserver"
             LOG_FILE:       "/tmp/output.log"
             SPUL_TS_PORT:   "9007"
