@@ -372,19 +372,6 @@ services:
         build: ./spulserver
         env_file:
             - ./spulserver/.env
-        environment:
-            MQTT_HOST:      "mosquitto"
-            DEBUG:          "false"
-            LOG_NAME:       "spulserver"
-            LOG_FILE:       "/tmp/output.log"
-            SPUL_TS_PORT:   "9007"
-            SPUL_PORT:      "9008"
-            SOCKET_TIMEOUT: "30000"
-            BIG_ENDIAN:     "true"
-            HEADER_SIZE:    "12"
-            MAX_FRAME_SIZE: "512"
-        volumes:
-            - spulserver:/data
         ports:
             - "9007:9007"
             - "9008:9008"
