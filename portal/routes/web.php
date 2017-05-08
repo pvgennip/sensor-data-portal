@@ -46,6 +46,9 @@ Route::group(['middleware' => ['auth']], function()
 	Route::delete('groups/{id}',['as'=>'groups.destroy','uses'=>'GroupController@destroy','middleware' => ['permission:group-delete']]);
 
 	Route::get('sensors',['as'=>'sensors.index','uses'=>'SensorController@index','middleware' => ['permission:sensor-list|sensor-create|sensor-edit|sensor-delete']]);
+	Route::get('sensors/uncoupled',['as'=>'sensors.uncoupled','uses'=>'SensorController@uncoupled','middleware' => ['role:superadmin|admin']]);
+	Route::get('sensors/data',['as'=>'sensors.data','uses'=>'SensorController@data','middleware' => ['permission:sensor-list']]);
+	Route::get('sensors/{id}/data',['as'=>'sensors.showdata','uses'=>'SensorController@showdata','middleware' => ['permission:sensor-list']]);
 	Route::get('sensors/create',['as'=>'sensors.create','uses'=>'SensorController@create','middleware' => ['permission:sensor-create']]);
 	Route::post('sensors/create',['as'=>'sensors.store','uses'=>'SensorController@store','middleware' => ['permission:sensor-create']]);
 	Route::get('sensors/{id}',['as'=>'sensors.show','uses'=>'SensorController@show']);

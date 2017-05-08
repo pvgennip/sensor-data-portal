@@ -28,6 +28,10 @@ return [
     'Logout'        => 'Log out',
     'member_since'  => 'Member since',
     
+    'last_date'     => 'Last date',
+    'last_value'    => 'Last value',
+    'chart'         => 'chart',
+    
     'superadmin'    => 'Super administrator',
     'admin'         => 'Administrator',
     'manager'       => 'Sensor manager',

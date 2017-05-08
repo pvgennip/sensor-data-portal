@@ -27,6 +27,10 @@ return [
     'Profile'       => 'Profiel',
     'Logout'        => 'Log uit',
     'member_since'  => 'Lid sinds',
+
+    'last_date'     => 'Laatste datum',
+    'last_value'    => 'Laatste waarde',
+    'chart'         => 'chart',
     
     'superadmin'    => 'Super administrator',
     'admin'         => 'Administrator',
