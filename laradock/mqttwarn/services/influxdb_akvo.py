@@ -18,7 +18,8 @@ logging.getLogger("requests").setLevel(logging.WARNING)
 def split_ssu_wap_for_influx(item):
     out = item.payload.strip().split(",")
     tpc = "topic=" + item.topic.replace('/', '_')
-    pyl = "%s,sensor_id=%s,type=ssu_wap temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s" % (tpc, out[0], float(out[1])/10, float(out[4])/10, out[2], out[3], float(out[5])/1000)
+    tst = time.time()
+    pyl = "%s,sensor_id=%s,type=ssu_wap temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s %s" % (tpc, out[0], float(out[1])/10, float(out[4])/10, out[2], out[3], float(out[5])/1000, tst)
     return pyl
 
 # HAP Message:     1494335973, 98, 0, 65140, 52924, 168
@@ -28,7 +29,8 @@ def split_hap_sum_for_influx(item):
     sensor_id = item.addrs[0]
     out       = item.payload.strip().split(",")
     tpc       = "topic=" + item.topic.replace('/', '_')
-    pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), float(out[5]), float(out[0]))
+    tst       = float(out[0]) if float(out[0]) > 0 else time.time()
+    pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), float(out[5]), tst)
     return pyl
 
         
