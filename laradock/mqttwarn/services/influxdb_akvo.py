@@ -16,15 +16,19 @@ logging.getLogger("requests").setLevel(logging.WARNING)
 # SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
 # <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
 def split_ssu_wap_for_influx(item):
-    out = item.payload.split(",")
+    out = item.payload.strip().split(",")
     tpc = "topic=" + item.topic.replace('/', '_')
     pyl = "%s,sensor_id=%s,type=ssu_wap temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s" % (tpc, out[0], float(out[1])/10, float(out[4])/10, out[2], out[3], float(out[5])/1000)
     return pyl
 
-
+# HAP Message:     1494335973, 98, 0, 65140, 52924, 168
+#                  0          1   2    3   4   5
+# HAP formatting:  Timestamp, CO, CO2, P1, P2, BatteryLevel
 def split_hap_sum_for_influx(item):
-    tpc = "topic=" + item.topic.replace('/', '_')
-    pyl = "%s,type=hap_sum value=%s" % (tpc, item.payload) 
+    sensor_id = item.addrs[0]
+    out       = item.payload.strip().split(",")
+    tpc       = "topic=" + item.topic.replace('/', '_')
+    pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), float(out[5]), float(out[0]))
     return pyl
 
         
@@ -62,7 +66,7 @@ def plugin(srv, item):
 
     measurement = item.addrs[0]
     tag         = "topic=" + item.topic.replace('/', '_')
-
+    
     if item.target == "ssu":
         tag = ""
         payload = split_ssu_wap_for_influx(item)
@@ -75,7 +79,7 @@ def plugin(srv, item):
     srv.logging.debug("Measurement: %s, Payload: %s", measurement, payload)
     
     try:
-        url = "http://%s:%d/write?db=%s" % (host, port, database)
+        url = "http://%s:%d/write?db=%s&precision=s" % (host, port, database)
         data = measurement + ',' + tag + payload
 
         srv.logging.debug("Data to be send to Influx: %s" % (data))
