@@ -26,10 +26,9 @@ def split_ssu_wap_for_influx(item):
 # HAP Message:     1494335973, 98, 0, 65140, 52924, 168
 #                  0          1   2    3   4   5
 # HAP formatting:  Timestamp, CO, CO2, P1, P2, BatteryLevel
-def split_hap_sum_for_influx(item):
-    sensor_id = item.addrs[0]
+def split_hap_sum_for_influx(item, sensor_id):
     out       = item.payload.strip().split(",")
-    tpc       = "topic=" + item.topic.replace('/', '_')
+    tpc       = "topic=" + item.topic.replace('/'+sensor_id, '').replace('/', '_')
     tst       = int(out[0]) if int(out[0]) > 0 else int(time.time())
     pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), float(out[5]), tst)
     return pyl
@@ -74,8 +73,10 @@ def plugin(srv, item):
         tag = ""
         payload = split_ssu_wap_for_influx(item)
     elif item.target == "hap":
-        tag = ""
-        payload = split_hap_sum_for_influx(item)
+        tag      = ""
+        topicArr = item.topic.split('/')
+        deviceId = topicArr[2] if len(topicArr) > 2 else '-' 
+        payload  = split_hap_sum_for_influx(item, deviceId)
     else:
         payload = " value="+item.payload
 

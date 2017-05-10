@@ -42,15 +42,11 @@ targets = log:error
 targets = log:info, influxdb_akvo:test
 format = u'{name}: {number} => {_dthhmm}'
 
-# HAP/SUM sensor
-[data]
-targets = influxdb_akvo:hap
-
 # ITAY sensors
-[ITAY/+]
+[ITAY/#]
 targets = {
 	'ITAY/SSU' : ['influxdb_akvo:ssu'],
-	'ITAY/HAP' : ['influxdb_akvo:hap'],
+    'ITAY/HAP' : ['influxdb_akvo:hap', 'log:info'],
 	}
 
 
