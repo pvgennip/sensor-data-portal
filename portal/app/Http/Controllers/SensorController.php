@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Controllers\Controller;
 use App\Sensor;
 
@@ -12,6 +11,64 @@ class SensorController extends Controller
 {
     
     protected $sensorTypes = ['hap_sum'=>'Household Air Pollution (HAP) & Stove Usage Monitoring (SUM)','ssu_wap'=>'Standard Surface Unit (SSU) & Water Pressure unit (WAP)','Other'=>'Other'];
+
+    protected function convertSensorTypeToInfluxSeries($type)
+    {
+        return substr(strtolower($type), 0, 3);
+    }
+
+    protected function addSensorData($sensors)
+    {
+        // Add data from influxdb
+        $client = new \Influx;
+        foreach ($sensors as $id => $sensor) 
+        {
+            $type = $this->convertSensorTypeToInfluxSeries($sensor->type);
+            $result = $client::query('SELECT * FROM "'.$type.'" WHERE "sensor_id" = \''.$sensor->key.'\' AND time > now() - 365d GROUP BY "sensor_id" ORDER BY time DESC LIMIT 1');
+            //die(print_r($result));
+            if ($result)
+            {
+                $sensordata = $result->getPoints();
+                if (count($sensordata) > 0)
+                {
+                    //die(print_r($sensordata));
+                    $sensors[$id]->date  = $sensordata[0]['time'];
+                    if ($sensor->type == "ssu_wap")
+                    {
+                        // Depth = Depth(m)=(WAP pressure- BME280 pressure)/98.1
+                        $sensors[$id]->value = round( (($sensordata[0]['pressure_wap'] - $sensordata[0]['pressure_ssu'])/98.1), 2)." m";
+                    }
+                    else
+                    {
+                        $sensors[$id]->value = $sensordata[0]['value'];
+                    }
+                }
+            }
+        }
+        return $sensors;
+    }
+
+    protected function getSensorData($sensors)
+    {
+        // Add data from influxdb
+        $client = new \Influx;
+        foreach ($sensors as $id => $sensor) 
+        {
+            $type = $this->convertSensorTypeToInfluxSeries($sensor->type);
+            $result = $client::query('SELECT * FROM "'.$type.'" WHERE "sensor_id" = \''.$sensor->key.'\' ORDER BY time DESC');
+            //die(print_r($result));
+            if ($result)
+            {
+                $sensordata = $result->getPoints();
+                if (count($sensordata) > 0)
+                {
+                    //die(print_r($sensordata));
+                    $sensors[$id]->data = $sensordata;
+                }
+            }
+        }
+        return $sensors;
+    }
 
     /**
      * Display a listing of the resource.
@@ -49,35 +106,7 @@ class SensorController extends Controller
     {
         $sensors = Sensor::orderBy('id','DESC')->paginate(10);
         
-        // Add data from influxdb
-        $client = new \Influx;
-        foreach ($sensors as $id => $sensor) 
-        {
-            $type = strtolower($sensor->type);
-            if ($type == "ssu_wap" || $type == "hap_sum")
-            {
-                $result = $client::query('SELECT * FROM "ssu","hap","'.$type.'" WHERE "sensor_id" = \''.$sensor->key.'\' AND time > now() - 365d GROUP BY "sensor_id" ORDER BY time DESC LIMIT 1');
-                //die(print_r($result));
-                if ($result)
-                {
-                    $sensordata = $result->getPoints();
-                    if (count($sensordata) > 0)
-                    {
-                        //die(print_r($sensordata));
-                        $sensors[$id]->date  = $sensordata[0]['time'];
-                        if ($type == "ssu_wap")
-                        {
-                            // Depth = Depth(m)=(WAP pressure- BME280 pressure)/98.1
-                            $sensors[$id]->value = round( (($sensordata[0]['pressure_wap'] - $sensordata[0]['pressure_ssu'])/98.1), 2)." m";
-                        }
-                        else
-                        {
-                            $sensors[$id]->value = $sensordata[0]['value'];
-                        }
-                    }
-                }
-            }
-        }
+        $sensors = $this->addSensorData($sensors);
 
         return view('sensors.data',compact('sensors'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
@@ -87,14 +116,15 @@ class SensorController extends Controller
     {
         $item = Sensor::find($id);
 
+        $type   = substr($item->type, 0, 3);
         $client = new \Influx;
-        $result = $client::query('SELECT * FROM "ssu","hap" WHERE sensor_id = \''.$item->key.'\' ORDER BY time DESC LIMIT 100');
+        $result = $client::query('SELECT * FROM '.$type.' WHERE sensor_id = \''.$item->key.'\' ORDER BY time DESC LIMIT 100');
         $data   = $result->getPoints();
 
         if ($data)
         {
             //die(print_r($data));
-            $colors = ["#00252F", "#256581", "#FE4A34", "#FEA037", "#7ED321"];
+            $colors = ["#00252F", "#256581", "#FE4A34", "#FEA037", "#7ED321", "#B310AA", "#700D47", "#9B5D18"];
 
             $datasets = [];
             $labels   = [];
@@ -106,7 +136,9 @@ class SensorController extends Controller
                 if ($label != "time" && $label != "sensor_id" && $label != "type" && $label != "topic")
                 {
                     array_push($datasets, [
-                        "label"=>$label, 
+                        "labelId"=>$label,
+                        "label"=>ucfirst(str_replace("_", " ", $label)),
+                        "yAxisID"=>$value > 100 ? "y2" : "y1",
                         "data"=>[],
                         "backgroundColor"=>"rgba(0,0,0,0)",
                         "borderColor"=>$color,
@@ -125,7 +157,7 @@ class SensorController extends Controller
                 {
                     foreach ($datasets as $i => $dataset) 
                     {
-                        if ($label == $dataset["label"])
+                        if ($label == $dataset["labelId"])
                         {
                             array_push($datasets[$i]["data"], $value);
                             //die(print_r($datasets));
@@ -150,13 +182,25 @@ class SensorController extends Controller
                     "xAxes" => [[
                         "type" => 'time',
                         "time" => [
-                            "unit" => 'minute',
-                            "unitStepSize" => 60,
                             "displayFormats" => [
-                                "minute" => 'Y-MM-DD HH:mm'
+                                "year" => 'Y',
+                                "month" => 'Y MMM',
+                                "day" => 'Y MMM D',
+                                "hour" => 'MMM D HH:mm',
+                                "minute" => 'MMM D HH:mm',
                             ]
                         ]
-                    ]]
+                    ]],
+                    "yAxes" => [
+                        [
+                            "position" => 'left',
+                            "id" => 'y1'
+                        ],
+                        [
+                            "position" => 'right',
+                            "id" => 'y2'
+                        ],
+                    ]
                 ]
             ]);
         }
@@ -166,6 +210,33 @@ class SensorController extends Controller
         }
         return view('sensors.showdata',compact('item','chartjs'));
     }
+
+
+
+    // Export
+    // Show list of sensors
+    public function export(Request $request)
+    {
+        $sensors = Sensor::orderBy('id','DESC')->paginate(10);
+        
+        $sensors = $this->addSensorData($sensors);
+
+        // if ($request->has('selected'))
+        // {
+        //     // Array ( [0] => 3 [1] => 2 ) 
+        //     $selected= $request->input('selected');
+        //     $sensors = Sensor::find($selected);
+        //     die(print_r($sensors));
+        //     foreach ($selected as $key => $sensorId) 
+        //     {
+        //         $sensors->contains
+        //     }
+        // }
+
+        return view('sensors.export',compact('sensors'))
+            ->with('i', ($request->input('page', 1) - 1) * 10);
+    }
+
 
     /**
      * Show the form for creating a new resource.

@@ -18,6 +18,7 @@ return [
     'show'          => 'Toon',
     'save'          => 'Opslaan',
     'edit'          => 'Wijzig',
+    'export'        => 'Exporteer',
     'delete'        => 'Verwijder',
     'sure'          => 'Weet je zeker dat je :item :name wilt verwijderen?',
     'create'        => 'Maak een nieuwe :item',

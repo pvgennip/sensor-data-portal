@@ -18,6 +18,7 @@ return [
     'show'          => 'Show',
     'save'          => 'Save',
     'edit'          => 'Edit',
+    'export'        => 'Export',
     'delete'        => 'Delete',
     'sure'          => 'Are you sure you want to delete :item :name?',
     'create'        => 'Create a new :item',

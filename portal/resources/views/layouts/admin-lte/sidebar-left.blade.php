@@ -38,7 +38,6 @@
         <li class="{{ Route::currentRouteNamed('users.index') ? 'active' : '' }}"><a href="{{ route('users.index') }}"><i class="fa fa-user-circle-o"></i><span>{{ __('general.Users') }}</span></a></li>
         <li class="{{ Route::currentRouteNamed('sensors.index') ? 'active' : '' }}"><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>{{ __('general.Sensors') }}</span></a></li>
         {{-- <li class="{{ Route::currentRouteNamed('groups.index') ? 'active' : '' }}"><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>{{ __('general.Groups') }}</span></a></li> --}}
-        <li class="{{ Route::currentRouteNamed('sensors.data') ? 'active' : '' }}"><a href="{{ route('sensors.data') }}"><i class="fa fa-bar-chart"></i><span>{{ __('general.sensordata') }}</span></a></li> 
       @endrole
       @role('admin')
         <li class="header">{{ __('general.admin').' '.__('general.menu') }}</li>
@@ -49,18 +48,13 @@
       @role('manager')
         <li class="header">{{ __('general.manager').' '.__('general.menu') }}</li>
         <li class="{{ Route::currentRouteNamed('sensors.index') ? 'active' : '' }}"><a href="{{ route('sensors.index') }}"><i class="fa fa-cube "></i><span>{{ __('general.Sensors') }}</span></a></li>
+        
         {{-- <li class="{{ Route::currentRouteNamed('groups.index') ? 'active' : '' }}"><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>{{ __('general.Groups') }}</span></a></li> --}}
       @endrole
-      {{-- <li class="header">{{ __('general.menu_data') }}</li>
-      <li>
-          <a href="#"><i class="fa fa-dashboard"></i><span>{{ __('general.dashboard') }}</span></a>
-      </li> 
-      <li>
-          <a href="#"><i class="fa fa-dot-circle-o"></i><span>{{ __('general.sensordata') }}</span></a>
-      </li>
-      <li>
-          <a href="#"><i class="fa fa-bar-chart"></i><span>{{ __('general.dataanalysis') }}</span></a>
-      </li>          --}}
+      <li class="header">{{ __('general.menu_data') }}</li>
+      <li class="{{ Route::currentRouteNamed('sensors.data') ? 'active' : '' }}"><a href="{{ route('sensors.data') }}"><i class="fa fa-bar-chart"></i><span>{{ __('general.sensordata') }}</span></a></li>
+      <li class="{{ Route::currentRouteNamed('sensors.export') ? 'active' : '' }}"><a href="{{ route('sensors.export') }}"><i class="fa fa-file-excel-o"></i><span>{{ __('general.dataexport') }}</span></a></li> 
+
     </ul>
     <!-- /.sidebar-menu -->
 

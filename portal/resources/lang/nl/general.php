@@ -37,11 +37,11 @@ return [
     'manager'       => 'Sensor manager',
 
     'menu'          => 'Menu',
-    'menu_data'     => 'Sensor data menu (N/B)',
+    'menu_data'     => 'Sensor data menu',
     'toggle_nav'    => 'Schakel navigatie',
     'dashboard'     => 'Dashboard',
     'sensordata'    => 'Sensor data',
-    'dataanalysis'  => 'Data analyse',
+    'dataexport'    => 'Data export',
 
     'copyright'     => 'Copyright',
     'rights_res'    => 'Alle rechten voorbehouden',
