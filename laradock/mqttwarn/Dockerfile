@@ -13,7 +13,8 @@ RUN apt-get update &&\
 WORKDIR /opt/
 RUN git clone https://github.com/jpmens/mqttwarn.git
 ADD services/influxdb_akvo.py /opt/mqttwarn/services/
-ADD mqttwarn.ini /opt/mqttwarn/mqttwarn.ini.sample
+ADD mqttwarn.ini /opt/mqttwarn/mqttwarn.ini
+ADD mqttwarn.ini.sample /opt/mqttwarn/mqttwarn.ini.sample
 
 ADD docker-entrypoint.sh /opt/mqttwarn/
 RUN chmod +x /opt/mqttwarn/docker-entrypoint.sh
