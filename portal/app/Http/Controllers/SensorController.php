@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Controllers\Controller;
 use App\Sensor;
+use Illuminate\Support\Facades\Storage;
 
 class SensorController extends Controller
 {
@@ -17,7 +18,18 @@ class SensorController extends Controller
         return substr(strtolower($type), 0, 3);
     }
 
-    protected function addSensorData($sensors)
+    protected function convertInfluxDataToCsv($data, $separator)
+    {
+        $csv_arr = [];
+        array_push($csv_arr, implode($separator, array_keys($data[0]) ));
+        foreach ($data as $key => $row) 
+        {
+            array_push($csv_arr, implode($separator, array_values($row) ));
+        }
+        return implode("\r\n", $csv_arr);
+    }
+
+    protected function addLastSensorData($sensors)
     {
         // Add data from influxdb
         $client = new \Influx;
@@ -48,7 +60,7 @@ class SensorController extends Controller
         return $sensors;
     }
 
-    protected function getSensorData($sensors)
+    protected function addCsvDataFile($sensors)
     {
         // Add data from influxdb
         $client = new \Influx;
@@ -62,8 +74,14 @@ class SensorController extends Controller
                 $sensordata = $result->getPoints();
                 if (count($sensordata) > 0)
                 {
-                    //die(print_r($sensordata));
-                    $sensors[$id]->data = $sensordata;
+                    $csv   = $this->convertInfluxDataToCsv($sensordata, ",");
+                    $file  = 'akvo-sensordata-'.$sensor->key.'-'.time().'.csv';
+                    $saved = Storage::disk('public')->put($file, $csv);
+                    if ($saved)
+                    {
+                        $link  = asset('storage/'.$file);
+                        $sensors[$id]->link = $link;
+                    }
                 }
             }
         }
@@ -106,7 +124,7 @@ class SensorController extends Controller
     {
         $sensors = Sensor::orderBy('id','DESC')->paginate(10);
         
-        $sensors = $this->addSensorData($sensors);
+        $sensors = $this->addLastSensorData($sensors);
 
         return view('sensors.data',compact('sensors'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
@@ -219,21 +237,16 @@ class SensorController extends Controller
     {
         $sensors = Sensor::orderBy('id','DESC')->paginate(10);
         
-        $sensors = $this->addSensorData($sensors);
+        $sensors = $this->addLastSensorData($sensors);
 
-        // if ($request->has('selected'))
-        // {
-        //     // Array ( [0] => 3 [1] => 2 ) 
-        //     $selected= $request->input('selected');
-        //     $sensors = Sensor::find($selected);
-        //     die(print_r($sensors));
-        //     foreach ($selected as $key => $sensorId) 
-        //     {
-        //         $sensors->contains
-        //     }
-        // }
+        if ($request->has('selected'))
+        {
+            $selected = $request->input('selected');
+            $data_sensors = $sensors->whereIn('id', $selected);
+            $data_sensors = $this->addCsvDataFile($data_sensors);
+        }
 
-        return view('sensors.export',compact('sensors'))
+        return view('sensors.export',compact('sensors','data_sensors'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
     }
 

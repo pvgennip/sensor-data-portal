@@ -1,8 +1,11 @@
 /node_modules
 /portal/storage
+/portal/storage/
 /portal/hot
 
 /public/webapp/vendor
+/public/storage
+/public/storage/*
 /public/uploads/avatars/*
 #allow default avatar
 !/public/uploads/avatars/default.jpg

@@ -28,7 +28,6 @@
 						<th>{{ __('crud.key') }}</th>
 						<th>{{ __('general.last_date') }}</th>
 						<th>{{ __('general.last_value') }}</th>
-						<th>{{ __('crud.actions') }}</th>
 					</tr>
 					@foreach ($sensors as $key => $sensor)
 					<tr>
@@ -43,15 +42,44 @@
 						<td>{{ $sensor->key }}</td>
 						<td>{{ $sensor->date }}</td>
 						<td>{{ $sensor->value }}</td>
-						<td>
-							
-						</td>
 					</tr>
 					@endforeach
 				</table>
 				{!! $sensors->render() !!}
 		@endslot
 	@endcomponent
+
+	@if (isset($data_sensors))
+	@component('components/box')
+		@slot('title')
+			{{ __('crud.overview', ['item'=>__('general.dataexport')]) }}
+		@endslot
+
+		@slot('action')
+			
+		@endslot
+
+		@slot('body')
+			
+				<table class="table table-striped">
+					<tr>
+						<th>{{ __('crud.id') }}</th>
+						<th>{{ __('crud.name') }}</th>
+						<th>Link</th>
+					</tr>
+					@foreach ($data_sensors as $key => $sensor)
+					<tr>
+						<td>{{ $sensor->id }}</td>
+						<td>{{ $sensor->name }}</td>
+						<td>
+		                    <a href="{{ $sensor->link }}">{{ $sensor->link }}</a>
+						</td>
+					</tr>
+					@endforeach
+				</table>
+		@endslot
+	@endcomponent
+	@endif
 
 	</form>
 

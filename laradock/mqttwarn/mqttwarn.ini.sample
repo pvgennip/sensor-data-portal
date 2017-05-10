@@ -46,7 +46,7 @@ format = u'{name}: {number} => {_dthhmm}'
 [ITAY/#]
 targets = {
 	'ITAY/SSU' : ['influxdb_akvo:ssu'],
-    'ITAY/HAP' : ['influxdb_akvo:hap', 'log:info'],
+    'ITAY/HAP/+' : ['influxdb_akvo:hap', 'log:info'],
 	}
 
 
