@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: mysql
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mysql
+    spec:
+      containers:
+      - name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: laradock-mysql
+      restartPolicy: Always
+      volumes:
+      - name: laradock-mysql
+        persistentVolumeClaim:
+          claimName: laradock-mysql
+status: {}

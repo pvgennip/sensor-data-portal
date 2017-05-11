@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: spulserver
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: spulserver
+    spec:
+      containers:
+      - env:
+        - name: AUTH_TOKEN
+        - name: MQTT_USER
+          value: itay
+        - name: MQTT_PASS
+          value: sodaq
+        - name: MQTT_HOST
+          value: mosquitto
+        - name: MQTT_TOPIC
+          value: ITAY/HAP
+        - name: DEBUG
+          value: "false"
+        - name: LOG_NAME
+          value: spulserver
+        - name: LOG_FILE
+          value: /tmp/output.log
+        - name: SPUL_TS_PORT
+          value: "9007"
+        - name: SPUL_PORT
+          value: "9008"
+        - name: SOCKET_TIMEOUT
+          value: "30000"
+        - name: BIG_ENDIAN
+          value: "true"
+        - name: HEADER_SIZE
+          value: "12"
+        - name: MAX_FRAME_SIZE
+          value: "512"
+        name: spulserver
+        ports:
+        - containerPort: 9007
+        - containerPort: 9008
+        resources: {}
+      restartPolicy: Always
+status: {}
