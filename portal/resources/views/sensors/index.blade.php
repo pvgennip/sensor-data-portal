@@ -30,11 +30,11 @@
 				@foreach ($sensors as $key => $sensor)
 				<tr>
 					<td>{{ $sensor->id }}</td>
-					<td>{{ $sensor->name }}</td>
+					<td><a href="{{ route('sensors.edit',$sensor->id) }}" title="{{ __('crud.edit') }}">{{ $sensor->name }}</a></td>
 					<td><label class="label label-default">{{ $sensor->type }}</label></td>
 					<td>{{ $sensor->key }}</td>
 					<td>
-						<a class="btn btn-default" href="{{ route('sensors.show',$sensor->id) }}" title="{{ __('crud.show') }}"><i class="fa fa-eye"></i></a>
+						{{-- <a class="btn btn-default" href="{{ route('sensors.show',$sensor->id) }}" title="{{ __('crud.show') }}"><i class="fa fa-eye"></i></a> --}}
 						@permission('sensor-edit')
 						<a class="btn btn-primary" href="{{ route('sensors.edit',$sensor->id) }}" title="{{ __('crud.edit') }}"><i class="fa fa-pencil"></i></a>
 						@endpermission

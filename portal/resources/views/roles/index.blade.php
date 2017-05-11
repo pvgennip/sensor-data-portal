@@ -27,7 +27,7 @@
 		@foreach ($roles as $key => $role)
 		<tr>
 			<td>{{ $role->id }}</td>
-			<td>{{ $role->display_name }}</td>
+			<td><a href="{{ route('roles.show',$role->id) }}" title="{{ __('crud.show') }}">{{ $role->display_name }}</a></td>
 			<td>{{ $role->description }}</td>
 			<td>
 				<a class="btn btn-default" href="{{ route('roles.show',$role->id) }}" title="{{ __('crud.show') }}"><i class="fa fa-eye"></i></a>

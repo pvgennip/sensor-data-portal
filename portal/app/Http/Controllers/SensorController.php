@@ -216,10 +216,12 @@ class SensorController extends Controller
             $chartjs = app()->chartjs
             ->name('lineChart')
             ->type('line')
-            ->size(['width' => '100%', 'height' => '45%'])
+            //->size(['width' => '100%', 'height' => '80%'])
             ->labels($labels)
             ->datasets($datasets)
             ->options([
+                "maintainAspectRatio"=>false,
+                "responsive"=>true,
                 "datasets" => [
                     [
                         "fill" => false
@@ -248,6 +250,12 @@ class SensorController extends Controller
                             "position" => 'right',
                             "id" => 'y2'
                         ],
+                    ]
+                ],
+                "legend"=>[
+                    "labels"=>[
+                        //"fontFamily"=>"'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                        "usePointStyle"=>true
                     ]
                 ]
             ]);
@@ -352,10 +360,19 @@ class SensorController extends Controller
             'key' => 'required',
         ]);
 
-        $request->user()->sensors()->find($id)->update($request->all());
+        $already_exists = Sensor::where('id', '!=', $id)->where('key', $request->key)->get()->count() > 0 ? true : false;
 
-        return redirect()->route('sensors.index')
-                        ->with('success','Sensor updated successfully');
+        if ($already_exists == false)
+        {
+            $this->allowedSensors($request, $id)->update($request->all());
+            return redirect()->route('sensors.index')
+                            ->with('success','Sensor updated successfully');
+        }
+        else
+        {
+            return redirect()->route('sensors.index')
+                            ->with('error','Sensor not updated, '.__('crud.key').' already exists and has to be unique!');
+        }
     }
 
     /**
