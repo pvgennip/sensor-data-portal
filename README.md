@@ -1,7 +1,7 @@
 # Sensor data portal
 Open source sensor data portal for MQTT sensors 
 
-![Akvo - Sensor data portal]("Akvo - Sensor data portal.png")
+![Akvo - Sensor data portal]('Akvo - Sensor data portal.png')
 
 Dependencies:
 * Docker Laravel back-end container (installs Apache2, PHP, MySQL, InfluxDB) https://github.com/pvgennip/laradock
