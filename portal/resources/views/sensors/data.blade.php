@@ -30,7 +30,13 @@
 				@foreach ($sensors as $key => $sensor)
 				<tr>
 					<td>{{ $sensor->id }}</td>
-					<td>{{ $sensor->name }}</td>
+					<td>
+						@if ($sensor->date != '')
+						<a href="{{ route('sensors.showdata',$sensor->id) }}" title="{{ __('crud.show') }}">{{ $sensor->name }}</a>
+						@else
+						{{ $sensor->name }}
+						@endif
+						</td>
 					<td><label class="label label-default">{{ $sensor->type }}</label></td>
 					<td>{{ $sensor->key }}</td>
 					<td>{{ $sensor->date }}</td>

@@ -31,12 +31,12 @@ class User extends Authenticatable
 
     public function sensors()
     {
-        return $this->belongsToMany('App\Sensor','sensor_user');
+        return $this->belongsToMany(Sensor::class,'sensor_user');
     }
 
     public function groups()
     {
-        return $this->belongsToMany('App\Group','group_user');
+        return $this->belongsToMany(Group::class,'group_user');
     }
 
 }

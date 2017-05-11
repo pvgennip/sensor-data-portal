@@ -34,7 +34,7 @@
 					<tr>
 						<td>{{ $user->id }}</td>
 						<td><img src="/uploads/avatars/{{ $user->avatar }}" style="width:35px; height:35px;" class="img-circle"></td>
-						<td>{{ $user->name }}</td>
+						<td><a href="{{ route('users.show',$user->id) }}" title="{{ __('crud.show') }}">{{ $user->name }}</a></td>
 						<td>{{ $user->email }}</td>
 						<td>
 							@if(!empty($user->roles))
