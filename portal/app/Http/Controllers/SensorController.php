@@ -11,7 +11,58 @@ use Illuminate\Support\Facades\Storage;
 class SensorController extends Controller
 {
     
-    protected $sensorTypes = ['hap_sum'=>'Household Air Pollution (HAP) & Stove Usage Monitoring (SUM)','ssu_wap'=>'Standard Surface Unit (SSU) & Water Pressure unit (WAP)','Other'=>'Other'];
+    protected $sensorTypes = [
+        'hap_sum'=>'Household Air Pollution (HAP) & Stove Usage Monitoring (SUM)',
+        'ssu_wap'=>'Standard Surface Unit (SSU) & Water Pressure unit (WAP)',
+        'Other'=>'Other'
+    ];
+
+    protected $sensorUnits = [
+        'temp_ssu'=>[
+            'name'=>'SSU temperature',
+            'unit'=>'°C'
+        ],
+        'temp_wap'=>[
+            'name'=>'WAP temperature',
+            'unit'=>'°C'
+        ],
+        'pressure_ssu'=>[
+            'name'=>'SSU pressure',
+            'unit'=>'mbar'
+        ],
+        'pressure_wap'=>[
+            'name'=>'WAP pressure',
+            'unit'=>'mbar'
+        ],
+        'bat_v'=>[
+            'name'=>'SSU Battery voltage',
+            'unit'=>'V'
+        ],
+        'hap_bat_v'=>[
+            'name'=>'HAP Battery voltage',
+            'unit'=>'V'
+        ],
+        'sum_bat_v'=>[
+            'name'=>'SUM Battery voltage',
+            'unit'=>'V'
+        ],
+        'p1'=>[
+            'name'=>'1-2 µm particles',
+            'unit'=>'pcs/ft³'
+        ],
+        'p2'=>[
+            'name'=>'3-10 µm particles',
+            'unit'=>'pcs/ft³'
+        ],
+        'co'=>[
+            'name'=>'Carbon monoxide',
+            'unit'=>'ppm'
+        ],
+        'co2'=>[
+            'name'=>'Carbon dioxide',
+            'unit'=>'ppm'
+        ],
+    ];
 
 
     protected function allowedSensors($request, $id=null)
@@ -186,10 +237,19 @@ class SensorController extends Controller
                 $color_i = $color_i >= count($colors)-1 ? 0 : $color_i+1;
                 if ($label != "time" && $label != "sensor_id" && $label != "type" && $label != "topic")
                 {
+                    if (array_key_exists($label, $this->sensorUnits))
+                    {
+                        $legend = $this->sensorUnits[$label]['name'].' ('.$this->sensorUnits[$label]['unit'].')';
+                    }
+                    else
+                    {
+                        $legend = ucfirst(str_replace("_", " ", $label));
+                    }
+
                     array_push($datasets, [
                         "labelId"=>$label,
-                        "label"=>ucfirst(str_replace("_", " ", $label)),
-                        "yAxisID"=>$value > 100 ? "y2" : "y1",
+                        "label"=>$legend,
+                        "yAxisID"=>$value > 200 ? "y2" : "y1",
                         "data"=>[],
                         "backgroundColor"=>"rgba(0,0,0,0)",
                         "borderColor"=>$color,
