@@ -31,7 +31,7 @@ class SensorController extends Controller
 
     protected function convertSensorTypeToInfluxSeries($type)
     {
-        return substr(strtolower($type), 0, 3);
+        return substr(strtolower($type), 0, 3); // convert hap_sum -> hap, ssu_wap -> ssu
     }
 
 
@@ -63,12 +63,17 @@ class SensorController extends Controller
                 {
                     //die(print_r($sensordata));
                     $sensors[$id]->date  = $sensordata[0]['time'];
-                    if ($sensor->type == "ssu_wap")
+                    if ($sensor->type == "ssu_wap" && isset($sensordata[0]['pressure_wap']) && isset($sensordata[0]['pressure_ssu']))
                     {
                         // Depth = Depth(m)=(WAP pressure- BME280 pressure)/98.1
                         $sensors[$id]->value = round( (($sensordata[0]['pressure_wap'] - $sensordata[0]['pressure_ssu'])/98.1), 2)." m";
                     }
-                    else
+                    else if ($sensor->type == "hap_sum" && isset($sensordata[0]['p1']))
+                    {
+                        // Depth = Depth(m)=(WAP pressure- BME280 pressure)/98.1
+                        $sensors[$id]->value = $sensordata[0]['p1']." pcs/ft³";
+                    }
+                    else if (isset($sensordata[0]['value']))
                     {
                         $sensors[$id]->value = $sensordata[0]['value'];
                     }

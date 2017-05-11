@@ -27,10 +27,27 @@ def split_ssu_wap_for_influx(item):
 #                  0          1   2    3   4   5
 # HAP formatting:  Timestamp, CO, CO2, P1, P2, BatteryLevel
 def split_hap_sum_for_influx(item, sensor_id):
-    out       = item.payload.strip().split(",")
-    tpc       = "topic=" + item.topic.replace('/'+sensor_id, '').replace('/', '_')
-    tst       = int(out[0]) if int(out[0]) > 0 else int(time.time())
-    pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), float(out[5]), tst)
+    pl = item.payload
+    tpc= "topic=" + item.topic.replace('/'+sensor_id, '').replace('/', '_')
+    if len(pl) == 26: # HAP payload 
+        out       = []
+        out.append(int(pl[0:8], 16)) #ts
+        out.append(int(pl[8:12], 16))
+        out.append(int(pl[12:16], 16))
+        out.append(int(pl[16:20], 16))
+        out.append(int(pl[20:24], 16))
+        out.append(int(pl[24:26], 16))
+        tst       = int(time.time())
+        pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,hap_bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), (float(out[5])+200)/100, tst)
+    elif len(pl) == 16: # HAP payload 
+        out       = []
+        out.append(int(pl[0:8], 16)) # ts
+        out.append(int(pl[8:10], 16)) # Dur
+        out.append(int(pl[10:14], 16)) # T max
+        out.append(int(pl[14:16], 16)) # Bat Level
+        tst       = int(out[0]) if int(out[0]) > 0 and int(out[0]) < int(time.time()) else int(time.time())
+        pyl       = "%s,sensor_id=%s,type=hap_sum duration=%s,t_max=%s,sum_bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), (float(out[3])+200)/100, tst)
+
     return pyl
 
         
