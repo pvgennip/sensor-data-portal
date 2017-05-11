@@ -82,13 +82,8 @@ class UserController extends Controller
         }
 
         // Edit sensors
-        if($request->has('sensors')){
-            foreach ($request->input('sensors') as $key => $value) {
-                DB::table('sensor_user')->insert(
-                    ['user_id' => $user->id, 'sensor_id' => $value]
-                );
-            }
-        }
+        $user->sensors()->sync($request->input('sensors'));
+        
 
         return redirect()->route('users.index')
                         ->with('success','User created successfully');
@@ -119,7 +114,7 @@ class UserController extends Controller
         $roles      = $this->getMyPermittedRoles($user);
         $userRole   = $user->roles->pluck('id','id')->toArray();
         $sensors    = DB::table('sensors')->orderBy('name','asc')->pluck('name','id');
-        $userSensor = DB::table('sensor_user')->where('user_id',$id)->pluck('sensor_id','sensor_id')->toArray();
+        $userSensor = $user->sensors()->pluck('sensor_id','sensor_id')->toArray();
 
         return view('users.edit',compact('user','roles','userRole','sensors','userSensor'));
     }
@@ -172,14 +167,7 @@ class UserController extends Controller
         }
 
         // Edit sensors
-        if($request->has('sensors')){
-            DB::table('sensor_user')->where('user_id',$id)->delete();
-            foreach ($request->input('sensors') as $key => $value) {
-                DB::table('sensor_user')->insert(
-                    ['user_id' => $id, 'sensor_id' => $value]
-                );
-            }
-        }
+        $user->sensors()->sync($request->input('sensors'));
 
         return redirect()->route('users.index')
                         ->with("success", "User updated successfully");

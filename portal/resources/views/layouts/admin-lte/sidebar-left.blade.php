@@ -52,7 +52,7 @@
         {{-- <li class="{{ Route::currentRouteNamed('groups.index') ? 'active' : '' }}"><a href="{{ route('groups.index') }}"><i class="fa fa-cubes"></i><span>{{ __('general.Groups') }}</span></a></li> --}}
       @endrole
       <li class="header">{{ __('general.menu_data') }}</li>
-      <li class="{{ Route::currentRouteNamed('sensors.data') ? 'active' : '' }}"><a href="{{ route('sensors.data') }}"><i class="fa fa-bar-chart"></i><span>{{ __('general.sensordata') }}</span></a></li>
+      <li class="{{ Route::currentRouteNamed('sensors.data') || Route::currentRouteNamed('sensors.showdata') ? 'active' : '' }}"><a href="{{ route('sensors.data') }}"><i class="fa fa-bar-chart"></i><span>{{ __('general.sensordata') }}</span></a></li>
       <li class="{{ Route::currentRouteNamed('sensors.export') ? 'active' : '' }}"><a href="{{ route('sensors.export') }}"><i class="fa fa-file-excel-o"></i><span>{{ __('general.dataexport') }}</span></a></li> 
 
     </ul>

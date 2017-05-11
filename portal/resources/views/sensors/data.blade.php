@@ -5,7 +5,7 @@
 
 @section('content')
 
-			
+		
 	@component('components/box')
 		@slot('title')
 			{{ __('crud.overview', ['item'=>__('general.sensors')]) }}
@@ -16,6 +16,7 @@
 		@endslot
 
 		@slot('body')
+			@if (isset($sensors))
 			<table class="table table-striped">
 				<tr>
 					<th>{{ __('crud.id') }}</th>
@@ -35,12 +36,12 @@
 					<td>{{ $sensor->date }}</td>
 					<td>{{ $sensor->value }}</td>
 					<td>
-						<a class="btn btn-default" href="{{ route('sensors.showdata',$sensor->id) }}" title="{{ __('crud.show') }}"><i class="fa fa-bar-chart"></i></a>
+						<a class="btn btn-default" href="{{ route('sensors.showdata',$sensor->id) }}" title="{{ __('crud.show') }}" {{ $sensor->date == '' ? 'disabled' : '' }}><i class="fa fa-bar-chart"></i></a>
 					</td>
 				</tr>
 				@endforeach
 			</table>
-			{!! $sensors->render() !!}
+			@endif
 		@endslot
 	@endcomponent
 

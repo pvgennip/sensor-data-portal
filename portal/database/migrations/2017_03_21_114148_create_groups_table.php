@@ -13,7 +13,8 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) 
+        {
             $table->increments('id')->index();
             $table->string('type')->nullable();
             $table->string('name')->nullable();
@@ -21,7 +22,8 @@ class CreateGroupsTable extends Migration
         });
 
         // Create table for associating groups to sensors (Many-to-Many)
-        Schema::create('group_sensor', function (Blueprint $table) {
+        Schema::create('group_sensor', function (Blueprint $table) 
+        {
             $table->integer('sensor_id')->unsigned();
             $table->integer('group_id')->unsigned();
 
@@ -34,7 +36,8 @@ class CreateGroupsTable extends Migration
         });
 
         // Create table for associating groups to users (Many-to-Many)
-        Schema::create('group_user', function (Blueprint $table) {
+        Schema::create('group_user', function (Blueprint $table) 
+        {
             $table->integer('user_id')->unsigned();
             $table->integer('group_id')->unsigned();
 
@@ -54,6 +57,18 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
+        Schema::table('group_user', function(Blueprint $table)
+        {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['group_id']);
+        });
+
+        Schema::table('group_sensor', function(Blueprint $table)
+        {
+            $table->dropForeign(['sensor_id']);
+            $table->dropForeign(['group_id']);
+        });
+
         Schema::dropIfExists('group_sensor');
         Schema::dropIfExists('group_user');
         Schema::dropIfExists('groups');

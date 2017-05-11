@@ -5,6 +5,7 @@
 
 @section('content')
 
+	@if (isset($sensors))
 	<form class="form export-form" role="form" method="POST" action="{{ route('sensors.exportdata') }}">		
 
 	@component('components/box')
@@ -21,8 +22,8 @@
 	            {{ csrf_field() }}
 				<table class="table table-striped">
 					<tr>
-						<th>{{ __('crud.select_multi', ['item'=>__('general.sensors')]) }}</th>
 						<th>{{ __('crud.id') }}</th>
+						<th>{{ __('general.export') }}</th>
 						<th>{{ __('crud.name') }}</th>
 						<th>{{ __('crud.type') }}</th>
 						<th>{{ __('crud.key') }}</th>
@@ -31,12 +32,12 @@
 					</tr>
 					@foreach ($sensors as $key => $sensor)
 					<tr>
+						<td>{{ $sensor->id }}</td>
 						<td>
 		                    <label>
 		                      <input type="checkbox" name="selected[]" value="{{$sensor->id}}" {{ $sensor->date == '' ? 'disabled readonly' : 'checked=checked' }}>
 		                    </label>
 						</td>
-						<td>{{ $sensor->id }}</td>
 						<td>{{ $sensor->name }}</td>
 						<td><label class="label label-default">{{ $sensor->type }}</label></td>
 						<td>{{ $sensor->key }}</td>
@@ -45,14 +46,14 @@
 					</tr>
 					@endforeach
 				</table>
-				{!! $sensors->render() !!}
 		@endslot
 	@endcomponent
+	@endif
 
 	@if (isset($data_sensors))
 	@component('components/box')
 		@slot('title')
-			{{ __('crud.overview', ['item'=>__('general.dataexport')]) }}
+			{{ __('general.dataexport').' '.__('general.sensors') }}
 		@endslot
 
 		@slot('action')

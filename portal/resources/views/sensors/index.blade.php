@@ -14,10 +14,11 @@
 		@slot('action')
 			@permission('sensor-create')
 	            <a class="btn btn-primary" href="{{ route('sensors.create') }}"><i class="fa fa-plus"></i> {{ __('crud.add', ['item'=>__('general.sensor')]) }}</a>
-	            @endpermission
+	        @endpermission
 		@endslot
 
 		@slot('body')
+			@if (isset($sensors))
 			<table class="table table-striped">
 				<tr>
 					<th>{{ __('crud.id') }}</th>
@@ -46,7 +47,7 @@
 				</tr>
 				@endforeach
 			</table>
-			{!! $sensors->render() !!}
+			@endif
 		@endslot
 	@endcomponent
 

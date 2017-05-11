@@ -28,4 +28,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token', 'api_token',
     ];
+
+    public function sensors()
+    {
+        return $this->belongsToMany('App\Sensor','sensor_user');
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany('App\Group','group_user');
+    }
+
 }

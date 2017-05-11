@@ -41,6 +41,7 @@ return [
     'toggle_nav'    => 'Schakel navigatie',
     'dashboard'     => 'Dashboard',
     'sensordata'    => 'Sensor data',
+    'export'        => 'Exporteer',
     'dataexport'    => 'Data export',
 
     'copyright'     => 'Copyright',

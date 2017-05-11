@@ -13,7 +13,8 @@ class CreateSensorTable extends Migration
      */
     public function up()
     {
-        Schema::create('sensors', function (Blueprint $table) {
+        Schema::create('sensors', function (Blueprint $table) 
+        {
             $table->increments('id')->index();
             $table->string('name')->nullable();
             $table->string('type')->nullable();
@@ -22,7 +23,8 @@ class CreateSensorTable extends Migration
         });
 
         // Create table for associating sensors to users (Many-to-Many)
-        Schema::create('sensor_user', function (Blueprint $table) {
+        Schema::create('sensor_user', function (Blueprint $table) 
+        {
             $table->integer('user_id')->unsigned();
             $table->integer('sensor_id')->unsigned();
 
@@ -43,6 +45,12 @@ class CreateSensorTable extends Migration
      */
     public function down()
     {
+        Schema::table('sensor_user', function(Blueprint $table)
+        {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['sensor_id']);
+        });
+
         Schema::dropIfExists('sensor_user');
         Schema::dropIfExists('sensors');
     }

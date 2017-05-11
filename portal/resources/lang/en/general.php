@@ -41,6 +41,7 @@ return [
     'toggle_nav'    => 'Toggle navigation',
     'dashboard'     => 'Dashboard',
     'sensordata'    => 'Sensor data',
+    'export'        => 'Export',
     'dataexport'    => 'Data export',
 
     'copyright'     => 'Copyright',

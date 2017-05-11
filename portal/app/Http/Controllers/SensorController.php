@@ -13,10 +13,27 @@ class SensorController extends Controller
     
     protected $sensorTypes = ['hap_sum'=>'Household Air Pollution (HAP) & Stove Usage Monitoring (SUM)','ssu_wap'=>'Standard Surface Unit (SSU) & Water Pressure unit (WAP)','Other'=>'Other'];
 
+
+    protected function allowedSensors($request, $id=null)
+    {
+        $user = $request->user();
+        if ($user->hasRole('superadmin') || $user->hasRole('admin'))
+        {
+            $sensors = isset($id) ? Sensor::findOrFail($id) : Sensor::orderBy('name','ASC')->get();
+        }
+        else
+        {
+            $sensors = isset($id) ? $user->sensors()->findOrFail($id) : $user->sensors()->orderBy('name','ASC')->get();
+        }
+        return $sensors;
+    }
+
+
     protected function convertSensorTypeToInfluxSeries($type)
     {
         return substr(strtolower($type), 0, 3);
     }
+
 
     protected function convertInfluxDataToCsv($data, $separator)
     {
@@ -28,6 +45,7 @@ class SensorController extends Controller
         }
         return implode("\r\n", $csv_arr);
     }
+
 
     protected function addLastSensorData($sensors)
     {
@@ -95,10 +113,16 @@ class SensorController extends Controller
      */
     public function index(Request $request)
     {
-        $sensors = Sensor::orderBy('id','DESC')->paginate(10);
-        
-        return view('sensors.index',compact('sensors'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        $sensors = $this->allowedSensors($request);
+            
+        if (count($sensors) > 0)
+        {
+            return view('sensors.index',compact('sensors'));
+        }
+        else
+        {
+            return view('sensors.index')->with('error','You do not have access to any sensor yet, create one, or request access');
+        }
     }
 
     public function uncoupled(Request $request)
@@ -122,24 +146,28 @@ class SensorController extends Controller
      */
     public function data(Request $request)
     {
-        $sensors = Sensor::orderBy('id','DESC')->paginate(10);
+        $sensors = $this->allowedSensors($request);
         
         $sensors = $this->addLastSensorData($sensors);
+
+        // $sensors = $sensors->sortBy(function ($sensor, $key) {
+        //                 return $sensor['date'];
+        //             });
 
         return view('sensors.data',compact('sensors'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
-    public function showdata($id)
+    public function showdata(Request $request, $id)
     {
-        $item = Sensor::find($id);
+        $item = $this->allowedSensors($request, $id);
 
         $type   = substr($item->type, 0, 3);
         $client = new \Influx;
-        $result = $client::query('SELECT * FROM '.$type.' WHERE sensor_id = \''.$item->key.'\' ORDER BY time DESC LIMIT 100');
+        $result = $client::query('SELECT * FROM '.$type.' WHERE sensor_id = \''.$item->key.'\' ORDER BY time DESC LIMIT 1000');
         $data   = $result->getPoints();
 
-        if ($data)
+        if (count($data) > 0)
         {
             //die(print_r($data));
             $colors = ["#00252F", "#256581", "#FE4A34", "#FEA037", "#7ED321", "#B310AA", "#700D47", "#9B5D18"];
@@ -203,9 +231,11 @@ class SensorController extends Controller
                             "displayFormats" => [
                                 "year" => 'Y',
                                 "month" => 'Y MMM',
+                                "week" => 'Y MMM D',
                                 "day" => 'Y MMM D',
                                 "hour" => 'MMM D HH:mm',
                                 "minute" => 'MMM D HH:mm',
+                                "second" => 'MMM D HH:mm',
                             ]
                         ]
                     ]],
@@ -221,12 +251,12 @@ class SensorController extends Controller
                     ]
                 ]
             ]);
+            return view('sensors.showdata',compact('item','chartjs'));
         }
         else
         {
-            $chartjs = app()->chartjs;
+            return redirect()->route('sensors.data')->with('error','No chart data available for sensor '.$item->name);
         }
-        return view('sensors.showdata',compact('item','chartjs'));
     }
 
 
@@ -235,7 +265,7 @@ class SensorController extends Controller
     // Show list of sensors
     public function export(Request $request)
     {
-        $sensors = Sensor::orderBy('id','DESC')->paginate(10);
+        $sensors = $this->allowedSensors($request);
         
         $sensors = $this->addLastSensorData($sensors);
 
@@ -246,8 +276,7 @@ class SensorController extends Controller
             $data_sensors = $this->addCsvDataFile($data_sensors);
         }
 
-        return view('sensors.export',compact('sensors','data_sensors'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        return view('sensors.export',compact('sensors','data_sensors'));
     }
 
 
@@ -276,7 +305,8 @@ class SensorController extends Controller
             'key' => 'required',
         ]);
 
-        Sensor::create($request->all());
+        $sensor = Sensor::create($request->all());
+        $request->user()->sensors()->attach($sensor);
 
         return redirect()->route('sensors.index')
                         ->with('success','Sensor created successfully');
@@ -288,9 +318,9 @@ class SensorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $item = Sensor::find($id);
+        $item = $this->allowedSensors($request, $id);
         return view('sensors.show',compact('item'));
     }
 
@@ -300,9 +330,9 @@ class SensorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $item = Sensor::find($id);
+        $item = $this->allowedSensors($request, $id);
         $types = $this->sensorTypes;
         return view('sensors.edit',compact('item','types'));
     }
@@ -322,7 +352,7 @@ class SensorController extends Controller
             'key' => 'required',
         ]);
 
-        Sensor::find($id)->update($request->all());
+        $request->user()->sensors()->find($id)->update($request->all());
 
         return redirect()->route('sensors.index')
                         ->with('success','Sensor updated successfully');
@@ -334,9 +364,9 @@ class SensorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        Sensor::find($id)->delete();
+        $this->allowedSensors($request, $id)->delete();
         return redirect()->route('sensors.index')
                         ->with('success','Sensor deleted successfully');
     }
