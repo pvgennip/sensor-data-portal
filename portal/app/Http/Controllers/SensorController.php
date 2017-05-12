@@ -68,7 +68,7 @@ class SensorController extends Controller
     protected function allowedSensors($request, $id=null)
     {
         $user = $request->user();
-        if ($user->hasRole('superadmin') || $user->hasRole('admin'))
+        if ($user->hasRole('superadmin'))
         {
             $sensors = isset($id) ? Sensor::findOrFail($id) : Sensor::orderBy('name','ASC')->get();
         }
@@ -322,7 +322,15 @@ class SensorController extends Controller
                         //"fontFamily"=>"'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif",
                         "usePointStyle"=>true
                     ]
-                ]
+                ],
+                // "tooltips"=>[
+                //     "callbacks"=>[
+                //         "title"=>'function(Array[tooltipItem], data) {
+                //             console.log(tooltipItems.datasetIndex);
+                //             return data.datasets[tooltipItems.datasetIndex].label;
+                //         }'
+                //     ]
+                // ]
             ]);
             return view('sensors.showdata',compact('item','chartjs'));
         }

@@ -15,6 +15,77 @@ use Auth;
 class UserController extends Controller
 {
 
+    // Helpers
+    private function checkRoleAuthorization($request=null, $permission=null, $id=null)
+    {
+        if ($id && Auth::user()->id == $id) // edit self is allowed
+            return true;
+     
+        if ($permission && Auth::user()->can($permission) == false) // check permissions
+            return false;
+
+        // Check for unauthorized role editing
+        if ($request)
+        {
+            $superId = Role::where('name','=','superadmin')->pluck('id','id')->toArray();
+            $reqIsSup= count(array_diff($request->input('roles'), $superId)) == 0 ? true : false; // check if super admin id role is requested
+            $roleIds = $this->getMyPermittedRoles(Auth::user(), true);
+            $reqMatch= count(array_diff($request->input('roles'), $roleIds)) == 0 ? true : false; // check if all roles match
+
+            if ($reqMatch == false || ($reqIsSup && Auth::user()->hasRole('superadmin') == false)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    
+    private function getMyPermittedRoles($user, $returnIdArray=false)
+    {
+        //die($user->roles->pluck('id'));
+        if (Auth::user()->hasRole('superadmin'))
+        {
+            $roles = Role::all();
+        }
+        else if (Auth::user()->hasRole('admin'))
+        {
+            $roles = Role::where('name','!=','superadmin');
+        }
+        else 
+        {
+            $roles = $user->roles;
+        }
+        //die($roles);
+        if ($returnIdArray)
+        {
+            return $roles->pluck('id','id')->toArray();
+        } 
+        else
+        {
+            return $roles->pluck('display_name','id');
+        }
+    }
+
+    private function checkIfUserMayEditUser($user)
+    {
+        //die($user->roles->pluck('id'));
+        if (Auth::user()->id == $user->id)
+        {
+            return true; // you may edit yourself
+        }
+        else if (Auth::user()->hasRole('superadmin'))
+        {
+            return true;
+        }
+        else if (Auth::user()->hasRole('admin') && $user->hasRole('superadmin') == false && $user->hasRole('admin') == false) // only edit users of a 'lower' role
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -83,7 +154,7 @@ class UserController extends Controller
 
         // Edit sensors
         $user->sensors()->sync($request->input('sensors'));
-        
+
 
         return redirect()->route('users.index')
                         ->with('success','User created successfully');
@@ -111,12 +182,20 @@ class UserController extends Controller
     public function edit($id)
     {
         $user       = User::find($id);
-        $roles      = $this->getMyPermittedRoles($user);
-        $userRole   = $user->roles->pluck('id','id')->toArray();
-        $sensors    = DB::table('sensors')->orderBy('name','asc')->pluck('name','id');
-        $userSensor = $user->sensors()->pluck('sensor_id','sensor_id')->toArray();
+        $editAllowed= $this->checkIfUserMayEditUser($user);
+        
+        if ($editAllowed)
+        {
+            $roles      = $this->getMyPermittedRoles($user);
+            $userRole   = $user->roles->pluck('id','id')->toArray();
+            $sensors    = DB::table('sensors')->orderBy('name','asc')->pluck('name','id');
+            $userSensor = $user->sensors()->pluck('sensor_id','sensor_id')->toArray();
+            return view('users.edit',compact('user','roles','userRole','sensors','userSensor'));
+        }
 
-        return view('users.edit',compact('user','roles','userRole','sensors','userSensor'));
+        return redirect()->route('users.index')
+                    ->with('error','You are not allowed to edit this user');
+
     }
 
     /**
@@ -128,7 +207,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         if ($this->checkRoleAuthorization($request, "user-edit", $id) == false)
+            return redirect()->route('users.index')->with('error', 'You are not allowed to edit users');
+        
+        $user = User::find($id);
+        if ($this->checkIfUserMayEditUser($user) == false)
             return redirect()->route('users.index')->with('error', 'You are not allowed to edit this user');
 
         // Do normal validation
@@ -189,56 +273,6 @@ class UserController extends Controller
         return redirect()->route('users.index')
                         ->with('success','User deleted successfully');
 
-    }
-
-    private function checkRoleAuthorization($request=null, $permission=null, $id=null)
-    {
-        if ($id && Auth::user()->id == $id) // edit self is allowed
-            return true;
-     
-        if ($permission && Auth::user()->can($permission) == false) // check permissions
-            return false;
-
-        // Check for unauthorized role editing
-        if ($request)
-        {
-            $superId = Role::where('name','=','superadmin')->pluck('id','id')->toArray();
-            $reqIsSup= count(array_diff($request->input('roles'), $superId)) == 0 ? true : false; // check if super admin id role is requested
-            $roleIds = $this->getMyPermittedRoles(Auth::user(), true);
-            $reqMatch= count(array_diff($request->input('roles'), $roleIds)) == 0 ? true : false; // check if all roles match
-
-            if ($reqMatch == false || ($reqIsSup && Auth::user()->hasRole('superadmin') == false)){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Helpers
-    private function getMyPermittedRoles($user, $returnIdArray=false)
-    {
-        //die($user->roles->pluck('id'));
-        if (Auth::user()->hasRole('superadmin'))
-        {
-            $roles = Role::all();
-        }
-        else if (Auth::user()->hasRole('admin'))
-        {
-            $roles = Role::where('name','!=','superadmin');
-        }
-        else 
-        {
-            $roles = $user->roles;
-        }
-        //die($roles);
-        if ($returnIdArray)
-        {
-            return $roles->pluck('id','id')->toArray();
-        } 
-        else
-        {
-            return $roles->pluck('display_name','id');
-        }
     }
 
 
