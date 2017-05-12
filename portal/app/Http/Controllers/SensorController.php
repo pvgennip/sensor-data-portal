@@ -220,7 +220,15 @@ class SensorController extends Controller
 
         $type   = substr($item->type, 0, 3);
         $client = new \Influx;
-        $result = $client::query('SELECT * FROM '.$type.' WHERE sensor_id = \''.$item->key.'\' ORDER BY time DESC LIMIT 1000');
+        $first  = $client::query('SELECT * FROM '.$type.' WHERE sensor_id = \''.$item->key.'\' ORDER BY time ASC LIMIT 1')->getPoints();
+        
+        if (count($first) == 0)
+            return redirect()->route('sensors.data')->with('error','No chart data available for sensor '.$item->name);
+        
+        $firstTm= $first[0]['time'];
+        $query  = 'SELECT MEAN(*) FROM '.$type.' WHERE sensor_id = \''.$item->key.'\' AND time > \''.$firstTm.'\' GROUP BY time(1h) LIMIT 1000';
+        $result = $client::query($query);
+
         $data   = $result->getPoints();
 
         if (count($data) > 0)
@@ -240,6 +248,10 @@ class SensorController extends Controller
                     if (array_key_exists($label, $this->sensorUnits))
                     {
                         $legend = $this->sensorUnits[$label]['name'].' ('.$this->sensorUnits[$label]['unit'].')';
+                    }
+                    else if (array_key_exists(str_replace("mean_", "", $label), $this->sensorUnits)) // also cover mean values
+                    {
+                        $legend = $this->sensorUnits[str_replace("mean_", "", $label)]['name'].' ('.$this->sensorUnits[str_replace("mean_", "", $label)]['unit'].')';
                     }
                     else
                     {
