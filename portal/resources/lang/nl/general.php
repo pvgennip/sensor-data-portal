@@ -31,6 +31,12 @@ return [
     'last_date'     => 'Laatste datum',
     'last_value'    => 'Laatste waarde',
     'chart'         => 'chart',
+    'resolution'    => 'resolutie',
+    'averaging'     => 'gemiddelde',
+    'datapoints'    => 'datapunten',
+    'datepoints'    => 'punten in de tijd',
+    'daterange'     => 'periode',
+    'select'        => 'Selecteer :item',
     
     'superadmin'    => 'Super administrator',
     'admin'         => 'Administrator',
@@ -46,5 +52,13 @@ return [
 
     'copyright'     => 'Copyright',
     'rights_res'    => 'Alle rechten voorbehouden',
+
+    'second'        => 'Seconde',
+    'minute'        => 'Minuut',
+    'hour'          => 'Uur',
+    'day'           => 'Dag',
+    'week'          => 'Week',
+    'month'         => 'Maand',
+    'year'          => 'Jaar',
 
 ];

@@ -26,6 +26,7 @@ return [
     'none'          => 'Geen beschikbaar',
     'overview'      => 'Lijst van bestaande :item',
     'select'        => 'Selecteer een :item...',
+    'select_an'     => 'Selecteer een :item...',
     'select_multi'  => 'Selecteer één of meerdere :item',
     'management'    => ':Itemmanagement',
     'input_err'     => 'Er zijn wat problemen met je invoer',

@@ -26,6 +26,7 @@ return [
     'none'          => 'None available',
     'overview'      => 'List of existing :item',
     'select'        => 'Select a :item...',
+    'select_an'     => 'Select an :item...',
     'select_multi'  => 'Select one or more :item',
     'management'    => ':Item management',
     'input_err'     => 'There are some problems with your input',

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Http\Controllers\Controller;
 use App\Sensor;
 use Illuminate\Support\Facades\Storage;
+use Moment\Moment;
 
 class SensorController extends Controller
 {
@@ -63,7 +64,6 @@ class SensorController extends Controller
             'unit'=>'ppm'
         ],
     ];
-
 
     protected function allowedSensors($request, $id=null)
     {
@@ -216,22 +216,68 @@ class SensorController extends Controller
 
     public function showdata(Request $request, $id)
     {
-        $item = $this->allowedSensors($request, $id);
-
-        $type   = substr($item->type, 0, 3);
+        $sensor      = $this->allowedSensors($request, $id);
+        
+        $type   = substr($sensor->type, 0, 3);
         $client = new \Influx;
-        $first  = $client::query('SELECT * FROM '.$type.' WHERE sensor_id = \''.$item->key.'\' ORDER BY time ASC LIMIT 1')->getPoints();
+        $first  = $client::query('SELECT * FROM '.$type.' WHERE sensor_id = \''.$sensor->key.'\' ORDER BY time ASC LIMIT 1')->getPoints(); // get first sensor date
         
         if (count($first) == 0)
-            return redirect()->route('sensors.data')->with('error','No chart data available for sensor '.$item->name);
+            return redirect()->route('sensors.data')->with('error','No chart data available for sensor '.$sensor->name);
         
-        $firstTm= $first[0]['time'];
-        $query  = 'SELECT MEAN(*) FROM '.$type.' WHERE sensor_id = \''.$item->key.'\' AND time > \''.$firstTm.'\' GROUP BY time(1h) LIMIT 1000';
-        $result = $client::query($query);
+        //$firstSensorMoment = new Moment(substr($first[0]['time'],0,10));
+        
+        $resolutions = [
+            'sensor'=>'Sensor resolution',
+            '1h'=>__('general.hour'),
+            '1d'=>__('general.day'),
+            '1w'=>__('general.week'),
+            '1M'=>__('general.month'),
+            '1y'=>__('general.year')
+        ];
 
-        $data   = $result->getPoints();
+        $dateDisplayFormat  = 'd-m-Y';
+        $dateInfluxFormat   = 'Y-m-d';
+        $selectedFromMoment = new Moment();
+        $selectedFromMoment = $selectedFromMoment->subtractDays(6)->startOf('day');
+        $selectedToMoment   = new Moment();
 
-        if (count($data) > 0)
+        $selectedResolution = 'sensor';
+        if ($request->has('resolution'))
+        {
+            $selectedResolution = $request->input('resolution')[0];
+            $selectedDateRange  = $request->input('daterange');
+            $selectedDateArray  = explode(' - ', $selectedDateRange);
+            $fda                = explode('-', $selectedDateArray[0]); // based on formatting 'd-m-Y'
+            $tda                = explode('-', $selectedDateArray[1]); // based on formatting 'd-m-Y'
+            $selectedFromMoment = new Moment($fda[2].'-'.$fda[1].'-'.$fda[0]);
+            $selectedToMoment   = new Moment($tda[2].'-'.$tda[1].'-'.$tda[0]);
+            $selectedToMoment   = $selectedToMoment;
+        }
+
+        //$selectedFromMoment = $selectedFromMoment > $firstSensorMoment ? $selectedFromMoment : $firstSensorMoment; // Set from to first value, gets weird if to < from
+        $selectedFromDate   = $selectedFromMoment->format($dateDisplayFormat);
+        $selectedToDate     = $selectedToMoment->format($dateDisplayFormat);
+        $selectedDateRange  = $selectedFromDate.' - '.$selectedToDate;
+
+        $selectedToMoment->addDays(1)->startOf('day'); // Do this only for Influx, after the date display parsing
+
+        $maxDataPoints      = 1440;
+        $groupBySelect      = '*';
+        $groupByResolution  = 'LIMIT '.$maxDataPoints;
+        
+        if($selectedResolution != 'sensor')
+        {
+            $groupBySelect     = 'MEAN(*)';
+            $groupByResolution = 'GROUP BY time('.$selectedResolution.') LIMIT '.$maxDataPoints;
+        }
+        
+        $query      = 'SELECT '.$groupBySelect.' FROM '.$type.' WHERE sensor_id = \''.$sensor->key.'\' AND time > \''.$selectedFromMoment->format($dateInfluxFormat).'\' AND time < \''.$selectedToMoment->format($dateInfluxFormat).'\' '.$groupByResolution;
+        $result     = $client::query($query);
+
+        $data       = $result->getPoints();
+        $dataPoints = count($data);
+        if ($dataPoints > 0)
         {
             //die(print_r($data));
             $colors = ["#00252F", "#256581", "#FE4A34", "#FEA037", "#7ED321", "#B310AA", "#700D47", "#9B5D18"];
@@ -297,6 +343,7 @@ class SensorController extends Controller
             ->labels($labels)
             ->datasets($datasets)
             ->options([
+                "animation"=>false,
                 "maintainAspectRatio"=>false,
                 "responsive"=>true,
                 "datasets" => [
@@ -310,11 +357,13 @@ class SensorController extends Controller
                             "displayFormats" => [
                                 "year" => 'Y',
                                 "month" => 'Y MMM',
+                                "quarter" => 'Y MMM',
                                 "week" => 'Y MMM D',
                                 "day" => 'Y MMM D',
                                 "hour" => 'MMM D HH:mm',
                                 "minute" => 'MMM D HH:mm',
-                                "second" => 'MMM D HH:mm',
+                                "second" => 'MMM D HH:mm:ss',
+                                "millisecond" => 'MMM D HH:mm:ss',
                             ]
                         ]
                     ]],
@@ -344,11 +393,14 @@ class SensorController extends Controller
                 //     ]
                 // ]
             ]);
-            return view('sensors.showdata',compact('item','chartjs'));
+            
+
+            return view('sensors.showdata',compact('sensor','chartjs','resolutions','selectedResolution','selectedDateRange','dataPoints','maxDataPoints'));
         }
         else
         {
-            return redirect()->route('sensors.data')->with('error','No chart data available for sensor '.$item->name);
+            $error = 'No chart data available for sensor '.$sensor->name.' within date range '.$selectedDateRange;
+            return view('sensors.showdata',compact('sensor','chartjs','resolutions','selectedResolution','selectedDateRange','dataPoints','maxDataPoints','error'));
         }
     }
 

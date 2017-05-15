@@ -31,7 +31,13 @@ return [
     'last_date'     => 'Last date',
     'last_value'    => 'Last value',
     'chart'         => 'chart',
-    
+    'resolution'    => 'resolution',
+    'averaging'     => 'averaging',
+    'datapoints'    => 'data points',
+    'datepoints'    => 'points in time',
+    'daterange'     => 'date range',
+    'select'        => 'Select :item',
+
     'superadmin'    => 'Super administrator',
     'admin'         => 'Administrator',
     'manager'       => 'Sensor manager',
@@ -47,4 +53,11 @@ return [
     'copyright'     => 'Copyright',
     'rights_res'    => 'All rights reserved',
 
+    'second'        => 'Second',
+    'minute'        => 'Minute',
+    'hour'          => 'Hour',
+    'day'           => 'Day',
+    'week'          => 'Week',
+    'month'         => 'Month',
+    'year'          => 'Year',
 ];

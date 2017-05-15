@@ -15,7 +15,8 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
         "pvgennip/laravel-influx-provider": "dev-master",
-        "zizaco/entrust": "5.2.x-dev"
+        "zizaco/entrust": "5.2.x-dev",
+        "fightbulc/moment": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

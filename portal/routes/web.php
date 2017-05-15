@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth']], function()
 	//Route::get('sensors/uncoupled',['as'=>'sensors.uncoupled','uses'=>'SensorController@uncoupled','middleware' => ['role:superadmin|admin']]);
 	Route::get('sensors/data',['as'=>'sensors.data','uses'=>'SensorController@data','middleware' => ['permission:sensor-list']]);
 	Route::get('sensors/{id}/data',['as'=>'sensors.showdata','uses'=>'SensorController@showdata','middleware' => ['permission:sensor-list']]);
+	Route::post('sensors/{id}/data',['as'=>'sensors.showdata','uses'=>'SensorController@showdata','middleware' => ['permission:sensor-list']]);
 	Route::get('sensors/export',['as'=>'sensors.export','uses'=>'SensorController@export','middleware' => ['permission:sensor-list']]);
 	Route::post('sensors/export',['as'=>'sensors.exportdata','uses'=>'SensorController@export','middleware' => ['permission:sensor-list']]);
 	Route::get('sensors/create',['as'=>'sensors.create','uses'=>'SensorController@create','middleware' => ['permission:sensor-create']]);
