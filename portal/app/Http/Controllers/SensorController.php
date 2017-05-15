@@ -307,7 +307,7 @@ class SensorController extends Controller
                     array_push($datasets, [
                         "labelId"=>$label,
                         "label"=>$legend,
-                        "yAxisID"=>$value > 200 ? "y2" : "y1",
+                        "yAxisID"=>floatval($value) > 200 ? "y2" : "y1",
                         "data"=>[],
                         "backgroundColor"=>"rgba(0,0,0,0)",
                         "borderColor"=>$color,

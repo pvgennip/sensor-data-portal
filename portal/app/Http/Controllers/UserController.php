@@ -29,7 +29,7 @@ class UserController extends Controller
         {
             $superId = Role::where('name','=','superadmin')->pluck('id','id')->toArray();
             $reqIsSup= count(array_diff($request->input('roles'), $superId)) == 0 ? true : false; // check if super admin id role is requested
-            $roleIds = $this->getMyPermittedRoles(Auth::user(), true);
+            $roleIds = $this->getMyPermittedRoles(true);
             $reqMatch= count(array_diff($request->input('roles'), $roleIds)) == 0 ? true : false; // check if all roles match
 
             if ($reqMatch == false || ($reqIsSup && Auth::user()->hasRole('superadmin') == false)){
@@ -40,7 +40,7 @@ class UserController extends Controller
     }
 
     
-    private function getMyPermittedRoles($user, $returnIdArray=false)
+    private function getMyPermittedRoles($returnIdArray=false)
     {
         //die($user->roles->pluck('id'));
         if (Auth::user()->hasRole('superadmin'))
@@ -53,7 +53,7 @@ class UserController extends Controller
         }
         else 
         {
-            $roles = $user->roles;
+            $roles = Auth::user()->roles;
         }
         //die($roles);
         if ($returnIdArray)
@@ -64,6 +64,19 @@ class UserController extends Controller
         {
             return $roles->pluck('display_name','id');
         }
+    }
+
+    private function getMyPermittedSensors()
+    {
+        if (Auth::user()->hasRole('superadmin'))
+        {
+            $sensors = Sensor::orderBy('name', 'ASC')->get();
+        }
+        else 
+        {
+            $sensors = Auth::user()->sensors();
+        }
+        return $sensors;
     }
 
     private function checkIfUserMayEditUser($user)
@@ -105,7 +118,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = $this->getMyPermittedRoles(Auth::user());
+        $roles = $this->getMyPermittedRoles();
         $sensors = Sensor::all()->pluck('name','id');
         return view('users.create',compact('roles','sensors'));
     }
@@ -143,7 +156,7 @@ class UserController extends Controller
         $user = User::create($input);
         
         // Handle role assignment, only store permitted role
-        $roleIds = $this->getMyPermittedRoles(Auth::user(), true);
+        $roleIds = $this->getMyPermittedRoles(true);
         foreach ($request->input('roles') as $key => $value)
         {
             if (in_array($value, $roleIds))
@@ -169,7 +182,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        $sensors = DB::table('sensors')->join('sensor_user', 'sensors.id', '=', 'sensor_user.sensor_id')->where('user_id',$id)->orderBy('name','asc')->pluck('name','id');
+        $sensors = $user->sensors()->orderBy('name','asc')->pluck('name','id');
         return view('users.show',compact('user','sensors'));
     }
 
@@ -186,9 +199,9 @@ class UserController extends Controller
         
         if ($editAllowed)
         {
-            $roles      = $this->getMyPermittedRoles($user);
+            $roles      = $this->getMyPermittedRoles();
             $userRole   = $user->roles->pluck('id','id')->toArray();
-            $sensors    = DB::table('sensors')->orderBy('name','asc')->pluck('name','id');
+            $sensors    = $this->getMyPermittedSensors()->pluck('name','id');
             $userSensor = $user->sensors()->pluck('sensor_id','sensor_id')->toArray();
             return view('users.edit',compact('user','roles','userRole','sensors','userSensor'));
         }
