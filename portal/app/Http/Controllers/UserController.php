@@ -244,8 +244,6 @@ class UserController extends Controller
         }else{
             $input = array_except($input,array('password'));    
         }
-
-        $user = User::find($id);
         
         // Handle the user upload of avatar
         if($request->hasFile('avatar')){

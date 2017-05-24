@@ -23,7 +23,7 @@
 					<th>{{ __('crud.name') }}</th>
 					<th>{{ __('crud.type') }}</th>
 					<th>{{ __('crud.key') }}</th>
-					<th>{{ __('general.last_date') }}</th>
+					<th>{{ __('general.last_data') }}</th>
 					<th>{{ __('general.last_value') }}</th>
 					<th>{{ __('crud.actions') }}</th>
 				</tr>

@@ -35,6 +35,10 @@ class SensorController extends Controller
             'name'=>'WAP pressure',
             'unit'=>'mbar'
         ],
+        'depth_wap'=>[
+            'name'=>'Depth',
+            'unit'=>'m'
+        ],
         'bat_v'=>[
             'name'=>'SSU Battery voltage',
             'unit'=>'V'
@@ -113,16 +117,17 @@ class SensorController extends Controller
                 if (count($sensordata) > 0)
                 {
                     //die(print_r($sensordata));
-                    $sensors[$id]->date  = $sensordata[0]['time'];
+                    $lastMoment = new Moment($sensordata[0]['time']);
+                    $sensors[$id]->date = $lastMoment->setTimezone('Europe/Berlin')->format('Y-m-d H:i:s T');
                     if ($sensor->type == "ssu_wap" && isset($sensordata[0]['pressure_wap']) && isset($sensordata[0]['pressure_ssu']))
                     {
                         // Depth = Depth(m)=(WAP pressure- BME280 pressure)/98.1
-                        $sensors[$id]->value = round( (($sensordata[0]['pressure_wap'] - $sensordata[0]['pressure_ssu'])/98.1), 2)." m";
+                        $sensors[$id]->value = $this->sensorUnits['depth_wap']['name'].": ".round( (($sensordata[0]['pressure_wap'] - $sensordata[0]['pressure_ssu'])/98.1), 2)." ".$this->sensorUnits['depth_wap']['unit'];
                     }
                     else if ($sensor->type == "hap_sum" && isset($sensordata[0]['p1']))
                     {
                         // Depth = Depth(m)=(WAP pressure- BME280 pressure)/98.1
-                        $sensors[$id]->value = $sensordata[0]['p1']." pcs/ft³";
+                        $sensors[$id]->value = $this->sensorUnits['p1']['name'].": ".$sensordata[0]['p1']." ".$this->sensorUnits['p1']['unit'];
                     }
                     else if (isset($sensordata[0]['value']))
                     {
@@ -285,29 +290,65 @@ class SensorController extends Controller
             $datasets = [];
             $labels   = [];
             $color_i  = 0;
+            $yAxes    = [
+                [
+                    "position" => 'left',
+                    "id" => 'y1',
+                    "scaleLabel" =>
+                    [
+                        "display" => false,
+                        "labelArray"=>[],
+                        "labelString" => "",
+                    ],
+                ],
+                [
+                    "position" => 'right',
+                    "id" => 'y2',
+                    "scaleLabel" =>
+                    [
+                        "display" => false,
+                        "labelArray"=>[],
+                        "labelString" => "",
+                    ],
+                ],
+            ];
+
             foreach ($data[0] as $label => $value) 
             {
                 $color = $colors[$color_i];
                 $color_i = $color_i >= count($colors)-1 ? 0 : $color_i+1;
                 if ($label != "time" && $label != "sensor_id" && $label != "type" && $label != "topic")
                 {
+                    // Label for axis and legend creation
                     if (array_key_exists($label, $this->sensorUnits))
                     {
-                        $legend = $this->sensorUnits[$label]['name'].' ('.$this->sensorUnits[$label]['unit'].')';
+                        $name   = $this->sensorUnits[$label]['name'];
+                        $unit   = $this->sensorUnits[$label]['unit'];
                     }
                     else if (array_key_exists(str_replace("mean_", "", $label), $this->sensorUnits)) // also cover mean values
                     {
-                        $legend = $this->sensorUnits[str_replace("mean_", "", $label)]['name'].' ('.$this->sensorUnits[str_replace("mean_", "", $label)]['unit'].')';
+                        $name = $this->sensorUnits[str_replace("mean_", "", $label)]['name'];
+                        $unit = $this->sensorUnits[str_replace("mean_", "", $label)]['unit'];
                     }
                     else
                     {
-                        $legend = ucfirst(str_replace("_", " ", $label));
+                        $name = ucfirst(str_replace("_", " ", $label));
+                        $unit = '-';
                     }
+                    
+                    $legend = $name.' ('.$unit.')';
+
+                    // Y-axis selection
+                    $yAxisIndex = floatval($value) > 200 ? 0 : 1;
+                    $yAxes[$yAxisIndex]['scaleLabel']['display'] = true; 
+                    array_push($yAxes[$yAxisIndex]['scaleLabel']['labelArray'], $unit);
+                    
+                    $axisId = $yAxes[$yAxisIndex]['id'];
 
                     array_push($datasets, [
                         "labelId"=>$label,
                         "label"=>$legend,
-                        "yAxisID"=>floatval($value) > 200 ? "y2" : "y1",
+                        "yAxisID"=>$axisId,
                         "data"=>[],
                         "backgroundColor"=>"rgba(0,0,0,0)",
                         "borderColor"=>$color,
@@ -315,9 +356,17 @@ class SensorController extends Controller
                         "pointBackgroundColor"=>$color,
                         "pointHoverBackgroundColor"=>$color,
                         "pointHoverBorderColor"=>$color,
+                        "cubicInterpolationMode"=>'monotone',
+                        "lineTension"=>0,
                     ]);
                 }
             }
+
+            foreach ($yAxes as $key => $axis) 
+            {
+                $yAxes[$key]['scaleLabel']['labelString'] = implode(', ',array_unique($axis['scaleLabel']['labelArray']));
+            }
+            
 
             foreach ($data as $point)
             {
@@ -355,11 +404,11 @@ class SensorController extends Controller
                         "type" => 'time',
                         "time" => [
                             "displayFormats" => [
-                                "year" => 'Y',
-                                "month" => 'Y MMM',
-                                "quarter" => 'Y MMM',
-                                "week" => 'Y MMM D',
-                                "day" => 'Y MMM D',
+                                "year" => 'Y MMM D HH:mm',
+                                "month" => 'Y MMM D HH:mm',
+                                "quarter" => 'Y MMM D HH:mm',
+                                "week" => 'MMM D HH:mm',
+                                "day" => 'MMM D HH:mm',
                                 "hour" => 'MMM D HH:mm',
                                 "minute" => 'MMM D HH:mm',
                                 "second" => 'MMM D HH:mm:ss',
@@ -367,16 +416,7 @@ class SensorController extends Controller
                             ]
                         ]
                     ]],
-                    "yAxes" => [
-                        [
-                            "position" => 'left',
-                            "id" => 'y1'
-                        ],
-                        [
-                            "position" => 'right',
-                            "id" => 'y2'
-                        ],
-                    ]
+                    "yAxes" => $yAxes
                 ],
                 "legend"=>[
                     "labels"=>[

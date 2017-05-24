@@ -28,6 +28,7 @@ return [
     'Logout'        => 'Log uit',
     'member_since'  => 'Lid sinds',
 
+    'last_data'     => 'Laatste data',
     'last_date'     => 'Laatste datum',
     'last_value'    => 'Laatste waarde',
     'chart'         => 'chart',

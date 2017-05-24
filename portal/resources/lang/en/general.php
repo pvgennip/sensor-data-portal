@@ -28,6 +28,7 @@ return [
     'Logout'        => 'Log out',
     'member_since'  => 'Member since',
     
+    'last_data'     => 'Last data',
     'last_date'     => 'Last date',
     'last_value'    => 'Last value',
     'chart'         => 'chart',

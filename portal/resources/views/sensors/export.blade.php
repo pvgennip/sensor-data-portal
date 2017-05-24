@@ -25,7 +25,7 @@
 							<th>{{ __('crud.name') }}</th>
 							<th>{{ __('crud.type') }}</th>
 							<th>{{ __('crud.key') }}</th>
-							<th>{{ __('general.last_date') }}</th>
+							<th>{{ __('general.last_data') }}</th>
 							<th>{{ __('general.last_value') }}</th>
 						</tr>
 						@foreach ($sensors as $key => $sensor)
@@ -33,7 +33,7 @@
 							<td>{{ $sensor->id }}</td>
 							<td>
 			                    <label>
-			                      <input type="checkbox" name="selected[]" value="{{$sensor->id}}" {{ $sensor->date == '' ? 'disabled readonly' : 'checked=checked' }}>
+			                      <input type="checkbox" name="selected[]" value="{{$sensor->id}}" {{ $sensor->date == '' ? 'disabled readonly' : '' }}>
 			                    </label>
 							</td>
 							<td>{{ $sensor->name }}</td>
