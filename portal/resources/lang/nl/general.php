@@ -62,4 +62,5 @@ return [
     'month'         => 'Maand',
     'year'          => 'Jaar',
 
+    'click_legend'  => 'Klik op een van de grootheden in de legenda om meetwaarden te verbergen/tonen',
 ];

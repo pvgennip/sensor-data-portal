@@ -61,4 +61,6 @@ return [
     'week'          => 'Week',
     'month'         => 'Month',
     'year'          => 'Year',
+
+    'click_legend'  => 'Click on one of the quantities in the legend below to hide/unhide its measeurements',
 ];

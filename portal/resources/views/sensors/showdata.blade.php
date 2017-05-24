@@ -93,6 +93,7 @@
             @slot('body')
                 @if (isset($chartjs))
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
+                <div style="text-align: center;"><small>{{ __('general.click_legend') }}</small></div>
                 <div class="chart" style="padding:10px;" >
                     {!! $chartjs->render() !!}
                 </div>
