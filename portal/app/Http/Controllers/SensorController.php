@@ -117,7 +117,7 @@ class SensorController extends Controller
                 if (count($sensordata) > 0)
                 {
                     //die(print_r($sensordata));
-                    $lastMoment = new Moment($sensordata[0]['time']);
+                    $lastMoment = new Moment(substr($sensordata[0]['time'],0,19), 'UTC');
                     $sensors[$id]->date = $lastMoment->setTimezone('Europe/Berlin')->format('Y-m-d H:i:s T');
                     if ($sensor->type == "ssu_wap" && isset($sensordata[0]['pressure_wap']) && isset($sensordata[0]['pressure_ssu']))
                     {
