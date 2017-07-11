@@ -14,13 +14,15 @@ logging.getLogger("requests").setLevel(logging.WARNING)
 
 
 # SSU Message:    6d70a5d273205cae,203,1024,1017,199,3677
+#                 0             1                       2                   3                        4                      5
 # SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
 # <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
 def split_ssu_wap_for_influx(item):
     out = item.payload.strip().split(",")
     tpc = "topic=" + item.topic.replace('/', '_')
     tst = int(time.time())
-    pyl = "%s,sensor_id=%s,type=ssu_wap temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s %s" % (tpc, out[0], float(out[1])/10, float(out[4])/10, int(out[2]), int(out[3]), float(out[5])/1000, tst)
+    val = float( (int(out[3]) - int(out[2]) )/98.1) # Depth value (m) = (wap - ssu)/98.1
+    pyl = "%s,sensor_id=%s,type=ssu_wap depth=%s,temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s %s" % (tpc, out[0], val, float(out[1])/10, float(out[4])/10, int(out[2]), int(out[3]), float(out[5])/1000, tst)
     return pyl
 
 # HAP Message:     1494335973, 98, 0, 65140, 52924, 168
