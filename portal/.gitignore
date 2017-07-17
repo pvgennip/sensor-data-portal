@@ -1,7 +1,7 @@
 /node_modules
 /portal/storage
-/portal/public/storage
 /portal/storage/*
+/portal/public/storage
 /portal/hot
 
 /public/webapp/vendor
