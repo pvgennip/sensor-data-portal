@@ -1,6 +1,7 @@
 /node_modules
 /portal/storage
 /portal/storage/*
+/portal/storage/app/public
 /portal/storage/app/public/*
 /portal/public/storage
 /portal/hot
