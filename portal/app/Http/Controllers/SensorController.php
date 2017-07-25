@@ -60,11 +60,11 @@ class SensorController extends Controller
             'unit'=>'pcs/ft³'
         ],
         'co'=>[
-            'name'=>'Carbon monoxide',
+            'name'=>'Carbon monoxide 1',
             'unit'=>'ppm'
         ],
         'co2'=>[
-            'name'=>'Carbon dioxide',
+            'name'=>'Carbon monoxide 2',
             'unit'=>'ppm'
         ],
     ];
