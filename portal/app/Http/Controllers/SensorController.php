@@ -484,11 +484,15 @@ class SensorController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'key.unique'  => 'The Device ID must be unique, this one is already taken. Lowercase and uppercase ID\'s are regarded as equal.',
+        ];
+
         $this->validate($request, [
             'name' => 'required',
             'type' => 'required',
-            'key' => 'required',
-        ]);
+            'key' => 'required|unique:sensors',
+        ], $messages);
 
         $sensor = Sensor::create($request->all());
         $request->user()->sensors()->attach($sensor);
@@ -531,25 +535,20 @@ class SensorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $messages = [
+            'key.unique'  => 'The Device ID must be unique, this one is already taken. Lowercase and uppercase ID\'s are regarded as equal.',
+        ];
+
         $this->validate($request, [
             'name' => 'required',
             'type' => 'required',
-            'key' => 'required',
-        ]);
+            'key' => 'required|unique:sensors',
+        ], $messages);
 
-        $already_exists = Sensor::where('id', '!=', $id)->where('key', $request->key)->get()->count() > 0 ? true : false;
-
-        if ($already_exists == false)
-        {
-            $this->allowedSensors($request, $id)->update($request->all());
-            return redirect()->route('sensors.index')
+        $this->allowedSensors($request, $id)->update($request->all());
+        return redirect()->route('sensors.index')
                             ->with('success','Sensor updated successfully');
-        }
-        else
-        {
-            return redirect()->route('sensors.index')
-                            ->with('error','Sensor not updated, '.__('crud.key').' already exists and has to be unique!');
-        }
+        
     }
 
     /**
