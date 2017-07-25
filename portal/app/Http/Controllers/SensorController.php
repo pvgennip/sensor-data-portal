@@ -301,16 +301,16 @@ class SensorController extends Controller
                         "labelString" => "",
                     ],
                 ],
-                [
-                    "position" => 'right',
-                    "id" => 'y2',
-                    "scaleLabel" =>
-                    [
-                        "display" => false,
-                        "labelArray"=>[],
-                        "labelString" => "",
-                    ],
-                ],
+                // [
+                //     "position" => 'right',
+                //     "id" => 'y2',
+                //     "scaleLabel" =>
+                //     [
+                //         "display" => false,
+                //         "labelArray"=>[],
+                //         "labelString" => "",
+                //     ],
+                // ],
             ];
 
             foreach ($data[0] as $label => $value) 
@@ -339,8 +339,8 @@ class SensorController extends Controller
                     $legend = $name.' ('.$unit.')';
 
                     // Y-axis selection
-                    $yAxisIndex = floatval($value) > 200 ? 0 : 1;
-                    $yAxes[$yAxisIndex]['scaleLabel']['display'] = true; 
+                    $yAxisIndex = 0; //floatval($value) > 200 ? 0 : 1;
+                    $yAxes[$yAxisIndex]['scaleLabel']['display'] = false; 
                     array_push($yAxes[$yAxisIndex]['scaleLabel']['labelArray'], $unit);
                     
                     $axisId = $yAxes[$yAxisIndex]['id'];
@@ -385,54 +385,59 @@ class SensorController extends Controller
             }
             //die(print_r($datasets));
 
-            $chartjs = app()->chartjs
-            ->name('lineChart')
-            ->type('line')
-            //->size(['width' => '100%', 'height' => '80%'])
-            ->labels($labels)
-            ->datasets($datasets)
-            ->options([
-                "animation"=>false,
-                "maintainAspectRatio"=>false,
-                "responsive"=>true,
-                "datasets" => [
-                    [
-                        "fill" => false
-                    ]],
-                "scales" => [
-                    "xAxes" => [[
-                        "type" => 'time',
-                        "time" => [
-                            "displayFormats" => [
-                                "year" => 'Y MMM D HH:mm',
-                                "month" => 'Y MMM D HH:mm',
-                                "quarter" => 'Y MMM D HH:mm',
-                                "week" => 'MMM D HH:mm',
-                                "day" => 'MMM D HH:mm',
-                                "hour" => 'MMM D HH:mm',
-                                "minute" => 'MMM D HH:mm',
-                                "second" => 'MMM D HH:mm:ss',
-                                "millisecond" => 'MMM D HH:mm:ss',
+            $chartjs = [];
+            foreach ($datasets as $i => $dataset) 
+            {
+                array_push($chartjs, app()->chartjs
+                    ->name('lineChart'.$i)
+                    ->type('line')
+                    //->size(['width' => '100%', 'height' => '80%'])
+                    ->labels($labels)
+                    ->datasets([$dataset])
+                    ->options([
+                        "animation"=>false,
+                        "maintainAspectRatio"=>false,
+                        "responsive"=>true,
+                        "datasets" => [
+                            [
+                                "fill" => false
+                            ]],
+                        "scales" => [
+                            "xAxes" => [[
+                                "type" => 'time',
+                                "time" => [
+                                    "displayFormats" => [
+                                        "year" => 'Y MMM D HH:mm',
+                                        "month" => 'Y MMM D HH:mm',
+                                        "quarter" => 'Y MMM D HH:mm',
+                                        "week" => 'MMM D HH:mm',
+                                        "day" => 'MMM D HH:mm',
+                                        "hour" => 'MMM D HH:mm',
+                                        "minute" => 'MMM D HH:mm',
+                                        "second" => 'MMM D HH:mm:ss',
+                                        "millisecond" => 'MMM D HH:mm:ss',
+                                    ]
+                                ]
+                            ]],
+                            "yAxes" => $yAxes
+                        ],
+                        "legend"=>[
+                            "labels"=>[
+                                //"fontFamily"=>"'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                                "usePointStyle"=>true
                             ]
-                        ]
-                    ]],
-                    "yAxes" => $yAxes
-                ],
-                "legend"=>[
-                    "labels"=>[
-                        //"fontFamily"=>"'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-                        "usePointStyle"=>true
-                    ]
-                ],
-                // "tooltips"=>[
-                //     "callbacks"=>[
-                //         "title"=>'function(Array[tooltipItem], data) {
-                //             console.log(tooltipItems.datasetIndex);
-                //             return data.datasets[tooltipItems.datasetIndex].label;
-                //         }'
-                //     ]
-                // ]
-            ]);
+                        ],
+                        // "tooltips"=>[
+                        //     "callbacks"=>[
+                        //         "title"=>'function(Array[tooltipItem], data) {
+                        //             console.log(tooltipItems.datasetIndex);
+                        //             return data.datasets[tooltipItems.datasetIndex].label;
+                        //         }'
+                        //     ]
+                        // ]
+                    ])
+                );
+            }
             
 
             return view('sensors.showdata',compact('sensor','chartjs','resolutions','selectedResolution','selectedDateRange','dataPoints','maxDataPoints'));

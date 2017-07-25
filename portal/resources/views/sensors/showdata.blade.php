@@ -51,7 +51,7 @@
                                         dateArray = rangeVal.split(' - ');
                                         start = moment(dateArray[0], date_format);
                                         end   = moment(dateArray[1], date_format);
-                                        console.log(start, end);
+                                        //console.log(start, end);
                                         $('#reportrange').daterangepicker(
                                             {
                                                 "autoApply": true,
@@ -86,17 +86,25 @@
                 </form>
             @endslot
 
-            @slot('action')
+            @slot('bodyClass')
                 
             @endslot
 
             @slot('body')
                 @if (isset($chartjs))
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
-                <div style="text-align: center;"><small>{{ __('general.click_legend') }}</small></div>
-                <div class="chart" style="padding:10px;" >
-                    {!! $chartjs->render() !!}
+                {{-- <div style="text-align: center;"><small>{{ __('general.click_legend') }}</small></div> --}}
+                
+                <div class="row">
+                    @foreach($chartjs as $chart)
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <div class="chart" style="padding:10px; min-height: 300px;" >
+                            {!! $chart->render() !!}
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
+                
                 @endif
             @endslot
         @endcomponent
