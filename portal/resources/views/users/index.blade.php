@@ -58,7 +58,6 @@
 					@endforeach
 				<tbody>
 			</table>
-			{!! $data->render() !!}
 		@endslot
 	@endcomponent
 @endsection

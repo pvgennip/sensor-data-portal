@@ -74,11 +74,11 @@ class SensorController extends Controller
         $user = $request->user();
         if ($user->hasRole('superadmin'))
         {
-            $sensors = isset($id) ? Sensor::findOrFail($id) : Sensor::orderBy('name','ASC')->get();
+            $sensors = isset($id) ? Sensor::findOrFail($id) : Sensor::all()->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE, false);
         }
         else
         {
-            $sensors = isset($id) ? $user->sensors()->findOrFail($id) : $user->sensors()->orderBy('name','ASC')->get();
+            $sensors = isset($id) ? $user->sensors()->findOrFail($id) : $user->sensors()->get()->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE, false);
         }
         return $sensors;
     }
