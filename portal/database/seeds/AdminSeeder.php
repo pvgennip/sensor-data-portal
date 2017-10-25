@@ -45,55 +45,69 @@ class AdminSeeder extends Seeder
                               
 
         // Roles
-        $super = new Role();
-        $super->name         = 'superadmin';
-        $super->display_name = 'Super administrator'; // optional
-        $super->description  = 'User is the master of the system, and can edit everything'; // optional
-        $super->save();
-        $super->attachPermissions($perm_super); // all roles
-        
-        $admin = new Role();
-        $admin->name         = 'admin';
-        $admin->display_name = 'Administrator'; // optional
-        $admin->description  = 'User is allowed to manage users, groups and sensors'; // optional
-        $admin->save();
-        $admin->attachPermissions($perm_admin); // all roles
+        if (Role::count() == 0)
+        {
+          $super = new Role();
+          $super->name         = 'superadmin';
+          $super->display_name = 'Super administrator'; // optional
+          $super->description  = 'User is the master of the system, and can edit everything'; // optional
+          $super->save();
+          $super->attachPermissions($perm_super); // all roles
+          
+          $admin = new Role();
+          $admin->name         = 'admin';
+          $admin->display_name = 'Administrator'; // optional
+          $admin->description  = 'User is allowed to manage users, groups and sensors'; // optional
+          $admin->save();
+          $admin->attachPermissions($perm_admin); // all roles
 
-        $manag = new Role();
-        $manag->name         = 'manager';
-        $manag->display_name = 'Sensor manager'; // optional
-        $manag->description  = 'User is allowed to manage groups and sensors'; // optional
-        $manag->save();
-        $manag->attachPermissions($perm_manag); // all roles
+          $manag = new Role();
+          $manag->name         = 'manager';
+          $manag->display_name = 'Sensor manager'; // optional
+          $manag->description  = 'User is allowed to manage groups and sensors'; // optional
+          $manag->save();
+          $manag->attachPermissions($perm_manag); // all roles
+        }
 
         // Users
-        $user = new User();
-        $user->name     = 'Pim';
-        $user->email    = 'pim@iconize.nl';
-        $user->password = bcrypt('password');
-        $user->api_token= '000000000000000000000000000000000000000000000000000000000000';
-        $user->remember_token = str_random(10);
-        $user->save();
-        $user->attachRole($super);
+        if (User::count() == 0)
+        {
+          $user = new User();
+          $user->name     = 'Pim';
+          $user->email    = 'pim@iconize.nl';
+          $user->password = bcrypt('password');
+          $user->api_token= '000000000000000000000000000000000000000000000000000000000000';
+          $user->remember_token = str_random(10);
+          $user->save();
+          $user->attachRole($super);
 
-        $user = new User();
-        $user->name     = 'Lars';
-        $user->email    = 'lars.sjogreen@akvo.org';
-        $user->password = bcrypt('password');
-        $user->api_token= str_random(60);
-        $user->remember_token = str_random(10);
-        $user->save();
-        $user->attachRole($super);
+          $user = new User();
+          $user->name     = 'Lars';
+          $user->email    = 'lars.sjogreen@akvo.org';
+          $user->password = bcrypt('password');
+          $user->api_token= str_random(60);
+          $user->remember_token = str_random(10);
+          $user->save();
+          $user->attachRole($super);
 
-        $user = new User();
-        $user->name     = 'Arthur';
-        $user->email    = 'arthur@akvo.org';
-        $user->password = bcrypt('password');
-        $user->api_token= str_random(60);
-        $user->remember_token = str_random(10);
-        $user->save();
-        $user->attachRole($super);
+          $user = new User();
+          $user->name     = 'Arthur';
+          $user->email    = 'arthur@akvo.org';
+          $user->password = bcrypt('password');
+          $user->api_token= str_random(60);
+          $user->remember_token = str_random(10);
+          $user->save();
+          $user->attachRole($super);
 
+          $user = new User();
+          $user->name     = 'Hans';
+          $user->email    = 'hans@akvo.org';
+          $user->password = bcrypt('password');
+          $user->api_token= str_random(60);
+          $user->remember_token = str_random(10);
+          $user->save();
+          $user->attachRole($admin);
+        }
 
     }
 }
