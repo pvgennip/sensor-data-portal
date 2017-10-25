@@ -126,9 +126,9 @@ services:
             context: ./mysql
             args:
                 - MYSQL_DATABASE=homestead
-                - MYSQL_USER=homestead
-                - MYSQL_PASSWORD=secret
-                - MYSQL_ROOT_PASSWORD=root
+                - MYSQL_USER=akvo_sensors
+                - MYSQL_PASSWORD=nBBk3NrR9s7cbmW
+                - MYSQL_ROOT_PASSWORD=qUZuGB68oCYvc8z
         volumes:
             - mysql:/var/lib/mysql
         ports:
@@ -296,9 +296,9 @@ services:
         build: ./phpmyadmin
         environment:
             PMA_ARBITRARY: 1
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: akvo_sensors
+            MYSQL_PASSWORD: nBBk3NrR9s7cbmW
+            MYSQL_ROOT_PASSWORD: qUZuGB68oCYvc8z
         ports:
             - "8080:80"
         links:
