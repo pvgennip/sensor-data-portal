@@ -127,8 +127,8 @@ services:
             args:
                 - MYSQL_DATABASE=homestead
                 - MYSQL_USER=homestead
-                - MYSQL_PASSWORD=nBBk3NrR9s7cbmW
-                - MYSQL_ROOT_PASSWORD=qUZuGB68oCYvc8z
+                - MYSQL_PASSWORD=secret
+                - MYSQL_ROOT_PASSWORD=root
         volumes:
             - mysql:/var/lib/mysql
         ports:
@@ -297,8 +297,8 @@ services:
         environment:
             PMA_ARBITRARY: 1
             MYSQL_USER: homestead
-            MYSQL_PASSWORD: nBBk3NrR9s7cbmW
-            MYSQL_ROOT_PASSWORD: qUZuGB68oCYvc8z
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
         ports:
             - "8080:80"
         links:
