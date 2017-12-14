@@ -2,6 +2,8 @@
 branch=${1:-master}  
 base_dir=$(pwd)
 
+backup.sh
+
 # docker
 cd $base_dir/laradock
 docker-compose stop
@@ -17,5 +19,10 @@ cd $base_dir
 docker exec -it laradock_workspace_1 bash 
 cd public/webapp && mkdir vendor
 bower install --allow-rootcd 
-exit
+
+# set log rotate
+sudo cp etc_logrotate.d_sensor-data-portal_backups /etc/logrotate.d/sensor-data-portal_backups
+sudo crontab < crontab
+
+exit 0
 

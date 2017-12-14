@@ -1,0 +1,1 @@
+0 * * * * /root/sensor-data-portal/backup.sh > /dev/null 2>&1
