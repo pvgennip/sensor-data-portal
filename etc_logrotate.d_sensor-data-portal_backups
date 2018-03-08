@@ -1,4 +1,4 @@
-/root/sensor-data-portal/backups/*
+/root/sensor-data-portal/backups/homestead.sql.gz /root/sensor-data-portal/backups/influx_sensordata.tar.gz
 {
     daily
     rotate 7
