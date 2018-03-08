@@ -2,8 +2,10 @@
 {
     daily
     rotate 7
+    mail akvo@iconize.nl
     missingok
     dateext
     copytruncate
     compress
+    notifempty
 }
