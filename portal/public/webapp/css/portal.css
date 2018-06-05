@@ -4704,6 +4704,7 @@ fieldset[disabled] .btn-yahoo.active {
 .chart svg,
 .chart canvas {
   width: 100% !important;
+  height: 36vh !important;
 }
 /*
  * Misc: print
