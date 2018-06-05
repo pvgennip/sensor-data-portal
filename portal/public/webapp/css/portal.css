@@ -4699,6 +4699,7 @@ fieldset[disabled] .btn-yahoo.active {
   position: relative;
   overflow: hidden;
   width: 100%;
+  height: 40vh;
 }
 .chart svg,
 .chart canvas {
