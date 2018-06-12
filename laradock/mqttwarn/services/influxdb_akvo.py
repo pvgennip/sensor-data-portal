@@ -25,28 +25,30 @@ def split_ssu_wap_for_influx(item):
     pyl = "%s,sensor_id=%s,type=ssu_wap depth=%s,temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s %s" % (tpc, out[0], val, float(out[1])/10, float(out[4])/10, int(out[2]), int(out[3]), float(out[5])/1000, tst)
     return pyl
 
-# HAP Message:     1494335973, 98, 0, 65140, 52924, 168
-#                  0          1   2    3   4   5
-# HAP formatting:  Timestamp, CO, CO2, P1, P2, BatteryLevel
+# HEX payload      0e6c1a5b    b300 0000 2a8b   9sf6   ce               
+# HAP Message:     1528458254, 179, 0,   35626, 63125, 4.06
+#                  0           1    2    3      4      5
+# HAP formatting:  Timestamp,  CO,  CO2, P1,    P2,    BatteryLevel
 def split_hap_sum_for_influx(item, sensor_id):
-    pl = item.payload
+    pl = item.payload # charcter string
     tpc= "topic=" + item.topic.replace('/'+sensor_id, '').replace('/', '_')
+
     if len(pl) == 26: # HAP payload 
         out       = []
-        out.append(int(pl[0:8], 16)) #ts
-        out.append(int(pl[8:12], 16))
-        out.append(int(pl[12:16], 16))
-        out.append(int(pl[16:20], 16))
-        out.append(int(pl[20:24], 16))
-        out.append(int(pl[24:26], 16))
-        tst       = int(time.time())
+        out.append(int(pl[6:8]+pl[4:6]+pl[2:4]+pl[0:2], 16)) #0 ts (byteswapped)
+        out.append(int(pl[10:12]+pl[8:10], 16))  #1 CO   (byteswapped)
+        out.append(int(pl[14:16]+pl[12:14], 16)) #2 CO2 (byteswapped)
+        out.append(int(pl[18:20]+pl[16:18], 16)) #3 P1  (byteswapped)
+        out.append(int(pl[22:24]+pl[20:22], 16)) #4 P2  (byteswapped)
+        out.append(int(pl[24:26], 16))           #5 Bat
+        tst       = int(out[0]) if int(out[0]) > 0 and int(out[0]) < int(time.time()) else int(time.time())
         pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,hap_bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), (float(out[5])+200)/100, tst)
-    elif len(pl) == 16: # HAP payload 
+    elif len(pl) == 16: # SUM payload 
         out       = []
-        out.append(int(pl[0:8], 16)) # ts
-        out.append(int(pl[8:10], 16)) # Dur
-        out.append(int(pl[10:14], 16)) # T max
-        out.append(int(pl[14:16], 16)) # Bat Level
+        out.append(int(pl[6:8]+pl[4:6]+pl[2:4]+pl[0:2], 16)) # ts   (byteswapped)
+        out.append(int(pl[8:10], 16))                        # Dur
+        out.append(int(pl[12:14]+pl[10:12], 16))             # T max (byteswapped)
+        out.append(int(pl[14:16], 16))                       # Bat Level
         tst       = int(out[0]) if int(out[0]) > 0 and int(out[0]) < int(time.time()) else int(time.time())
         pyl       = "%s,sensor_id=%s,type=hap_sum duration=%s,t_max=%s,sum_bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), (float(out[3])+200)/100, tst)
 
