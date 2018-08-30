@@ -19,7 +19,7 @@ backup.sh
 # docker exec -it laradock_workspace_1 bash 
 cd public/webapp
 # mkdir vendor
-bower install --allow-rootcd 
+bower install --allow-root
 
 # set log rotate
 sudo cp etc_logrotate.d_sensor-data-portal_backups /etc/logrotate.d/sensor-data-portal_backups
