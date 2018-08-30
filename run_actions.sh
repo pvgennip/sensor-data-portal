@@ -16,4 +16,3 @@ sudo crontab < crontab
 ./start_services.sh
 
 exit 0
-
