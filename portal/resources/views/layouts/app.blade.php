@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="/webapp/css/skin-akvo.css">
     <link rel="stylesheet" type="text/css" href="/webapp/vendor/normalize-css/normalize.css">
 
+    <link rel="stylesheet" href="/webapp/vendor/datatables/media/css/dataTables.bootstrap4.min.css" media="screen">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -98,7 +100,27 @@
     <script src="/webapp/vendor/admin-lte/bootstrap/js/bootstrap.min.js"></script>
     <script src="/webapp/vendor/admin-lte/dist/js/app.min.js"></script>
     <script src="/webapp/vendor/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-        
+    
+    <script src="/webapp/vendor/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/webapp/vendor/datatables/media/js/dataTables.bootstrap4.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('table').DataTable(
+                {
+                    "language": 
+                        @php
+                            echo File::get(public_path('/webapp/vendor/datatables.net-plugins/i18n/English.lang'));
+                        @endphp
+                    ,
+                    "order": 
+                    [
+                        [ 2, "asc" ]
+                    ],
+                }
+            );
+        } );
+    </script>
 </body>
 </html>
 

@@ -1,7 +1,7 @@
 /root/sensor-data-portal/backups/homestead.sql.gz /root/sensor-data-portal/backups/influx_sensordata.tar.gz
 {
     daily
-    rotate 7
+    rotate 30
     mail akvo@iconize.nl
     missingok
     dateext

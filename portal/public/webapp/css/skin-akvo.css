@@ -146,5 +146,14 @@
 }
 .login-page,
 .register-page {
-  background: #EBF0F4;
+  background: none;
+  background-image: url("../img/data-bg.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.login-page .form-group,
+.register-page .form-group {
+  margin-bottom: 15px;
 }

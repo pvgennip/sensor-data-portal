@@ -18,7 +18,8 @@
 			@endslot
 
 			@slot('body')
-					<table class="table table-striped">
+				<table class="table table-striped">
+					<thead>
 						<tr>
 							<th>{{ __('crud.id') }}</th>
 							<th>{{ __('general.export') }}</th>
@@ -28,6 +29,8 @@
 							<th>{{ __('general.last_data') }}</th>
 							<th>{{ __('general.last_value') }}</th>
 						</tr>
+					</thead>
+					<tbody>
 						@foreach ($sensors as $key => $sensor)
 						<tr>
 							<td>{{ $sensor->id }}</td>
@@ -43,7 +46,8 @@
 							<td>{{ $sensor->value }}</td>
 						</tr>
 						@endforeach
-					</table>
+					</tbody>
+				</table>
 			@endslot
 		@endcomponent
 		@endif
@@ -60,12 +64,15 @@
 
 			@slot('body')
 				
-					<table class="table table-striped">
+				<table class="table table-striped">
+					<thead>
 						<tr>
 							<th>{{ __('crud.id') }}</th>
 							<th>{{ __('crud.name') }}</th>
 							<th>Link</th>
 						</tr>
+					</thead>
+					<tbody>
 						@foreach ($data_sensors as $key => $sensor)
 						<tr>
 							<td>{{ $sensor->id }}</td>
@@ -75,7 +82,8 @@
 							</td>
 						</tr>
 						@endforeach
-					</table>
+					</tbody>
+				</table>
 			@endslot
 		@endcomponent
 		@endif

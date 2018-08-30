@@ -1,8 +1,0 @@
-/*
- * Sensor data portal
- * Author: Pim van Gennip (pim@iconize.nl)
- *
- */
-var LANG 					= [];
-var API_URL           		= (document.URL.indexOf('dev') === -1) ? '../api/' : 'http://akvo.dev/api/';
-var CONNECTION_FREQ_REMOTE  = (10*1000);

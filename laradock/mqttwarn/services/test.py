@@ -3,39 +3,43 @@
 
 import time
 
-def split_ssu_wap_for_influx(tpc, pl):
-    out = pl.split(",")
-    tpc = "topic=" + tpc.replace('/', '_')
+# SSU Message:    6d70a5d273205cae,203,1024,1017,199,3677
+#                 0             1                       2                   3                        4                      5
+# SSU Formatting: identication, SSU temperature (C/10), SSU pressure (hPa), WAP pressure (millibar), WAPtemperature (C/10), battery voltage (mV).
+# <measurement>,<tag_key>=<tag_value>,<tag_key>=<tag_value> <field_key>=<field_value>,<field_key>=<field_value> <timestamp>
+def split_ssu_wap_for_influx(item):
+    out = item.payload.strip().split(",")
+    tpc = "topic=" + item.topic.replace('/', '_')
     tst = int(time.time())
-    pyl = "%s,sensor_id=%s,type=ssu_wap temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s %s" % (tpc, out[0], float(out[1])/10, float(out[4])/10, int(out[2]), int(out[3]), float(out[5])/1000, tst)
+    val = float( (int(out[3]) - int(out[2]) )/98.1) # Depth value (m) = (wap - ssu)/98.1
+    pyl = "%s,sensor_id=%s,type=ssu_wap depth=%s,temp_ssu=%s,temp_wap=%s,pressure_ssu=%s,pressure_wap=%s,bat_v=%s %s" % (tpc, out[0], val, float(out[1])/10, float(out[4])/10, int(out[2]), int(out[3]), float(out[5])/1000, tst)
     return pyl
 
+# HEX payload      0e6c1a5b    b300 0000 2a8b   9sf6   ce               
+# HAP Message:     1528458254, 179, 0,   35626, 63125, 4.06
+#                  0           1    2    3      4      5
+# HAP formatting:  Timestamp,  CO,  CO2, P1,    P2,    BatteryLevel
+def split_hap_sum_for_influx(item, sensor_id):
+    pl = item.payload # charcter string
+    tpc= "topic=" + item.topic.replace('/'+sensor_id, '').replace('/', '_')
 
-# HAP Message:     1494335973, 98, 0, 65140, 52924, 168
-#                  0          1   2    3   4   5
-# HAP formatting:  Timestamp, CO, CO2, P1, P2, BatteryLevel
-def split_hap_sum_for_influx(pl, sensor_id, tp):
-
-    tpc= "topic=" + tp.replace('/'+sensor_id, '').replace('/', '_')
-    print 'topic: ' + tpc
-    print 'payload length: ' + str(len(pl))
     if len(pl) == 26: # HAP payload 
         out       = []
-        out.append(int(pl[0:8], 16)) #ts
-        out.append(int(pl[8:12], 16))
-        out.append(int(pl[12:16], 16))
-        out.append(int(pl[16:20], 16))
-        out.append(int(pl[20:24], 16))
-        out.append(int(pl[24:26], 16))
-        tst       = int(out[0]) if int(out[0]) > 0 else int(time.time())
+        out.append(int(pl[6:8]+pl[4:6]+pl[2:4]+pl[0:2], 16)) #0 ts (byteswapped)
+        out.append(int(pl[10:12]+pl[8:10], 16))  #1 CO   (byteswapped)
+        out.append(int(pl[14:16]+pl[12:14], 16)) #2 CO2 (byteswapped)
+        out.append(int(pl[18:20]+pl[16:18], 16)) #3 P1  (byteswapped)
+        out.append(int(pl[22:24]+pl[20:22], 16)) #4 P2  (byteswapped)
+        out.append(int(pl[24:26], 16))           #5 Bat
+        tst       = int(out[0]) if int(out[0]) > 0 and int(out[0]) < int(time.time()) else int(time.time())
         pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,hap_bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), (float(out[5])+200)/100, tst)
-    elif len(pl) == 16: # HAP payload 
+    elif len(pl) == 16: # SUM payload 
         out       = []
-        out.append(int(pl[0:8], 16)) # ts
-        out.append(int(pl[8:10], 16)) # Dur
-        out.append(int(pl[10:14], 16)) # T max
-        out.append(int(pl[14:16], 16)) # Bat Level
-        tst       = int(out[0]) if int(out[0]) > 0 else int(time.time())
+        out.append(int(pl[6:8]+pl[4:6]+pl[2:4]+pl[0:2], 16)) # ts   (byteswapped)
+        out.append(int(pl[8:10], 16))                        # Dur
+        out.append(int(pl[12:14]+pl[10:12], 16))             # T max (byteswapped)
+        out.append(int(pl[14:16], 16))                       # Bat Level
+        tst       = int(out[0]) if int(out[0]) > 0 and int(out[0]) < int(time.time()) else int(time.time())
         pyl       = "%s,sensor_id=%s,type=hap_sum duration=%s,t_max=%s,sum_bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), (float(out[3])+200)/100, tst)
 
     return pyl

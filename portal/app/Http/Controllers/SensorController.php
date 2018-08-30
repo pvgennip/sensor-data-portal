@@ -36,7 +36,7 @@ class SensorController extends Controller
             'unit'=>'mbar'
         ],
         'depth_wap'=>[
-            'name'=>'Depth',
+            'name'=>'WAP Depth',
             'unit'=>'m'
         ],
         'bat_v'=>[
@@ -52,20 +52,24 @@ class SensorController extends Controller
             'unit'=>'V'
         ],
         'p1'=>[
-            'name'=>'1-2 µm particles',
+            'name'=>'HAP 1-2 µm particles',
             'unit'=>'pcs/ft³'
         ],
         'p2'=>[
-            'name'=>'3-10 µm particles',
+            'name'=>'HAP 3-10 µm particles',
             'unit'=>'pcs/ft³'
         ],
         'co'=>[
-            'name'=>'Carbon monoxide 1',
+            'name'=>'HAP Carbon monoxide 1',
             'unit'=>'ppm'
         ],
         'co2'=>[
-            'name'=>'Carbon monoxide 2',
+            'name'=>'HAP Carbon monoxide 2',
             'unit'=>'ppm'
+        ],
+        't_max'=>[
+            'name'=>'SUM temperature max',
+            'unit'=>'°C'
         ],
     ];
 
@@ -237,8 +241,8 @@ class SensorController extends Controller
             '1h'=>__('general.hour'),
             '1d'=>__('general.day'),
             '1w'=>__('general.week'),
-            '1M'=>__('general.month'),
-            '1y'=>__('general.year')
+            // '1M'=>__('general.month'),
+            // '1y'=>__('general.year')
         ];
 
         $dateDisplayFormat  = 'd-m-Y';

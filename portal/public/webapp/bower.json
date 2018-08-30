@@ -41,7 +41,10 @@
     "nalert-js": "^1.0.1",
     "angular-password": "^1.0.3",
     "ng-iScroll": "*",
-    "admin-lte": "*"
+    "admin-lte": "*",
+    "datatables": "^1.10.19",
+    "datatables.net": "^1.10.19",
+    "datatables.net-plugins": "^1.10.19"
 
   },
   "resolutions": {

@@ -20,6 +20,7 @@
 		@slot('body')
 			@if (isset($sensors))
 			<table class="table table-striped">
+				<thead>
 				<tr>
 					<th>{{ __('crud.id') }}</th>
 					<th>{{ __('crud.name') }}</th>
@@ -27,6 +28,8 @@
 					<th>{{ __('crud.key') }}</th>
 					<th>{{ __('crud.actions') }}</th>
 				</tr>
+				</thead>
+				<tbody>
 				@foreach ($sensors as $key => $sensor)
 				<tr>
 					<td>{{ $sensor->id }}</td>
@@ -46,6 +49,7 @@
 					</td>
 				</tr>
 				@endforeach
+				</tbody>
 			</table>
 			@endif
 		@endslot
