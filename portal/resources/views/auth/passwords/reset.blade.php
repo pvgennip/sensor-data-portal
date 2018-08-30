@@ -55,7 +55,8 @@
         </form>
 
         <hr>
-        <a href="{{ route('password.email') }}" title="Send reset password link">Send reset password link</a>
+        <a href="{{ route('password.request') }}" title="Send reset password link">Send reset password link</a>
+        <br>
         <a href="{{ route('login') }}" title="I remembered my password">I remembered my password</a>
     </div>
 </div>
