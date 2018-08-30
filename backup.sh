@@ -7,8 +7,8 @@ mysqldump -u akvo -p'o3qxQfejCKWYBd4y' sensors-akvo-org | gzip > /root/backups/s
 
 # Tell Influx container to make backup 
 sudo mkdir /tmp/influxdb/backups
-influxd backup -database sensordata /tmp/influxdb/backups
+influxd backup -portable -database sensordata /tmp/influxdb/backups
 tar -zcvf /root/backups/influx_sensordata.tar.gz /tmp/influxdb/backups
-sudo rm /tmp/influxdb/backups
+sudo rm -rf /tmp/influxdb/backups
 
 exit 0
