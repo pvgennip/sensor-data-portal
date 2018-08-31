@@ -11,7 +11,9 @@ mkdir vendor
 bower install --allow-root
 cd $base_dir
 
-sudo cp etc_systemd_system_mqttwarn /etc/systemd/system/mqttwarn.service
+# copy services
+sudo cp /root/spul-mqtt-server/etc_systemd_system_spulserver /etc/systemd/system/spulserver.service
+sudo cp /var/www/sensors-akvo-org/etc_systemd_system_mqttwarn /etc/systemd/system/mqttwarn.service
 
 # set log rotate
 sudo cp etc_logrotate.d_sensor-data-portal_backups /etc/logrotate.d/sensor-data-portal_backups
