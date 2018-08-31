@@ -1,0 +1,13 @@
+[Unit]
+Description=MQTT warn service providing MQTT sensor data at port 1883 to InfluxDB at port 8086
+
+[Service]
+ExecStart=/usr/bin/python /root/mqttwarn/mqttwarn.py
+Restart=always
+User=root
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+WorkingDirectory=/root/mqttwarn/
+
+[Install]
+WantedBy=multi-user.target
