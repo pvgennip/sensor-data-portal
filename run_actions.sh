@@ -6,6 +6,10 @@ base_dir=$(pwd)
 
 ./stop_services.sh
 
+cd portal
+composer install && sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache && php artisan migrate && php artisan vendor:publish && php artisan storage:link
+composer dumpautoload
+
 cd portal/public/webapp
 mkdir vendor
 bower install --allow-root

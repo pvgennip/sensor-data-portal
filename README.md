@@ -155,7 +155,7 @@ sudo nano ~/spul-mqtt-server/.env
 AUTH_TOKEN=
 MQTT_USER=itay
 MQTT_PASS=sodaq
-MQTT_HOST=mosquitto
+MQTT_HOST=localhost
 MQTT_TOPIC=ITAY/HAP
 DEBUG=false
 LOG_NAME=spulserver
@@ -171,6 +171,12 @@ MAX_FRAME_SIZE=512
 
 Influx database
 
+
+### Composer (for Laravel installation)
+See https://getcomposer.org/download/
+
+Use compuer globally
+```mv composer.phar /usr/local/bin/composer```
 
 
 ### Start software:
