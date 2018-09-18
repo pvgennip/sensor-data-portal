@@ -1,0 +1,11 @@
+/root/mqttwarn/mqttwarn.log
+{
+    daily
+    rotate 30
+    mail akvo@iconize.nl
+    missingok
+    dateext
+    copytruncate
+    compress
+    notifempty
+}

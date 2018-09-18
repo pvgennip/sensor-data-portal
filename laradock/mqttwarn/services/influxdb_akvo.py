@@ -51,6 +51,18 @@ def split_hap_sum_for_influx(item, sensor_id):
         out.append(int(pl[14:16], 16))                       # Bat Level
         tst       = int(out[0]) if int(out[0]) > 0 and int(out[0]) < int(time.time()) else int(time.time())
         pyl       = "%s,sensor_id=%s,type=hap_sum duration=%s,t_max=%s,sum_bat_v=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), (float(out[3])+200)/100, tst)
+    elif len(pl) == 32: # HAP+SUM payload 
+        out       = []
+        out.append(int(pl[6:8]+pl[4:6]+pl[2:4]+pl[0:2], 16)) #0 ts (byteswapped)
+        out.append(int(pl[10:12]+pl[8:10], 16))  #1 CO   (byteswapped)
+        out.append(int(pl[14:16]+pl[12:14], 16)) #2 CO2 (byteswapped)
+        out.append(int(pl[18:20]+pl[16:18], 16)) #3 P1  (byteswapped)
+        out.append(int(pl[22:24]+pl[20:22], 16)) #4 P2  (byteswapped)
+        out.append(int(pl[24:26], 16))           #5 Bat
+        out.append(int(pl[28:30]+pl[26:28], 16)) #6 Dur
+        out.append(int(pl[30:32], 16))           #7 T max (byteswapped)
+        tst       = int(out[0]) if int(out[0]) > 0 and int(out[0]) < int(time.time()) else int(time.time())
+        pyl       = "%s,sensor_id=%s,type=hap_sum co=%s,co2=%s,p1=%s,p2=%s,hap_bat_v=%s,duration=%s,t_max=%s %s" % (tpc, sensor_id, float(out[1]), float(out[2]), float(out[3]), float(out[4]), (float(out[5])+200)/100, float(out[6]), float(out[7]), tst)
 
     return pyl
 

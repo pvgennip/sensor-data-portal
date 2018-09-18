@@ -21,6 +21,7 @@ sudo cp /var/www/sensors-akvo-org/etc_systemd_system_mqttwarn /etc/systemd/syste
 
 # set log rotate
 sudo cp etc_logrotate.d_sensor-data-portal_backups /etc/logrotate.d/sensor-data-portal_backups
+sudo cp etc_logrotate.d_sensor-data-portal_mqttwarn /etc/logrotate.d/sensor-data-portal_mqttwarn
 sudo crontab < crontab
 
 # enable services to start at boot
