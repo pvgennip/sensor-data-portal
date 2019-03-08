@@ -551,7 +551,7 @@ class SensorController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'type' => 'required',
-            'key' => 'required|unique:sensors,id'.$id,
+            'key' => 'required|unique:sensors,id,'.$id,
         ], $messages);
 
         $this->allowedSensors($request, $id)->update($request->all());
