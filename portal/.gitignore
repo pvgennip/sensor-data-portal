@@ -20,4 +20,6 @@ Homestead.json
 Homestead.yaml
 .env
 
+.phpintel
+.phpintel/
 /.phpintel
